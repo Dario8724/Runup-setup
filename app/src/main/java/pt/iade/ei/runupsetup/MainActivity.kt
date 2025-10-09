@@ -1,47 +1,39 @@
+
 package pt.iade.ei.runupsetup
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import pt.iade.ei.runupsetup.ui.components.HistoryItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
+import java.util.Calendar
+import pt.iade.ei.runupsetup.R
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             RunupSetupTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                // Optionally, you can display HistoryItem here as well
+                HomePreview()
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun HomePreview() {
     RunupSetupTheme {
-        Greeting("Android")
+        HistoryItem(
+            title = "Corrida de Segunda",
+            date = Calendar.getInstance(),
+            distance = "5 km",
+            duration = 30, // 30 minutes
+            calories = "250 kcal",
+            minimap = R.drawable.map_image
+        )
     }
 }
