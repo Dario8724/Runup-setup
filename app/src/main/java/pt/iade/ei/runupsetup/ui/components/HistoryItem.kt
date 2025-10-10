@@ -25,7 +25,9 @@ fun HistoryItem(
     title: String,
     date: Calendar,
     distance: String,
-    duration: Int, // se calhar devo mudar isso aqui para o tipo de dados equivalente
+    //mudar para string para aceitar o formato 00:00:00
+    //duration: Int,
+    duration: String,
     //TO Do: pesquisar o seu tipo de dados
     calories : String,
     minimumPace : String,
@@ -44,13 +46,22 @@ fun HistoryItem(
         )
         Column {
         Text(
+            text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH
+            )}/${date.get(Calendar.YEAR)}"
+            )
+        Text(
             text = title,
-        )
-            Text(
+            )
+        Text(
                 text = minimumPace
+            )
+            Text(
+                text = distance
+            )
+            Text(
+                text = duration
             )
         }
 
     }
-    // dario is working on this branch
 }

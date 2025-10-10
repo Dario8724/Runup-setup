@@ -30,7 +30,7 @@ fun HomePreview() {
             title = "Corrida de Segunda",
             date = Calendar.getInstance(),
             distance = "5 km",
-            duration = 30, // 30 minutes
+            duration = "30:45:59", // 30 minutes
             calories = "250 kcal",
             minimumPace = "5''30/km",
             minimap = R.drawable.map_image
