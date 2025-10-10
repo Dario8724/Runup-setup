@@ -30,7 +30,7 @@ fun HistoryItem(
             .fillMaxWidth()
             .padding(all = 8.dp)
     ) {
-        // 🗺️ Imagem do mapa
+        // Imagem do mapa
         Image(
             painter = painterResource(minimap),
             contentDescription = "Minimapa da corrida",
@@ -39,12 +39,12 @@ fun HistoryItem(
                 .padding(end = 10.dp)
         )
 
-        // 🧱 Coluna que contém nome/data em cima e os detalhes em baixo
+        // Coluna com nome da corrida e a data
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center
         ) {
-            // 🔹 Linha superior: nome e data
+            // Linha superior: nome e data
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -57,7 +57,7 @@ fun HistoryItem(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // 🔹 Linha inferior: pace, tempo, distância e calorias
+            // Linha inferior: pace, tempo, distância e calorias
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
