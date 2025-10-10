@@ -22,7 +22,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@Preview
+@Composable
+fun whatever(){
 
+}
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
