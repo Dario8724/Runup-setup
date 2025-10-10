@@ -4,7 +4,8 @@ import androidx.annotation.DrawableRes
 import java.util.Calendar
 
 
-data class HistoryItem(
+data class HistoryItemModel(
+    var title : String,
     var date: Calendar,
     var distance: String,
     var duration: String,
