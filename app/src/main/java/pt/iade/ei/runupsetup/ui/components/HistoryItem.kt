@@ -8,20 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.R
 import java.util.Calendar
 
 @Composable
 fun HistoryItem(
-    title: String,
-    date: Calendar,
-    distance: String,
-    duration: String,
-    calories: String,
-    minimumPace: String,
-    @DrawableRes minimap: Int
+    title: String, // nome da atividade
+    date: Calendar, // data da atividade
+    distance: String, // distância percorrida
+    duration: String,  // duração da atividade
+    calories: String,  // calorias gastas
+    minimumPace: String, // pace médio
+    @DrawableRes minimap: Int // mapa da atividade
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -49,7 +51,11 @@ fun HistoryItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = title)
+                Text(
+                    text = title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
                 Text(
                     text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH) + 1}/${date.get(Calendar.YEAR)}"
                 )
@@ -63,19 +69,33 @@ fun HistoryItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Pace médio")
+                    Text(
+                        text = "Pace médio",
+                        fontWeight = FontWeight.Black
+                        )
                     Text(text = minimumPace)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Tempo")
+                    Text(
+                        text = "Tempo",
+                        fontWeight = FontWeight.Black
+                        )
                     Text(text = duration)
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Distância")
-                    Text(text = distance)
+                    Text(
+                        text = "Distância",
+                        fontWeight = FontWeight.Black
+                         )
+                    Text(
+                        text = distance
+                        )
                 }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Calorias")
+                Column(horizontalAlignment = Alignment.CenterHorizontally){
+                    Text(
+                        text = "Calorias",
+                        fontWeight = FontWeight.Black
+                        )
                     Text(text = calories)
                 }
             }
