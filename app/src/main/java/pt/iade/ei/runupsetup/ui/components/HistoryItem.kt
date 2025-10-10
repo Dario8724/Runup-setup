@@ -57,11 +57,12 @@ fun HistoryItem(
                     fontSize = 20.sp
                 )
                 Text(
-                    text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH) + 1}/${date.get(Calendar.YEAR)}"
+                    text = "${date.get(Calendar.DAY_OF_MONTH)}/${date.get(Calendar.MONTH) + 1}/${date.get(Calendar.YEAR)}",
+                    fontWeight = FontWeight.Black
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
             // Linha inferior: pace, tempo, distância e calorias
             Row(
