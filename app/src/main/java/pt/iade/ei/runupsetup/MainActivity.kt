@@ -22,11 +22,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Preview
-@Composable
-fun whatever(){
-
-}
 @Preview(showBackground = true)
 @Composable
 fun HomePreview() {
@@ -37,6 +32,7 @@ fun HomePreview() {
             distance = "5 km",
             duration = 30, // 30 minutes
             calories = "250 kcal",
+            minimumPace = "5''30/km",
             minimap = R.drawable.map_image
         )
     }
