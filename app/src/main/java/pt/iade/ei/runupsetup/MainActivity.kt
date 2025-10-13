@@ -10,11 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import pt.iade.ei.runupsetup.models.HistoryItemModel
 import pt.iade.ei.runupsetup.ui.components.HistoryItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
-import pt.iade.ei.runupsetup.R
-import pt.iade.ei.runupsetup.models.HistoryItemModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
