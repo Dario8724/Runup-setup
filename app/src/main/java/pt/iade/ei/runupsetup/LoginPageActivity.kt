@@ -109,14 +109,15 @@ fun LoginView(){
                 OutlinedButton(
                     onClick = { /* TODO: ação de registrar */},
                     colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = Color.White
+                        containerColor = Color.White,
+                                contentColor = Color.Black
                     ),
                     border = BorderStroke(1.dp, Color.Black),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
                 ) {
-                    Text(text = "Login", fontSize = 18.sp, fontWeight = FontWeight.Medium)
+                    Text(text = "Login", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
                 }
             }
         }

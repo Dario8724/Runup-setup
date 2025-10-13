@@ -4,7 +4,9 @@ import androidx.annotation.DrawableRes
 import java.util.Calendar
 
 
-data class HistoryItemModel(
+
+// manter o nome HistoryItemModel1 pq se não o arquivo muda para uma classe
+data class HistoryItemModel1(
     var title : String,
     var date: Calendar,
     var distance: String,
