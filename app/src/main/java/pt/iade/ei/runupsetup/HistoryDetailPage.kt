@@ -1,5 +1,4 @@
 package pt.iade.ei.runupsetup
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,14 +13,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +60,9 @@ class HistoryDetailPage : ComponentActivity() {
         setContent {
             RunupSetupTheme {
                 // criar a função DetailView e menciona-lo aqui
-                DetailView()
+                // criar uma página experimental para o projeto
+                //
+                HistoryDetailPageView()
             }
         }
     }
@@ -59,7 +70,7 @@ class HistoryDetailPage : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailView() {
+fun HistoryDetailPageView() {
     val item = HistoryItemModel1(
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
@@ -71,64 +82,133 @@ fun DetailView() {
     )
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = topAppBarColors(
-                    containerColor = Color(0xFF7CCE6B)
-                    // unnecessary
-                   //  navigationIconContentColor = Color.Black
-                    // unnecessary
-                    //titleContentColor = Color.Black,
-                ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Button(
-                            onClick = {},
-                            // Cor do botão
-                            // atenção que isso não muda a cor do vetor
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black,
-                                contentColor = Color.Unspecified
-                            ),
-                            // unnecessary
-                            // review later
-                            modifier = Modifier.padding(4.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
+        bottomBar = {
+            BottomAppBar(
+                containerColor = Color.White,
+
+                ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            contentColor = Color.Unspecified
+                            // I have made it unspecified for now so it´s decided with the team in class
+                            // also the thing is unspecified anyway
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription ="Início",
+                            tint = Color.Black
+                        )
+                    }
+
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            contentColor = Color.Unspecified
+                            // I have made it unspecified for now so it´s decided with the team in class
+                            // also the thing is unspecified anyway
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.LocationOn,
+                            contentDescription = "Rotas",
+                            //  tint = Color.Black
+                        )
+                        /* Label
+                         {
+                             Text(
+                                 text = "Rotas"
+                             )
+                         }*/
+                        // added the location simbol since I can´t find the comunity icon
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            contentColor = Color.Unspecified
+                            // I have made it unspecified for now so it´s decided with the team in class
+                            // also the thing is unspecified anyway
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Comunidade",
+                            tint = Color.Black
+                        )
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            contentColor = Color.Unspecified
+                            // I have made it unspecified for now so it´s decided with the team in class
+                            // also the thing is unspecified anyway
+                            // added the info icon because i could not find the right icon
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.Info,
+                            contentDescription = "Perfil",
+                            tint = Color.Black
+                        )
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            contentColor = Color.Unspecified
+                            // I have made it unspecified for now so it´s decided with the team in class
+                            // also the thing is unspecified anyway
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.AccountCircle,
+                            contentDescription = "Perfil",
+                            tint = Color.Black
+                        )
                     }
                 }
-            )
-        }
+            }
+        },
+        // Todo: Experiment making the app without the top app bar
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                //.padding(30.dp)
+            //.padding(30.dp)
         ) {
+            Row(
+                modifier = Modifier.padding(innerPadding),
+                horizontalArrangement = Arrangement.SpaceBetween
+
+            ) {
+                Text(
+                    text = "As suas atividades recentes",
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 40.sp
+                )
+            }
             Row (
-            // modifier = Modifier.padding(horizontal = 10.dp)
+
             ) {
                 Text(
                     text = item.title,
                     fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 40.sp
+                    //fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp
                 )
             }
-
-            Spacer(modifier = Modifier.height(15.dp))
-            Row {
-                Text(
-                    text = " Data : ${item.date.get(Calendar.DAY_OF_MONTH)}/${item.date.get(Calendar.MONTH) + 1}/${item.date.get(Calendar.YEAR)}",
-                    fontWeight = FontWeight.Black
-                )
-            }
-            // Todo: adicionar Spacer entre a data e o mapa da corrida
             Spacer(modifier = Modifier.height(20.dp))
             // Mapa da corrida com tamanho original
             Image (
@@ -138,88 +218,56 @@ fun DetailView() {
                 modifier = Modifier
                     .height(250.dp)
                     .width(width = 380.dp)
-                   // .fillMaxWidth()
-                  // maybe it´s better for me to leave it like this instead of the first option
             )
-                Column {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Pace médio",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.minimumPace)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Tempo",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.duration)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Distância",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = item.distance
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally){
-                            Text(
-                                text = "Calorias",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.calories)
-                        }
+            Spacer(
+                modifier = Modifier.height(30.dp)
+            )
+            Column {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Pace médio",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.minimumPace)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Tempo",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.duration)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Distância",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = item.distance
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                        Text(
+                            text = "Calorias",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.calories)
                     }
                 }
-            // Todo: put this button in the middle of the page
-            Button(
-                onClick = {},
-                modifier = Modifier.height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7CCE6B),
-                    contentColor = Color.Unspecified
-                ),
-            ) {
-               Row (
-                   
-               ){
-                   Text(text = "whatever i don´t know what to put here ") }
             }
-            /*
-            Button(
-                onClick = { },
-                modifier = Modifier.height(50.dp)
-            ) {
-                val text = stringResource(R.string.add_calendar)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = text
-                    )
-
-                    Text(
-                        text = text,
-                        modifier = Modifier.padding(start = 5.dp)
-                    )
-*/
-
-                }
+        }
     }
 }
+// TODO: add labels below the icons and finish the history page
 
 @Preview(showBackground = true)
 @Composable
-fun DetailViewPreview() {
+fun HistoryDetailPagePreview() {
     RunupSetupTheme {
-        DetailView()
+        HistoryDetailPageView()
     }
 }
