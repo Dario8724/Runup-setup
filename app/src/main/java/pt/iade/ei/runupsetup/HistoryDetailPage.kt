@@ -120,7 +120,7 @@ fun HistoryDetailPageView() {
                         Icon(
                             Icons.Default.LocationOn,
                             contentDescription = "Rotas",
-                            //  tint = Color.Black
+                            tint = Color.Black
                         )
                         /* Label
                          {
