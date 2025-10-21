@@ -2,9 +2,9 @@ package pt.iade.ei.runupsetup.models
 
 import androidx.annotation.DrawableRes
 import java.util.Calendar
+// mudar o nome da classe para HistoryItemModel1 para o arquivo não mudar para uma classe
 
-
-data class HistoryItemModel(
+data class HistoryItemModel (
     var title : String,
     var date: Calendar,
     var distance: String,
