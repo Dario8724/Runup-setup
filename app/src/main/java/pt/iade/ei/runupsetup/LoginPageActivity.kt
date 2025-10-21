@@ -126,6 +126,6 @@ fun LoginView(){
 
 @Preview(showBackground = true)
 @Composable
-fun LoginViewPrevieew() {
+fun LoginViewPreview() {
         LoginView()
-    }
+}
