@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -267,17 +268,36 @@ fun InitialPageView() {
                     )
                 }
             }
-            // Botão de iniciar
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7CCE6B),
-                    contentColor = Color.Unspecified
-                )
+            // Todo: add all the details to this area so the start button goes to the bottom
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 15.dp)
             ) {
-                Text(
-                    text = "Iniciar"
-                )
+                // Botão de iniciar
+                Button(
+                    onClick = {},
+                    modifier = Modifier.height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF7CCE6B),
+                        contentColor = Color.Unspecified
+                    )
+                ) {
+                    //val text = stringResource("Start")
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "Start button"
+                        )
+                        Text(
+                            text = "Start",
+                            modifier = Modifier.padding(start = 5.dp)
+                        )
+                    }
+                }
             }
         }
     }
