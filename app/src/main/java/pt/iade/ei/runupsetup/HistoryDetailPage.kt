@@ -67,7 +67,6 @@ class HistoryDetailPage : ComponentActivity() {
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryDetailPageView() {
@@ -80,7 +79,6 @@ fun HistoryDetailPageView() {
         minimumPace = "5'30\"/km",
         minimap = R.drawable.map_image
     )
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -98,13 +96,11 @@ fun HistoryDetailPageView() {
                             //  contentColor = Color.Unspecified
                             // not necessary
                               )
-
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(R.string.back)
                                 // faltava criar <string name="back">Back</string> no arquivo strings.xml
-
                             )
                         }
                     }
@@ -115,8 +111,7 @@ fun HistoryDetailPageView() {
         bottomBar = {
             BottomAppBar(
                 containerColor = Color.White,
-
-                ) {
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -136,19 +131,16 @@ fun HistoryDetailPageView() {
                         ){
                             Icon(
                                 Icons.Default.Home,
-                                contentDescription ="Início",
+                                contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
-
-                                )
+                            )
                             Text(
                                 text = "Início",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
-
                     }
-
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
@@ -163,16 +155,15 @@ fun HistoryDetailPageView() {
                         ){
                             Icon(
                                 Icons.Default.LocationOn,
-                                contentDescription = "Rotas",
+                                contentDescription = "Botão para a página de rotas",
                                 tint = Color.Black
                             )
                             Text(
-                            text = "Rotas",
-                            fontSize = 10.sp,
-                            color = Color.Black
-                        )
+                                text = "Rotas",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
                         }
-
                         // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
@@ -189,12 +180,12 @@ fun HistoryDetailPageView() {
                         ) {
                             Icon(
                                 Icons.Default.Person,
-                                contentDescription = "Comunidade",
+                                contentDescription = "Botão para a página de comunidade",
                                 tint = Color.Black
                             )
                             Text(
                                 text = "Comunidade",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
@@ -214,16 +205,15 @@ fun HistoryDetailPageView() {
                         ) {
                             Icon(
                                 Icons.Default.Info,
-                                contentDescription = "Histórico",
+                                contentDescription = "Botão para a página de histórico",
                                 tint = Color.Black
                             )
                             Text(
                                 text = "Histórico",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
-
                     }
                     Button(
                         onClick = {},
@@ -236,32 +226,26 @@ fun HistoryDetailPageView() {
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
-
                         ){
                             Icon(
                                 Icons.Default.AccountCircle,
-                                contentDescription = "Perfil",
+                                contentDescription = " Botão para a página de perfil",
                                 tint = Color.Black
                             )
                             Text(
                                 text = "Perfil",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
-                            // repair the profile button
-                            // perhaps reduce the fontsize
                         }
-
                     }
                 }
             }
         },
     ) { innerPadding ->
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-            //.padding(30.dp)
         ) {
             Row(
                 modifier = Modifier.padding(innerPadding),
@@ -275,7 +259,6 @@ fun HistoryDetailPageView() {
                 )
             }
             Row (
-
             ) {
                 Text(
                     text = item.title,

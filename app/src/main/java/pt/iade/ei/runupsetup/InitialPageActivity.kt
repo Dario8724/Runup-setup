@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 class InitialPageActivity : ComponentActivity() {
@@ -61,6 +63,16 @@ class InitialPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InitialPageView() {
+    val item = HistoryItemModel1(
+        title = "Corrida de Segunda",
+        date = java.util.Calendar.getInstance(),
+        distance = "5 km",
+        duration = "00:30:45",
+        calories = "250 kcal",
+        minimumPace = "5'30\"/km",
+        minimap = R.drawable.map_image
+    )
+    // most of the content is not needed
     Scaffold(
         topBar = {
             TopAppBar(
@@ -78,13 +90,11 @@ fun InitialPageView() {
                                 //  contentColor = Color.Unspecified
                                 // not necessary
                             )
-
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(R.string.back)
                                 // faltava criar <string name="back">Back</string> no arquivo strings.xml
-
                             )
                         }
                     }
@@ -95,7 +105,6 @@ fun InitialPageView() {
         bottomBar = {
             BottomAppBar(
                 containerColor = Color.White,
-
                 ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -118,17 +127,14 @@ fun InitialPageView() {
                                 Icons.Default.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
-
                                 )
                             Text(
                                 text = "Início",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
-
                     }
-
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
@@ -148,11 +154,10 @@ fun InitialPageView() {
                             )
                             Text(
                                 text = "Rotas",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
-
                         // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
@@ -174,7 +179,7 @@ fun InitialPageView() {
                             )
                             Text(
                                 text = "Comunidade",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
@@ -199,7 +204,7 @@ fun InitialPageView() {
                             )
                             Text(
                                 text = "Histórico",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                         }
@@ -225,13 +230,12 @@ fun InitialPageView() {
                             )
                             Text(
                                 text = "Perfil",
-                                fontSize = 10.sp,
+                                fontSize = 7.5.sp,
                                 color = Color.Black
                             )
                             // repair the profile button
                             // perhaps reduce the fontsize
                         }
-
                     }
                 }
             }
@@ -246,7 +250,7 @@ fun InitialPageView() {
                 Image(
                     painter = painterResource(R.drawable.corredor_ao_por_do_sol),
                     contentDescription = "Imagem de um corredor ao pôr do sol",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(250.dp)
@@ -266,6 +270,29 @@ fun InitialPageView() {
                         fontWeight = FontWeight.Black,
                         fontSize = 25.sp
                     )
+                }
+            }
+            Card (
+                onClick = {},
+                modifier = Modifier.padding(horizontal = 10.dp)
+                // add later
+                /*
+                enabled: Boolean = true,
+                shape: Shape = CardDefaults.shape,
+                colors: CardColors = CardDefaults.cardColors(),
+                elevation: CardElevation = CardDefaults.cardElevation(),
+                border: BorderStroke? = null,
+                interactionSource: MutableInteractionSource? = null,
+                content: @Composable ColumnScope.() -> Unit
+                 */
+            ){
+                Column {
+                    Row {
+                        Text(
+                            text = "Resumo de hoje",
+                            fontFamily = FontFamily.SansSerif
+                        )
+                    }
                 }
             }
             // Todo: add all the details to this area so the start button goes to the bottom
@@ -310,3 +337,42 @@ fun InitialPagePreview() {
        InitialPageView()
     }
 }
+/*
+Column {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Pace médio",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.minimumPace)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Tempo",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.duration)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Distância",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = item.distance
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                        Text(
+                            text = "Calorias",
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(text = item.calories)
+                    }
+                }
+            }
+ */
