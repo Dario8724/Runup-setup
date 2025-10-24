@@ -1,11 +1,10 @@
 package pt.iade.ei.runupsetup
 
-import android.icu.util.Calendar
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,11 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
@@ -47,6 +47,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
+
+/*
+imports duvidosos
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Target
+ */
 
 class InitialPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -274,6 +282,7 @@ fun InitialPageView() {
                 onClick = {},
                 modifier = Modifier.padding(horizontal = 10.dp),
                 enabled = false,
+                //.copy(alpha = 0.95f))
                 // add later to the other buttons and cards that lead somewhere
                 // false for now because it doesn't lead anywhere
             ){
@@ -334,14 +343,31 @@ fun InitialPageView() {
                 enabled = false
                 // false for now
             ){
-                Text(
-                    text = "Olá bom dia"
-                )
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    contentDescription = "seta para proseguir",
-                    tint = Color.Black
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp )
+                ) {
+                    Icon(
+                        Icons.Default.LocationOn,
+                        contentDescription = "Icone do mapa"
+                    )
+                    Column {
+                        Text(
+                            text = "Explorar rotas"
+                        )
+                        Text(
+                            text = "Acompanhe seu progresso "
+                        )
+                    }
+                    // seta para proseguir
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = "seta para proseguir",
+                        tint = Color.Black
+                    ) }
             }
             // card for goals
             Card(
@@ -351,14 +377,34 @@ fun InitialPageView() {
                 // false for now
             )
             {
-                Text(
-                    text = "Olá bom dia"
-                )
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    contentDescription = "seta para proseguir",
-                    tint = Color.Black
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp )
+                ){
+                    Icon(
+                        Icons.Default.Menu,
+                        contentDescription = "Botão para a página de metas"
+                    )
+                    Column {
+                        Text(
+                            text = "Metas pessoais",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = "Acompanhe seu progresso"
+                        )
+                    }
+                    // seta para proseguir
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = "seta para proseguir",
+                        tint = Color.Black
+                    )
+                }
             }
             // card for history
             Card (
@@ -374,13 +420,23 @@ fun InitialPageView() {
                         .fillMaxWidth()
                         .padding(all = 8.dp)
                 ) {
-
-                    Text(
-                        text = "Olá bom dia"
+                    Icon(
+                        Icons.Default.Info,
+                        contentDescription = "Botão para a página de históricos"
                     )
+                    Column {
+                        Text(
+                            text = "Histórico",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = "Veja as suas atividades"
+                        )
+                    }
                     // seta para proseguir
                     Icon(
-                        Icons.Default.KeyboardArrowRight,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "seta para proseguir",
                         tint = Color.Black
                     )
