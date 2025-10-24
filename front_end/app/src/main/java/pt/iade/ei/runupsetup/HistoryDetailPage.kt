@@ -67,7 +67,6 @@ class HistoryDetailPage : ComponentActivity() {
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryDetailPageView() {
@@ -80,13 +79,39 @@ fun HistoryDetailPageView() {
         minimumPace = "5'30\"/km",
         minimap = R.drawable.map_image
     )
-
     Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = Color(0xFF7CCE6B),
+                    //titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Row(verticalAlignment = Alignment.CenterVertically)
+                    {
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Black
+                            //  contentColor = Color.Unspecified
+                            // not necessary
+                              )
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(R.string.back)
+                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
+                            )
+                        }
+                    }
+                }
+            )
+        }
+        ,
         bottomBar = {
             BottomAppBar(
                 containerColor = Color.White,
-
-                ) {
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -95,102 +120,136 @@ fun HistoryDetailPageView() {
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
+                            containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
                             // I have made it unspecified for now so it´s decided with the team in class
                             // also the thing is unspecified anyway
                         )
                     ) {
-                        Icon(
-                            Icons.Default.Home,
-                            contentDescription ="Início",
-                            tint = Color.Black
-                        )
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                Icons.Default.Home,
+                                contentDescription ="Botão para a página inicial",
+                                tint = Color.Black,
+                            )
+                            Text(
+                                text = "Início",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
-
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
+                            containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
                             // I have made it unspecified for now so it´s decided with the team in class
                             // also the thing is unspecified anyway
                         )
                     ) {
-                        Icon(
-                            Icons.Default.LocationOn,
-                            contentDescription = "Rotas",
-                            tint = Color.Black
-                        )
-                        /* Label
-                         {
-                             Text(
-                                 text = "Rotas"
-                             )
-                         }*/
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                Icons.Default.LocationOn,
+                                contentDescription = "Botão para a página de rotas",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Rotas",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                         // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
+                            containerColor =Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
                             // I have made it unspecified for now so it´s decided with the team in class
                             // also the thing is unspecified anyway
                         )
                     ) {
-                        Icon(
-                            Icons.Default.Person,
-                            contentDescription = "Comunidade",
-                            tint = Color.Black
-                        )
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                Icons.Default.Person,
+                                contentDescription = "Botão para a página de comunidade",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Comunidade",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
+                            containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
                             // I have made it unspecified for now so it´s decided with the team in class
                             // also the thing is unspecified anyway
                             // added the info icon because i could not find the right icon
                         )
                     ) {
-                        Icon(
-                            Icons.Default.Info,
-                            contentDescription = "Perfil",
-                            tint = Color.Black
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                Icons.Default.Info,
+                                contentDescription = "Botão para a página de histórico",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Histórico",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
+                            containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
                             // I have made it unspecified for now so it´s decided with the team in class
                             // also the thing is unspecified anyway
                         )
                     ) {
-                        Icon(
-                            Icons.Default.AccountCircle,
-                            contentDescription = "Perfil",
-                            tint = Color.Black
-                        )
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                Icons.Default.AccountCircle,
+                                contentDescription = " Botão para a página de perfil",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Perfil",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
             }
         },
-        // Todo: Experiment making the app without the top app bar
     ) { innerPadding ->
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-            //.padding(30.dp)
         ) {
             Row(
                 modifier = Modifier.padding(innerPadding),
                 horizontalArrangement = Arrangement.SpaceBetween
-
             ) {
                 Text(
                     text = "As suas atividades recentes",
@@ -200,7 +259,6 @@ fun HistoryDetailPageView() {
                 )
             }
             Row (
-
             ) {
                 Text(
                     text = item.title,
