@@ -29,8 +29,8 @@ fun HistoryItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 8.dp)
+                        .fillMaxWidth()
+                        .padding(all = 8.dp)
     ) {
         // Imagem do mapa
         Image(
@@ -40,7 +40,6 @@ fun HistoryItem(
                 .height(70.dp)
                 .padding(end = 10.dp)
         )
-
         // Coluna com nome da corrida e a data
         Column(
             modifier = Modifier.fillMaxWidth(),
