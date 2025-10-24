@@ -5,21 +5,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
@@ -33,7 +33,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -208,7 +207,6 @@ fun InitialPageView() {
                                 color = Color.Black
                             )
                         }
-
                     }
                     Button(
                         onClick = {},
@@ -274,26 +272,128 @@ fun InitialPageView() {
             }
             Card (
                 onClick = {},
-                modifier = Modifier.padding(horizontal = 10.dp)
-                // add later
-                /*
-                enabled: Boolean = true,
-                shape: Shape = CardDefaults.shape,
-                colors: CardColors = CardDefaults.cardColors(),
-                elevation: CardElevation = CardDefaults.cardElevation(),
-                border: BorderStroke? = null,
-                interactionSource: MutableInteractionSource? = null,
-                content: @Composable ColumnScope.() -> Unit
-                 */
+                modifier = Modifier.padding(horizontal = 10.dp),
+                enabled = false,
+                // add later to the other buttons and cards that lead somewhere
+                // false for now because it doesn't lead anywhere
             ){
                 Column {
                     Row {
                         Text(
                             text = "Resumo de hoje",
+                            fontSize = 25.sp,
                             fontFamily = FontFamily.SansSerif
                         )
                     }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
                 }
+            }
+            Text(
+                text = "Atalhos rápidos",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Black
+            )
+            // card for routes
+            Card (
+                modifier = Modifier.padding(10.dp),
+                onClick = {},
+                enabled = false
+                // false for now
+            ){
+                Text(
+                    text = "Olá bom dia"
+                )
+                Icon(
+                    Icons.Default.KeyboardArrowRight,
+                    contentDescription = "seta para proseguir",
+                    tint = Color.Black
+                )
+            }
+            // card for goals
+            Card(
+                modifier = Modifier.padding(10.dp),
+                onClick = {},
+                enabled = false
+                // false for now
+            )
+            {
+                Text(
+                    text = "Olá bom dia"
+                )
+                Icon(
+                    Icons.Default.KeyboardArrowRight,
+                    contentDescription = "seta para proseguir",
+                    tint = Color.Black
+                )
+            }
+            // card for history
+            Card (
+                modifier = Modifier.padding(10.dp),
+                onClick = {},
+                enabled = false,
+            )
+            {
+                Row (
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp)
+                ) {
+
+                    Text(
+                        text = "Olá bom dia"
+                    )
+                    // seta para proseguir
+                    Icon(
+                        Icons.Default.KeyboardArrowRight,
+                        contentDescription = "seta para proseguir",
+                        tint = Color.Black
+                    )
+                }
+            }
+
+            // probable card for conquests
+            /*
+            Card (
+                modifier
+            ){
+            }
+             */
             }
             // Todo: add all the details to this area so the start button goes to the bottom
             Column(
@@ -328,8 +428,6 @@ fun InitialPageView() {
             }
         }
     }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
@@ -337,42 +435,3 @@ fun InitialPagePreview() {
        InitialPageView()
     }
 }
-/*
-Column {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Pace médio",
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(text = item.minimumPace)
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Tempo",
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(text = item.duration)
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Distância",
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(
-                            text = item.distance
-                        )
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally){
-                        Text(
-                            text = "Calorias",
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(text = item.calories)
-                    }
-                }
-            }
- */
