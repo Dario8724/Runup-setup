@@ -104,7 +104,7 @@ fun InitialPageView() {
         bottomBar = {
             BottomAppBar(
                 containerColor = Color.White,
-                ) {
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -126,7 +126,7 @@ fun InitialPageView() {
                                 Icons.Default.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
-                                )
+                            )
                             Text(
                                 text = "Início",
                                 fontSize = 7.5.sp,
@@ -394,44 +394,44 @@ fun InitialPageView() {
             ){
             }
              */
-            }
-            // Todo: add all the details to this area so the start button goes to the bottom
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 15.dp)
+        }
+        // Todo: add all the details to this area so the start button goes to the bottom
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 15.dp)
+        ) {
+            // Botão de iniciar
+            Button(
+                onClick = {},
+                modifier = Modifier.height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7CCE6B),
+                    contentColor = Color.Unspecified
+                )
             ) {
-                // Botão de iniciar
-                Button(
-                    onClick = {},
-                    modifier = Modifier.height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF7CCE6B),
-                        contentColor = Color.Unspecified
-                    )
+                //val text = stringResource("Start")
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    //val text = stringResource("Start")
-                    Row (
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Start button"
-                        )
-                        Text(
-                            text = "Start",
-                            modifier = Modifier.padding(start = 5.dp)
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = "Start button"
+                    )
+                    Text(
+                        text = "Start",
+                        modifier = Modifier.padding(start = 5.dp)
+                    )
                 }
             }
         }
     }
+}
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
-       InitialPageView()
+        InitialPageView()
     }
 }
