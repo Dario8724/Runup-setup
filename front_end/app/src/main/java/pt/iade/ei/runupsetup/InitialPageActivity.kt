@@ -23,12 +23,14 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Label
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
+import java.util.Calendar
 
 /*
 imports duvidosos
@@ -72,7 +75,7 @@ class InitialPageActivity : ComponentActivity() {
 fun InitialPageView() {
     val item = HistoryItemModel1(
         title = "Corrida de Segunda",
-        date = java.util.Calendar.getInstance(),
+        date = Calendar.getInstance(),
         distance = "5 km",
         duration = "00:30:45",
         calories = "250 kcal",
@@ -130,6 +133,7 @@ fun InitialPageView() {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
+
                             Icon(
                                 Icons.Default.Home,
                                 contentDescription ="Botão para a página inicial",
