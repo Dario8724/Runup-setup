@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RunupSetup"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDeaOoEpvULBgkKdg-31OlsJdVUuqld-QY" />
+
+
+        <!-- Tela principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -19,10 +26,17 @@
             android:theme="@style/Theme.RunupSetup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Tela de rotas -->
+        <activity
+            android:name=".ui.RouteActivity"
+            android:exported="false"
+            android:label="Gerar Rota"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
 
 </manifest>
