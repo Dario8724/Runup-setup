@@ -1,29 +1,34 @@
 package pt.iade.ei.runupsetup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.components.HistoryItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
-import java.util.Calendar
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             RunupSetupTheme {
-                MainView()
-
+                MainView(
+                    onGenerateRouteClick = {
+                        val intent = Intent(this, pt.iade.ei.runupsetup.ui.RouteActivity::class.java)
+                        startActivity(intent)
+                    }
+                )
             }
         }
     }
@@ -31,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainView() {
+fun MainView(onGenerateRouteClick: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,11 +44,14 @@ fun MainView() {
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    Text(
-                        "RunUp",
-                        fontWeight = FontWeight.Black
-                    )
+                title = { Text("RunUp", fontWeight = FontWeight.Black) },
+                actions = {
+                    Button(
+                        onClick = onGenerateRouteClick,
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Text("Nova Rota")
+                    }
                 }
             )
         },
@@ -53,16 +61,13 @@ fun MainView() {
                 contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = "...",
+                    text = "Histórico de Corridas"
                 )
             }
         }
     ) { innerPadding ->
-
-        // Cria um item base
         val item = HistoryItemModel1(
             title = "Corrida de Segunda",
             date = Calendar.getInstance(),
@@ -73,9 +78,11 @@ fun MainView() {
             minimap = R.drawable.map_image
         )
 
-        // Exibir corridas automaticamente
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             HistoryItem(
                 title = item.title,
@@ -86,10 +93,10 @@ fun MainView() {
                 minimumPace = item.minimumPace,
                 minimap = item.minimap
             )
-            // Geração automática de 5 corridas
-            for (i in 1..5) {
+
+            for (i in 1..3) {
                 HistoryItem(
-                    title = "Corrida nº $i", // por agora fica assim
+                    title = "Corrida nº $i",
                     date = Calendar.getInstance(),
                     distance = "${5 + i} km",
                     duration = "00:${25 + i}:00",
@@ -106,16 +113,6 @@ fun MainView() {
 @Composable
 fun HomePreview() {
     RunupSetupTheme {
-        MainView()
-        /*HistoryItem(
-            title = "Corrida de Segunda",
-            date = Calendar.getInstance(),
-            distance = "5 km",
-            duration = "00:30:45",
-            calories = "250 kcal",
-            minimumPace = "5'30\"/km",
-            minimap = R.drawable.map_image
-
-        )*/
+        MainView(onGenerateRouteClick = {})
     }
 }
