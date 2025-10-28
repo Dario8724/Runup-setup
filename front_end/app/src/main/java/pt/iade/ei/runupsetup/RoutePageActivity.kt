@@ -69,7 +69,6 @@ fun RoutePageView() {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = Color(0xFF7CCE6B),
-                    //titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically)
