@@ -28,11 +28,17 @@ class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
 
+        val preferTrees = intent.getBooleanExtra("preferTrees", false)
+        val nearBeach = intent.getBooleanExtra("nearBeach", false)
+        val avoidHills = intent.getBooleanExtra("avoidHills", false)
+
         textDistance = findViewById(R.id.textDistance)
         textDuration = findViewById(R.id.textDuration)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        generateRoute(preferTrees, nearBeach, avoidHills)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -48,7 +54,7 @@ class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
             originLng = originLng,
             destLat = destLat,
             destLng = destLng,
-            preferTrees = true,
+            preferTrees = preferTrees,
             nearBeach = false,
             avoidHills = false
         )
