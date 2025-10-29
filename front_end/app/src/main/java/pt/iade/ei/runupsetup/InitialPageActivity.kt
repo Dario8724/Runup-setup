@@ -281,6 +281,37 @@ fun InitialPageView() {
                         fontSize = 25.sp
                     )
                 }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 15.dp)
+                        .align (Alignment.BottomEnd)
+                        .padding(start = 20.dp, top = 40.dp)
+                ) {
+                    // Botão de iniciar
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
+                    ) {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = "Start button"
+                            )
+                            Text(
+                                text = "Start",
+                                modifier = Modifier.padding(start = 5.dp)
+                            )
+                        }
+                    }
+                }
             }
             Card (
                 onClick = {},
@@ -455,37 +486,7 @@ fun InitialPageView() {
             }
              */
         }
-        // Todo: add all the details to this area so the start button goes to the bottom
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp)
-        ) {
-            // Botão de iniciar
-            Button(
-                onClick = {},
-                modifier = Modifier.height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7CCE6B),
-                    contentColor = Color.Unspecified
-                )
-            ) {
-                //val text = stringResource("Start")
-                Row (
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Start button"
-                    )
-                    Text(
-                        text = "Start",
-                        modifier = Modifier.padding(start = 5.dp)
-                    )
-                }
-            }
-        }
+
     }
 }
 @Preview(showBackground = true)
