@@ -1,11 +1,10 @@
 package pt.iade.ei.runupsetup
 
-import android.icu.util.Calendar
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,19 +15,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Label
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,6 +49,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
+import java.util.Calendar
+
+/*
+imports duvidosos
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Target
+ */
 
 class InitialPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +75,7 @@ class InitialPageActivity : ComponentActivity() {
 fun InitialPageView() {
     val item = HistoryItemModel1(
         title = "Corrida de Segunda",
-        date = java.util.Calendar.getInstance(),
+        date = Calendar.getInstance(),
         distance = "5 km",
         duration = "00:30:45",
         calories = "250 kcal",
@@ -122,6 +133,7 @@ fun InitialPageView() {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
+
                             Icon(
                                 Icons.Default.Home,
                                 contentDescription ="Botão para a página inicial",
@@ -269,11 +281,43 @@ fun InitialPageView() {
                         fontSize = 25.sp
                     )
                 }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 15.dp)
+                        .align (Alignment.BottomEnd)
+                        .padding(start = 20.dp, top = 40.dp)
+                ) {
+                    // Botão de iniciar
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
+                    ) {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = "Start button"
+                            )
+                            Text(
+                                text = "Start",
+                                modifier = Modifier.padding(start = 5.dp)
+                            )
+                        }
+                    }
+                }
             }
             Card (
                 onClick = {},
                 modifier = Modifier.padding(horizontal = 10.dp),
                 enabled = false,
+                //.copy(alpha = 0.95f))
                 // add later to the other buttons and cards that lead somewhere
                 // false for now because it doesn't lead anywhere
             ){
@@ -334,14 +378,31 @@ fun InitialPageView() {
                 enabled = false
                 // false for now
             ){
-                Text(
-                    text = "Olá bom dia"
-                )
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    contentDescription = "seta para proseguir",
-                    tint = Color.Black
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp )
+                ) {
+                    Icon(
+                        Icons.Default.LocationOn,
+                        contentDescription = "Icone do mapa"
+                    )
+                    Column {
+                        Text(
+                            text = "Explorar rotas"
+                        )
+                        Text(
+                            text = "Acompanhe seu progresso "
+                        )
+                    }
+                    // seta para proseguir
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = "seta para proseguir",
+                        tint = Color.Black
+                    ) }
             }
             // card for goals
             Card(
@@ -351,14 +412,34 @@ fun InitialPageView() {
                 // false for now
             )
             {
-                Text(
-                    text = "Olá bom dia"
-                )
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    contentDescription = "seta para proseguir",
-                    tint = Color.Black
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp )
+                ){
+                    Icon(
+                        Icons.Default.Menu,
+                        contentDescription = "Botão para a página de metas"
+                    )
+                    Column {
+                        Text(
+                            text = "Metas pessoais",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = "Acompanhe seu progresso"
+                        )
+                    }
+                    // seta para proseguir
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = "seta para proseguir",
+                        tint = Color.Black
+                    )
+                }
             }
             // card for history
             Card (
@@ -374,13 +455,23 @@ fun InitialPageView() {
                         .fillMaxWidth()
                         .padding(all = 8.dp)
                 ) {
-
-                    Text(
-                        text = "Olá bom dia"
+                    Icon(
+                        Icons.Default.Info,
+                        contentDescription = "Botão para a página de históricos"
                     )
+                    Column {
+                        Text(
+                            text = "Histórico",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black
+                        )
+                        Text(
+                            text = "Veja as suas atividades"
+                        )
+                    }
                     // seta para proseguir
                     Icon(
-                        Icons.Default.KeyboardArrowRight,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "seta para proseguir",
                         tint = Color.Black
                     )
@@ -395,37 +486,7 @@ fun InitialPageView() {
             }
              */
         }
-        // Todo: add all the details to this area so the start button goes to the bottom
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp)
-        ) {
-            // Botão de iniciar
-            Button(
-                onClick = {},
-                modifier = Modifier.height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7CCE6B),
-                    contentColor = Color.Unspecified
-                )
-            ) {
-                //val text = stringResource("Start")
-                Row (
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Start button"
-                    )
-                    Text(
-                        text = "Start",
-                        modifier = Modifier.padding(start = 5.dp)
-                    )
-                }
-            }
-        }
+
     }
 }
 @Preview(showBackground = true)
