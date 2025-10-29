@@ -38,7 +38,7 @@ class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        generateRoute(preferTrees, nearBeach, avoidHills)
+        generateRoute(preferTrees, nearBeach, avoidHillsgit)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
