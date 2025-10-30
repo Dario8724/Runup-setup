@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -275,6 +278,49 @@ fun RoutePageView() {
                         text = "Defina distância, terreno e preferências",
                         textAlign = TextAlign.Center
                     )
+                }
+            }
+
+           Card(
+                modifier = Modifier.padding(all = 10.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3FAF2)),
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                onClick = {},
+                enabled = false
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.parque_da_bela_vista),
+                    contentDescription = "Parque da Bela Vista "
+                )
+                Text(
+                    text = "Volta ao parque"
+                )
+                Row {
+                    Text(
+                    text = "Avaliações"
+                )
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
+                    ) {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PlayArrow,
+                                contentDescription = "Start button"
+                            )
+                            Text(
+                                text = "Start",
+                                modifier = Modifier.padding(start = 5.dp)
+                            )
+                        }
+                    }
                 }
             }
             }

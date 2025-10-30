@@ -88,6 +88,8 @@ fun RegisterView(
                         containerColor = Color(0xFF6ECB63),
                         contentColor = Color.White
                     ),
+                    // nav host
+                    // activity
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(70.dp),
