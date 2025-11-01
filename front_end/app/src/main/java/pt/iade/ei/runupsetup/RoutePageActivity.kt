@@ -41,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -280,52 +281,110 @@ fun RoutePageView() {
                     )
                 }
             }
-
-           Card(
-                modifier = Modifier.padding(all = 10.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3FAF2)),
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                onClick = {},
-                enabled = false
+            Card(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.parque_da_bela_vista),
-                    contentDescription = "Parque da Bela Vista "
-                )
-                Text(
-                    text = "Volta ao parque"
-                )
-                Row {
-                    Text(
-                    text = "Avaliações"
-                )
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.height(50.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
+                Column {
+                    Image(
+                        painter = painterResource(id = R.drawable.parque_da_bela_vista),
+                        contentDescription = "Imagem da rota Volta ao Parque",
+                        modifier = Modifier.fillMaxWidth()
+                                            .height(150.dp),
+                        contentScale = ContentScale.Crop
+
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row (
-                            verticalAlignment = Alignment.CenterVertically
+                        Box(
+                            modifier = Modifier
+                                .background(Color(0xFFDDF6DD), RoundedCornerShape(12.dp))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = "Start button"
+                            Text("Fácil", color = Color(0xFF2E7D32), fontSize = 12.sp)
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                          /*  Icon(
+                                painter = painterResource(id = R.drawable.ic_star), // use um ícone de estrela no drawable
+                                contentDescription = "Classificação",
+                                tint = Color(0xFFFFC107)
                             )
-                            Text(
-                                text = "Start",
-                                modifier = Modifier.padding(start = 5.dp)
-                            )
+                            */
+                            Spacer(Modifier.width(4.dp))
+                            Text("4.8", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                    Text(
+                        text = "Volta ao Parque",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Text("5.2 km", fontSize = 13.sp)
+                        Text(" 15 m", fontSize = 13.sp)
+                        Text("Asfalto", fontSize = 13.sp)
+                    }
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(Color(0xFFE8F5E9), RoundedCornerShape(8.dp))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text("áreas verdes", fontSize = 12.sp, color = Color(0xFF2E7D32))
+                        }
+                        Box(
+                            modifier = Modifier
+                                .background(Color(0xFFE8F5E9), RoundedCornerShape(8.dp))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text("sombra", fontSize = 12.sp, color = Color(0xFF2E7D32))
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "124 avaliações",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF7CCE6B),
+                                contentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text("Iniciar")
                         }
                     }
                 }
             }
-            }
         }
     }
+}
 @Preview(showBackground = true)
 @Composable
 fun RoutePagePreview() {
@@ -338,6 +397,7 @@ fun RoutePagePreview() {
 // Todo: add the options menu
 // for language , themes and settings
 // read documentations of menus
+// the following code is an example of a dropdownmenu
 /*
 @Composable
 fun MinimalDropdownMenu() {
