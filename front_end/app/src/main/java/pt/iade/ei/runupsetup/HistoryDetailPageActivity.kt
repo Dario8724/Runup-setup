@@ -59,9 +59,6 @@ class HistoryDetailPage : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RunupSetupTheme {
-                // criar a função DetailView e menciona-lo aqui
-                // criar uma página experimental para o projeto
-                //
                 HistoryDetailPageView()
             }
         }
@@ -320,7 +317,8 @@ fun HistoryDetailPageView() {
         }
     }
 }
-// TODO: add labels below the icons and finish the history page
+// TODO: polish this page so it looks better
+// add some cards with the histories and maybe add total time and kilometer
 
 @Preview(showBackground = true)
 @Composable
