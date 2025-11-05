@@ -26,6 +26,8 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -113,7 +115,7 @@ fun RoutePageView() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.Home,
+                                Icons.Outlined.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
                             )
@@ -128,16 +130,15 @@ fun RoutePageView() {
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
+                            contentColor = Color.Black
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.LocationOn,
+                                painter = painterResource(R.drawable.outline_map_24),
                                 contentDescription = "Botão para a página de rotas",
-                                tint = Color.Black
                             )
                             Text(
                                 text = "Rotas",
@@ -157,7 +158,7 @@ fun RoutePageView() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Person,
+                                painter = painterResource(R.drawable.comunity_icon),
                                 contentDescription = "Botão para a página de comunidade",
                                 tint = Color.Black
                             )
@@ -179,7 +180,7 @@ fun RoutePageView() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Info,
+                                painter = painterResource(R.drawable.outline_history_24),
                                 contentDescription = "Botão para a página de histórico",
                                 tint = Color.Black
                             )
@@ -199,10 +200,9 @@ fun RoutePageView() {
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
-
                         ){
                             Icon(
-                                Icons.Default.AccountCircle,
+                                Icons.Outlined.AccountCircle,
                                 contentDescription = " Botão para a página de perfil",
                                 tint = Color.Black
                             )
@@ -237,7 +237,7 @@ fun RoutePageView() {
             }
             Card(
                 modifier = Modifier.padding(all = 10.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3FAF2)),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
                 border = BorderStroke(1.dp, Color.Green),
                 shape = RoundedCornerShape(12.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
