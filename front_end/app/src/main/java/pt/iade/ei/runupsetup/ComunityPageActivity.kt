@@ -306,6 +306,7 @@ fun ComunityActivityView() {
                     .fillMaxWidth(),
                 onClick = {},
                 shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation()
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

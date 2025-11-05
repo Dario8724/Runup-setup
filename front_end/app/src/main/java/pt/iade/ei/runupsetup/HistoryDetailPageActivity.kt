@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
@@ -23,10 +24,13 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Label
@@ -40,6 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -119,15 +124,13 @@ fun HistoryDetailPageView() {
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.Home,
+                                Icons.Outlined.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
                             )
@@ -142,18 +145,15 @@ fun HistoryDetailPageView() {
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
+                            contentColor = Color.Black
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.LocationOn,
+                                painter = painterResource(R.drawable.outline_map_24),
                                 contentDescription = "Botão para a página de rotas",
-                                tint = Color.Black
                             )
                             Text(
                                 text = "Rotas",
@@ -161,22 +161,19 @@ fun HistoryDetailPageView() {
                                 color = Color.Black
                             )
                         }
-                        // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor =Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Person,
+                                painter = painterResource(R.drawable.comunity_icon),
                                 contentDescription = "Botão para a página de comunidade",
                                 tint = Color.Black
                             )
@@ -192,16 +189,13 @@ fun HistoryDetailPageView() {
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
-                            // added the info icon because i could not find the right icon
                         )
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Info,
+                                painter = painterResource(R.drawable.outline_history_24),
                                 contentDescription = "Botão para a página de histórico",
                                 tint = Color.Black
                             )
@@ -217,15 +211,13 @@ fun HistoryDetailPageView() {
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.AccountCircle,
+                                Icons.Outlined.AccountCircle,
                                 contentDescription = " Botão para a página de perfil",
                                 tint = Color.Black
                             )
@@ -244,24 +236,65 @@ fun HistoryDetailPageView() {
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            Row(
-                modifier = Modifier.padding(innerPadding),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "As suas atividades recentes",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Black,
-                    fontSize = 40.sp
+            Text(
+                text = "Histórico ",
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = "Suas atividades recentes"
+            )
+            Card (
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape,
+                elevation = CardDefaults.cardElevation(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF7CCE6B)
                 )
+            ){
+                Row (
+                    modifier = Modifier
+                                    .padding(horizontal = 12.dp)
+                                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ){
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        Text(
+                            text = "23"
+                        )
+                        Text(
+                            text = "Atividades"
+                        )
+                    }
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "112"
+                        )
+                        Text(
+                            text = "km Total"
+                        )
+                    }
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        Text(
+                        text = "18h"
+                    )
+                        Text(
+                            text = "Tempo Total"
+                        )
+                    }
+                }
             }
-            Row (
-            ) {
+            Row {
                 Text(
-                    text = item.title,
-                    fontFamily = FontFamily.SansSerif,
-                    //fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    text = "Working on this page"
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
