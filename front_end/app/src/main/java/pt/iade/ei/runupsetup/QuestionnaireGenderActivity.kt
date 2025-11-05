@@ -1,5 +1,6 @@
 package pt.iade.ei.runupsetup.uiclass
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,13 +42,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.ProfilePageActivity
 
 
 class QuestionnaireGenderActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            QuestionnaireView()
+            QuestionnaireView(
+                onNextClick = {
+                    val intent = Intent(this, ProfilePageActivity::class.java)
+                    startActivity(intent)
+                }
+            )
         }
     }
 }
