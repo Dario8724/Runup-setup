@@ -8,38 +8,32 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Label
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,9 +42,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -292,58 +284,322 @@ fun HistoryDetailPageView() {
                     }
                 }
             }
-            Row {
+
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                // this needs changing
                 Text(
-                    text = "Working on this page"
+                    text = "Novembro de 2025"
                 )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            // Mapa da corrida com tamanho original
-            Image (
-                painter = painterResource(item.minimap),
-                contentDescription = "Mapa da corrida",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .height(250.dp)
-                    .width(width = 380.dp)
-            )
-            Spacer(
-                modifier = Modifier.height(30.dp)
-            )
-            Column {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color(0xFF7CCE6B)
+                    )
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                    Icons.Outlined.DateRange,
+                    contentDescription = "Filtrar datas"
+                )
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                       horizontalArrangement = Arrangement.SpaceBetween,
+                    ){
                         Text(
-                            text = "Pace médio",
-                            fontWeight = FontWeight.Black
+                            text = "Very serious text "
                         )
-                        Text(text = item.minimumPace)
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Tempo",
-                            fontWeight = FontWeight.Black
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
                         )
-                        Text(text = item.duration)
+                        Text("Parque da Cidade")
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
                         Text(
-                            text = "Distância",
-                            fontWeight = FontWeight.Black
+                            text = "Very serious text "
                         )
-                        Text(
-                            text = item.distance
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
                         )
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally){
-                        Text(
-                            text = "Calorias",
-                            fontWeight = FontWeight.Black
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
                         )
-                        Text(text = item.calories)
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(
+                            text = "Very serious text "
+                        )
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
+                    }
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
+                        )
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(
+                            text = "Very serious text "
+                        )
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
+                    }
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
+                        )
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
                     }
                 }
             }
