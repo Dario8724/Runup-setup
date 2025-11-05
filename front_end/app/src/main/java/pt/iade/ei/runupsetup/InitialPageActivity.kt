@@ -409,7 +409,7 @@ fun InitialPageView() {
                 modifier = Modifier.padding(10.dp),
                 onClick = {},
                 enabled = false
-                // false for now
+
             )
             {
                 Row(
@@ -433,7 +433,6 @@ fun InitialPageView() {
                             text = "Acompanhe seu progresso"
                         )
                     }
-                    // seta para proseguir
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "seta para proseguir",
@@ -441,7 +440,6 @@ fun InitialPageView() {
                     )
                 }
             }
-            // card for history
             Card (
                 modifier = Modifier.padding(10.dp),
                 onClick = {},
@@ -496,4 +494,3 @@ fun InitialPagePreview() {
         InitialPageView()
     }
 }
-// 
