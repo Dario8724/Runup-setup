@@ -3,12 +3,18 @@ package pt.iade.ei.runupsetup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -37,6 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import java.util.Calendar
 
 class QuestionnaireGenderActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +58,15 @@ class QuestionnaireGenderActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComunityActivityView() {
+    val item = HistoryItemModel1(
+        title = "Corrida de Segunda",
+        date = Calendar.getInstance(),
+        distance = "5 km",
+        duration = "00:30:45",
+        calories = "250 kcal",
+        minimumPace = "5'30\"/km",
+        minimap = R.drawable.map_image
+    )
     Scaffold(
         topBar = {
             TopAppBar(
@@ -268,7 +285,76 @@ fun ComunityActivityView() {
 
                 }
             }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(Color.Gray, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "MS", fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(text = "Maria Silva", fontWeight = FontWeight.SemiBold)
+                            Text(
+                                text = "há 2 horas",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = "Que manhã incrível! Consegui bater meu recorde pessoal 🎉🏃‍♀️",
+                        fontSize = 14.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Transparent, RoundedCornerShape(12.dp))
+                            .padding(vertical = 12.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item.distance, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "km", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item.duration, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "tempo", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item.minimumPace, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "min/km", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item.calories, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "kcal", fontSize = 12.sp, color = Color.Gray)
+                        }
+                    }
+                }
+            }
         }
+
     }
 }
 
