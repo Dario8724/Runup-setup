@@ -28,35 +28,35 @@ class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
 
-        val preferTrees = intent.getBooleanExtra("preferTrees", false)
-        val nearBeach = intent.getBooleanExtra("nearBeach", false)
-        val avoidHills = intent.getBooleanExtra("avoidHills", false)
-
         textDistance = findViewById(R.id.textDistance)
         textDuration = findViewById(R.id.textDuration)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        generateRoute(preferTrees, nearBeach, avoidHillsgit)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        // Coordenadas de teste (Lisboa)
         val originLat = 38.7169
         val originLng = -9.1399
         val destLat = 38.7083
         val destLng = -9.1408
 
         val request = RouteRequest(
+            nome = "Rota Teste",
             originLat = originLat,
             originLng = originLng,
             destLat = destLat,
             destLng = destLng,
-            preferTrees = preferTrees,
+            desiredDistanceKm = 5.0,
+            preferTrees = true,
             nearBeach = false,
-            avoidHills = false
+            nearPark = false,
+            sunnyRoute = false,
+            avoidHills = false,
+            tipo = "corrida"
         )
 
         RetrofitClient.instance.generateRoute(request).enqueue(object : Callback<RouteResponse> {
