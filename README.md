@@ -87,10 +87,11 @@ Acompanhamento de desempenho e progresso, a falta de progresso é um dos fatores
 
 ## Pesquisa de Mercado
 
-Nos últimos anos houve um movimento muito grande nas redes sociais de cada vez mais pessoas postarem um estilo de vida mais saudável principalmente adotando como hobbies a corrida e postarem em redes sociais com #RunningTok ou #Runstagram suas corridas diárias ou até mesmo participações em maratonas. Durante esse ano tivemos uma trend que ficou bastante popular devido ao aplicativo Strava em que regista sua rota, quantos km e o tempo de sua corrida e deixou de forma mais amigável para se postar em redes sociais. 
-Atualmente existem centenas de aplicações para corridas, porém a maioria delas são bem simples e tem funcionalidades básicas como por exemplo: calcular sua rota, tempo e elevação da sua corrida. Mas entre os mais populares estão aplicativos de grandes empresas de desporto como Nike onde o principal diferencial dele são plano de treino dentro da aplicação e um recurso de motivação com desafios, badges e desafios com outros usuários. Já o da Adidas é mais abrangente para vários desportes e não somente limitando a corrida ou caminhada, mas trazendo também ciclismo, lutas, desportes em grupo (por exemplo: futebol), desportes ao livre etc. Também existem aplicações de empresas como Puma, New Balance, Under Armor e praticamente qualquer empresa que venda artigos de desporto. 
-
-Entre os usuários desse tipo de aplicação o melhor e o maior número de downloads é o Strava com seu diferencial sendo uma interface mais amigável e mais chamativa lembrando bastante uma rede social, abas de comunidade com desafios, registro e interações com diferentes usuários, possibilidade de criar a sua rota e compartilhara, registro de progresso diário e semanal, desafios individuais ou em grupo, possibilidade de influenciadores postarem seus conteúdos dentro da plataforma, solicitar uma sugestão de rota com base na sua localização. Porém além de todos terem a funcionalidade principal de registar suas corridas com foco principal outro ponto em comum é que todos possuem um tipo de assinatura para conseguir acesa todos os recursos disponíveis na aplicação ou até mesmo em alguns casos recursos como da comunidade ou outras funcionalidades são limitadas para serem utilizadas por um período gratuito de curta duração, mas após finalizarem esse período se é cobrado para acesa novamente esses recursos.
+Strava - Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas
+Adidas Running - Registra Quilômetros, Elevação, Kcal
+Nike Running - Faz tudo que os demais e define metas
+Marcas como PUMA,Under Armor e New Balance também possuem aplicações
+Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas funcionalidades precisa pagar uma assinatura. 
 
 ---
 
