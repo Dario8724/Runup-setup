@@ -198,7 +198,7 @@ estiverem se exercitando. Ajudar cada um a melhorar, acompanhando o seu progress
 
 ## Poster 
 
-[Poster do aplicativo]("./Imagens/Poster_Run up.pdf")
+[Poster do aplicativo]("./Imagens/Poster_RunUp.pdf")
 
 
 ---
