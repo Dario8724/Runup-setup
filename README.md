@@ -26,8 +26,9 @@ Corrida, Caminhada, RunUp, Saúde, Fitness
 - [Solução a Implementar](#descrição-da-solução-a-implementar)
 - [Planeamento e Calendarização](#planeamento-e-calendarização)
 - [Mockup da Aplicação](#mockup-da-aplicação)
-- [Poster do Aplicativo](#poster-do-aplicativo)
+- [Mockup Interativo](#mockup-iterativo)
 - [Conclusão](#conclusão)
+- [Poster do Aplicativo](#poster)
 - [Bibliografia](#bibliografia)
 
 ---
