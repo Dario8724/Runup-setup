@@ -171,13 +171,17 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 - Testes e validação  
 - Criação de poster e vídeo promocional  
 
-<img width="1453" height="409" alt="image" src="https://github.com/user-attachments/assets/7807495a-898e-4613-aaae-6e769378a1ed" />
-
 ---
 
 ## Mockup da Aplicação
 
-![Mockup do aplicativo](./Mockup_RunUp.png)
+
+![Mockup do aplicativo](./Imagens/Mockup_RunUp.png)
+
+
+# Mockup Interativo
+
+[Ver mockup completo no Figma](https://www.figma.com/make/trREFBKUoFakKsm9PVs8au/RunUp-Mobile-App-Mockups?node-id=0-1&t=bzRYL2e4k7qEW83n-1)
 
 ---
 
@@ -192,6 +196,12 @@ estiverem se exercitando. Ajudar cada um a melhorar, acompanhando o seu progress
 
 ---
 
+## Poster 
+
+[Poster do aplicativo]("./Imagens/Poster_Run up.pdf")
+
+
+---
 ## Bibliografia
 
 1. **Google Maps Platform – APIs by Platform**  
