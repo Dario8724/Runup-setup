@@ -89,10 +89,10 @@ Acompanhamento de desempenho e progresso, a falta de progresso é um dos fatores
 
 ## Pesquisa de Mercado
 
-Strava - Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas
-Adidas Running - Registra Quilômetros, Elevação, Kcal
-Nike Running - Faz tudo que os demais e define metas
-Marcas como PUMA,Under Armor e New Balance também possuem aplicações
+Strava = Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas.
+Adidas Running = Registra Quilômetros, Elevação, Kcal.
+Nike Running = Faz tudo que os demais e define metas.
+Marcas como PUMA,Under Armor e New Balance também possuem aplicações.
 Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas funcionalidades precisa pagar uma assinatura. 
 
 ---
@@ -174,6 +174,21 @@ As principais classes identificadas foram:
 •	Classe Meta – controla objetivos definidos pelos utilizadores.
 •	Classe Comunidade – gerencia as interações e postagens.
 O diagrama de classes (em formato UML) representa essas entidades e seus relacionamentos, garantindo coerência entre o modelo lógico e o físico da base de dados.
+
+**Desenvolvimento no Android studio**
+O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.
+A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.
+Telas desenvolvidas:
+• Tela de login.
+• Tela de Registro.
+• Tela Inicial.
+• Tela de Gerar Rotas.
+• Tela de Corrida.
+• Tela de Histórico de Corrida.
+• Tela de Comunidade.
+• Tela de Perfil.
+
+
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
