@@ -145,7 +145,35 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 - Criação de rotas personalizadas (distância, áreas verdes, praias, sol, etc.)  
 - Histórico de corridas e estatísticas  
 - Integração com Google Maps SDK e Fused Location Provider  
-- Base de dados (SQLite/MySQL) para registo de atividades  
+- Base de dados (SQLite/MySQL) para registo de atividades
+
+**Desenvolvimento da Base de Dados**
+A modelagem da base de dados foi projetada para suportar as principais funcionalidades descritas no primeiro relatório: registo de utilizadores, armazenamento de atividades (corridas e caminhadas), definição de metas e interações na comunidade.
+A base foi estruturada seguindo o modelo relacional, utilizando MySQL (em ambiente de desenvolvimento via SQL Workbench).
+
+**Tabelas Principais**
+- Usuário
+- Corrida
+- Rota
+- Meta
+- UC (UsuárioCorrida)
+
+O relacionamento entre as tabelas foi definido da seguinte forma:
+ Um utilizador pode ter várias atividades, metas e publicações.
+ Cada atividade pode estar associada a uma rota.
+
+Implementação:
+A base foi criada e testada com comandos SQL para inserção, atualização e consulta dos dados.
+
+**Modelagem do Sistema**
+A estrutura do sistema foi baseada nos princípios da Programação Orientada a Objetos (POO).
+As principais classes identificadas foram:
+•	Classe Utilizador – armazena informações do perfil e preferências.
+•	Classe Atividade – contém dados de cada corrida/caminhada.
+•	Classe Rota – representa os trajetos personalizados criados ou sugeridos.
+•	Classe Meta – controla objetivos definidos pelos utilizadores.
+•	Classe Comunidade – gerencia as interações e postagens.
+O diagrama de classes (em formato UML) representa essas entidades e seus relacionamentos, garantindo coerência entre o modelo lógico e o físico da base de dados.
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
