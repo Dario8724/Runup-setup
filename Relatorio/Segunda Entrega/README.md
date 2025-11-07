@@ -144,7 +144,56 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 ![Persona2](./Imagens/Persona2.png)
 
 ---
+## Dicionário de Dados
 
+**Entidade: Usuario**
+| Atributo     | Tipo de Dado | Descrição                   | Restrições                |
+| ------------ | ------------ | --------------------------- | ------------------------- |
+| id_usuario   | INT          | Identificador único         | PK, Auto Increment        |
+| nome         | VARCHAR(100) | Nome completo               | NOT NULL                  |
+| email        | VARCHAR(100) | Email do usuário (único)    | NOT NULL, UNIQUE          |
+| senha        | VARCHAR(255) | Senha criptografada         | NOT NULL                  |
+| data_criacao | DATETIME     | Data de criação do registro | DEFAULT CURRENT_TIMESTAMP |
+
+**Entidade: Meta**
+| Atributo    | Tipo de Dado | Descrição                   | Restrições               |
+| ----------- | ------------ | --------------------------- | ------------------------ |
+| id_meta     | INT          | Identificador único da meta | PK, Auto Increment       |
+| descricao   | VARCHAR(255) | Descrição da meta           | NOT NULL                 |
+| data_inicio | DATE         | Data de início da meta      | —                        |
+| data_fim    | DATE         | Data limite da meta         | —                        |
+| id_usuario  | INT          | Usuário responsável         | FK → Usuário(id_usuario) |
+
+**Entidade: Corrida**
+| Atributo     | Tipo de Dado | Descrição                      | Restrições               |
+| ------------ | ------------ | ------------------------------ | ------------------------ |
+| id_corrida   | INT          | Identificador único da corrida | PK, Auto Increment       |
+| data_corrida | DATE         | Data da corrida                | NOT NULL                 |
+| distancia    | FLOAT        | Distância percorrida (km)      | NOT NULL                 |
+| tempo        | TIME         | Duração da corrida             | —                        |
+| id_usuario   | INT          | Usuário que realizou a corrida | FK → Usuário(id_usuario) |
+
+
+**Endidade: Postagem**
+| Atributo      | Tipo de Dado | Descrição                 | Restrições                |
+| ------------- | ------------ | ------------------------- | ------------------------- |
+| id_postagem   | INT          | Identificador da postagem | PK, Auto Increment        |
+| titulo        | VARCHAR(100) | Título da postagem        | NOT NULL                  |
+| conteudo      | TEXT         | Conteúdo da postagem      | NOT NULL                  |
+| data_postagem | DATETIME     | Data/hora da publicação   | DEFAULT CURRENT_TIMESTAMP |
+| id_usuario    | INT          | Autor da postagem         | FK → Usuário(id_usuario)  |
+
+**Entidade: UC(Relaçao Usuario-Corrida)**
+| Atributo   | Tipo de Dado | Descrição                | Restrições               |
+| ---------- | ------------ | ------------------------ | ------------------------ |
+| id_usuario | INT          | Identificador do usuário | FK → Usuário(id_usuario) |
+| id_corrida | INT          | Identificador da corrida | FK → Corrida(id_corrida) |
+
+---
+## Estrutura dos Dados 
+![Estrutura de Dados](./Imagens/Estruturadedados.png)
+
+---
 ## Descrição da Solução a Implementar
 
 - Aplicação mobile gratuita com **geolocalização e registo em tempo real**  
