@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 🔹 Permissões necessárias -->
+    <!-- Permissões -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,17 +25,24 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔹 Tela principal -->
+        <!-- 🔹 Tela inicial (Login) -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".LoginPageActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:label="Login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 🔹 Tela principal após login -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- 🔹 Tela de filtros de rota -->
         <activity
@@ -44,14 +51,7 @@
             android:label="Filtros de Rota"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de rota (visualização estática, se ainda usada) -->
-        <activity
-            android:name=".ui.RouteActivity"
-            android:exported="false"
-            android:label="Gerar Rota"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- 🔹 Tela de corrida em tempo real -->
+        <!-- 🔹 Tela de corrida -->
         <activity
             android:name=".ui.RunMapActivity"
             android:exported="false"
