@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import pt.iade.ei.runupsetup.ui.RouteActivity
 import pt.iade.ei.runupsetup.ui.components.HistoryItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.*
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
             RunupSetupTheme {
                 MainView(
                     onGenerateRouteClick = {
-                        val intent = Intent(this, pt.iade.ei.runupsetup.ui.RouteActivity::class.java)
+                        val intent = Intent(this, RouteActivity::class.java)
                         startActivity(intent)
                     }
                 )
