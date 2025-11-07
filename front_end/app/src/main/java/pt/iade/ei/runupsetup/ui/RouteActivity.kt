@@ -38,19 +38,25 @@ class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
+        // Coordenadas de teste (Lisboa)
         val originLat = 38.7169
         val originLng = -9.1399
         val destLat = 38.7083
         val destLng = -9.1408
 
         val request = RouteRequest(
+            nome = "Rota Teste",
             originLat = originLat,
             originLng = originLng,
             destLat = destLat,
             destLng = destLng,
+            desiredDistanceKm = 5.0,
             preferTrees = true,
             nearBeach = false,
-            avoidHills = false
+            nearPark = false,
+            sunnyRoute = false,
+            avoidHills = false,
+            tipo = "corrida"
         )
 
         RetrofitClient.instance.generateRoute(request).enqueue(object : Callback<RouteResponse> {

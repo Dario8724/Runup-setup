@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 🔹 Permissões necessárias -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,32 +17,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RunupSetup"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
 
+        <!-- 🔹 Chave da API do Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDeaOoEpvULBgkKdg-31OlsJdVUuqld-QY" />
+            android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-
-        <!-- Tela principal -->
+        <!-- 🔹 Tela principal -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.RunupSetup">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Tela de rotas -->
+        <!-- 🔹 Tela de filtros de rota -->
+        <activity
+            android:name=".RouteFiltersActivity"
+            android:exported="false"
+            android:label="Filtros de Rota"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 🔹 Tela de rota (visualização estática, se ainda usada) -->
         <activity
             android:name=".ui.RouteActivity"
             android:exported="false"
             android:label="Gerar Rota"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-    </application>
+        <!-- 🔹 Tela de corrida em tempo real -->
+        <activity
+            android:name=".ui.RunMapActivity"
+            android:exported="false"
+            android:label="Corrida em Tempo Real"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+    </application>
 </manifest>
