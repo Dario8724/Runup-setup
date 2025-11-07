@@ -188,7 +188,16 @@ Telas desenvolvidas:
 • Tela de Comunidade.
 • Tela de Perfil.
 
+**Testes e Validações**
+Foram realizados testes iniciais de: 
+• Navegações entre telas.
+• Inserção e leitura de dados.
+• Simulação de rotas no mapa.
 
+**Próximas Etapas**
+• Implementação de feed de comunidade.
+• Melhorias no layout.
+• Implementação de notificações e sistemas de metas.
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
@@ -232,12 +241,8 @@ Telas desenvolvidas:
 
 ## Conclusão
 
-Atualmente, todo mundo precisa ter acesso à internet e às ferramentas digitais. Então, com base na prática de atividades físicas o projeto surgiu pensando nisso para:  
-•	Ajudar todo mundo a começar a caminhar ou correr, mesmo quem nunca fez isso antes
-•	Deixar tudo fácil, com ferramentas bem simples de usar
-•	Mostrar como a internet pode ser útil, com uma app que qualquer pessoa consegue usar, tipo idosos ou quem tem alguma dificuldade.  
-A ideia do projeto é: Dar um empurrãozinho para ter hábitos mais saudáveis com a ajuda da Tecnologia. Garantir que as pessoas se sintam seguras e engajadas quando   
-estiverem se exercitando. Ajudar cada um a melhorar, acompanhando o seu progresso. Fazer com que mais gente tenha acesso à saúde e ao bem-estar, sem distinção.
+Nesta segunda fase, o grupo consolidou a estrutura técnica do projeto RunUp, criando a base de dados, modelando as entidades e iniciando o desenvolvimento da aplicação no Android Studio.
+Com a junção do backend e das telas principais, o projeto começa a ganhar forma prática e aproxima-se da sua proposta inicial: uma aplicação acessível, funcional e motivadora para corredores e caminhantes.
 
 ---
 
