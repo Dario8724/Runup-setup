@@ -4,15 +4,41 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.RouteRequest
@@ -23,11 +49,14 @@ class RouteFiltersActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                RouteFiltersScreen { routeRequest ->
-                    val intent = Intent(this, RunMapActivity::class.java)
-                    intent.putExtra("routeRequest", routeRequest)
-                    startActivity(intent)
-                }
+                RouteFiltersScreen(
+                    onGenerateRoute = { routeRequest ->
+                        val intent = Intent(this, RunMapActivity::class.java)
+                        intent.putExtra("routeRequest", routeRequest)
+                        startActivity(intent)
+                    },
+                    onBack = { finish() }
+                )
             }
         }
     }
@@ -35,7 +64,12 @@ class RouteFiltersActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RouteFiltersScreen(onGenerateRoute: (RouteRequest) -> Unit) {
+fun RouteFiltersScreen(
+    onGenerateRoute: (RouteRequest) -> Unit,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+
     var nome by remember { mutableStateOf(TextFieldValue("")) }
     var tipo by remember { mutableStateOf("corrida") }
     var selectedDistance by remember { mutableStateOf("5 km") }
@@ -51,7 +85,12 @@ fun RouteFiltersScreen(onGenerateRoute: (RouteRequest) -> Unit) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Nova Rota", fontWeight = FontWeight.Bold, fontSize = 22.sp) }
+                title = { Text("Nova Rota", fontWeight = FontWeight.Bold, fontSize = 22.sp) },
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -172,5 +211,13 @@ fun FilterCheck(label: String, checked: Boolean, onCheckedChange: (Boolean) -> U
         Checkbox(checked = checked, onCheckedChange = null)
         Spacer(Modifier.width(8.dp))
         Text(label)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RouteFiltersScreenPreview() {
+    MaterialTheme {
+        RouteFiltersScreen(onGenerateRoute = {}, onBack = {})
     }
 }
