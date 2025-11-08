@@ -18,16 +18,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -82,17 +86,34 @@ fun RouteFiltersScreen(
 
     val distances = listOf("2 km", "5 km", "10 km")
 
+    // Cores personalizadas
+    val backgroundColor = Color(0xFFFAF7F2)
+    val greenLight = Color(0xFFB8E986)  // verde mais claro
+    val greenMain = Color(0xFF6ECB63)   // verde principal
+    val greenDark = Color(0xFF4CAF50)   // verde mais escuro
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Nova Rota", fontWeight = FontWeight.Bold, fontSize = 22.sp) },
+                title = {
+                    Text(
+                        "Nova Rota",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp,
+                        color = Color(0xFF222222)
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { onBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = backgroundColor
+                )
             )
-        }
+        },
+        containerColor = backgroundColor
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -117,16 +138,19 @@ fun RouteFiltersScreen(
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                FilterChip(
-                    selected = tipo == "corrida",
-                    onClick = { tipo = "corrida" },
-                    label = { Text("Corrida") }
-                )
-                FilterChip(
-                    selected = tipo == "caminhada",
-                    onClick = { tipo = "caminhada" },
-                    label = { Text("Caminhada") }
-                )
+                listOf("corrida", "caminhada").forEach { option ->
+                    FilterChip(
+                        selected = tipo == option,
+                        onClick = { tipo = option },
+                        label = { Text(option.replaceFirstChar { it.uppercase() }) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            containerColor = greenLight,
+                            selectedContainerColor = greenMain,
+                            labelColor = Color.Black,
+                            selectedLabelColor = Color.White
+                        )
+                    )
+                }
             }
 
             Spacer(Modifier.height(16.dp))
@@ -142,7 +166,13 @@ fun RouteFiltersScreen(
                     FilterChip(
                         selected = selectedDistance == distance,
                         onClick = { selectedDistance = distance },
-                        label = { Text(distance) }
+                        label = { Text(distance) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            containerColor = greenLight,
+                            selectedContainerColor = greenMain,
+                            labelColor = Color.Black,
+                            selectedLabelColor = Color.White
+                        )
                     )
                 }
             }
@@ -191,13 +221,15 @@ fun RouteFiltersScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = greenMain)
             ) {
-                Text("Gerar Rota", fontSize = 18.sp)
+                Text("Gerar Rota", fontSize = 18.sp, color = Color.White)
             }
         }
     }
 }
+
 
 @Composable
 fun FilterCheck(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
