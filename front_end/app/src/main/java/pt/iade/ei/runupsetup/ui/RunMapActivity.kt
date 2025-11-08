@@ -135,7 +135,6 @@ fun RunMapScreen() {
                 .fillMaxSize()
                 .background(Color(0xFFFAF7F2))
         ) {
-            // Mapa 40% da tela
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -290,7 +289,7 @@ fun SummaryScreen(duration: Int, distance: Double, calories: Int) {
             shape = RoundedCornerShape(40),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp) // 👈 menor altura
+                .height(50.dp)
                 .border(1.dp, Color.Gray, RoundedCornerShape(40)) // 👈 contorno cinza
         ) {
             Text("Voltar ao Início", color = Color.White, fontSize = 16.sp)
