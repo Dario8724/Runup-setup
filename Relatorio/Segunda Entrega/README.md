@@ -431,7 +431,7 @@ Foram realizados testes iniciais de:
 ## Mockup da Aplicação
 
 
-![Mockup do aplicativo](../Imagens/Mockup_RunUp.png)
+![Mockup do aplicativo](../../Imagens/Mockup_RunUp.png)
 
 
 # Mockup Interativo
