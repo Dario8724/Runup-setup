@@ -2,6 +2,7 @@ package pt.iade.ei.runupsetup.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.activity.ComponentActivity
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -80,7 +82,6 @@ fun RunMapScreen() {
         }
     )
 
-    // Solicita permissão
     LaunchedEffect(Unit) {
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -96,47 +97,7 @@ fun RunMapScreen() {
         }
     }
 
-    // Atualização de localização durante a corrida
-    DisposableEffect(isRunning && !isPaused) {
-        if (isRunning && !isPaused) {
-            val locationCallback = object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult) {
-                    val newLocation = locationResult.lastLocation ?: return
-                    val newLatLng = LatLng(newLocation.latitude, newLocation.longitude)
-                    userLocation = newLatLng
-
-                    scope.launch {
-                        cameraPositionState.animate(
-                            update = CameraUpdateFactory.newLatLng(newLatLng),
-                            durationMs = 1000
-                        )
-                    }
-
-                    lastLocation?.let { last ->
-                        val results = FloatArray(1)
-                        Location.distanceBetween(
-                            last.latitude, last.longitude,
-                            newLocation.latitude, newLocation.longitude,
-                            results
-                        )
-                        distance += results[0] / 1000
-                        calories = (distance * 60).roundToInt()
-                    }
-                    lastLocation = newLocation
-                }
-            }
-
-            val request = LocationRequest.Builder(
-                Priority.PRIORITY_HIGH_ACCURACY,
-                2000L
-            ).build()
-
-            fusedLocationClient.requestLocationUpdates(request, locationCallback, null)
-            onDispose { fusedLocationClient.removeLocationUpdates(locationCallback) }
-        } else onDispose {}
-    }
-
-    // Cronômetro
+    // Atualização de tempo
     LaunchedEffect(isRunning, isPaused) {
         if (isRunning && !isPaused) {
             while (isRunning && !isPaused) {
@@ -155,7 +116,7 @@ fun RunMapScreen() {
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            // Mapa ocupa 40% da tela
+            // Mapa 40% da tela
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -176,29 +137,20 @@ fun RunMapScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             if (!showSummary) {
-                // Estatísticas da corrida
+                // Estatísticas
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF9F9F9)),
-                    shape = RoundedCornerShape(24.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp),
+                        modifier = Modifier.padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = "Estatísticas da Corrida",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF333333),
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-
+                        Text("Estatísticas", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Spacer(Modifier.height(16.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
@@ -210,9 +162,9 @@ fun RunMapScreen() {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(Modifier.height(24.dp))
 
-                // Botões grandes e espaçados
+                // Botões
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -223,34 +175,25 @@ fun RunMapScreen() {
                         onClick = {
                             if (!isRunning) {
                                 isRunning = true
-                                fetchRoute(userLocation?.latitude ?: 0.0, userLocation?.longitude ?: 0.0) {
-                                    routePoints = it
-                                }
+                                fetchRoute(
+                                    userLocation?.latitude ?: 0.0,
+                                    userLocation?.longitude ?: 0.0
+                                ) { routePoints = it }
                             }
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007AFF)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFF007AFF)),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(60.dp)
-                            .padding(4.dp)
-                    ) {
-                        Text("Iniciar", color = Color.White, fontSize = 18.sp)
-                    }
+                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
+                    ) { Text("Iniciar", color = Color.White) }
 
                     Button(
                         onClick = { if (isRunning) isPaused = !isPaused },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isPaused) Color(0xFF34C759) else Color(0xFFFF9500)
+                            if (isPaused) Color(0xFF34C759) else Color(0xFFFF9500)
                         ),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(60.dp)
-                            .padding(4.dp)
-                    ) {
-                        Text(if (isPaused) "Retomar" else "Pausar", color = Color.White, fontSize = 18.sp)
-                    }
+                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
+                    ) { Text(if (isPaused) "Retomar" else "Pausar", color = Color.White) }
 
                     Button(
                         onClick = {
@@ -258,56 +201,14 @@ fun RunMapScreen() {
                             isRunning = false
                             isPaused = false
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF3B30)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFFFF3B30)),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(60.dp)
-                            .padding(4.dp)
-                    ) {
-                        Text("Parar", color = Color.White, fontSize = 18.sp)
-                    }
+                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
+                    ) { Text("Parar", color = Color.White) }
                 }
             } else {
                 // Tela de resumo
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        "Resumo da Corrida",
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF007AFF),
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    )
-
-                    StatBox("Tempo Total", formatTime(duration))
-                    StatBox("Distância", "%.2f km".format(distance))
-                    StatBox("Calorias", calories.toString())
-
-                    Spacer(modifier = Modifier.height(40.dp))
-
-                    Button(
-                        onClick = {
-                            showSummary = false
-                            duration = 0
-                            distance = 0.0
-                            calories = 0
-                            routePoints = emptyList()
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007AFF)),
-                        shape = RoundedCornerShape(50),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp)
-                    ) {
-                        Text("Nova Corrida", color = Color.White, fontSize = 18.sp)
-                    }
-                }
+                SummaryScreen(duration, distance, calories)
             }
         }
     }
@@ -315,23 +216,35 @@ fun RunMapScreen() {
 
 @Composable
 fun StatBox(label: String, value: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(value, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF007AFF))
+        Text(label, fontSize = 14.sp, color = Color.Gray)
+    }
+}
+
+@Composable
+fun SummaryScreen(duration: Int, distance: Double, calories: Int) {
+    val context = LocalContext.current
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(vertical = 8.dp)
+        modifier = Modifier.fillMaxSize().padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = value,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF007AFF),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = label,
-            fontSize = 16.sp,
-            color = Color(0xFF666666),
-            textAlign = TextAlign.Center
-        )
+        Text("Resumo da Corrida", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = Color(0xFF007AFF))
+        Spacer(Modifier.height(24.dp))
+        StatBox("Tempo Total", formatTime(duration))
+        StatBox("Distância", "%.2f km".format(distance))
+        StatBox("Calorias", calories.toString())
+        Spacer(Modifier.height(40.dp))
+        Button(
+            onClick = {
+                val intent = Intent(context, MainActivity::class.java)
+                context.startActivity(intent)
+            },
+            colors = ButtonDefaults.buttonColors(Color(0xFF007AFF)),
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.fillMaxWidth().height(60.dp)
+        ) { Text("Voltar ao Início", color = Color.White, fontSize = 18.sp) }
     }
 }
 
@@ -356,7 +269,6 @@ private fun fetchRoute(lat: Double, lng: Double, onResult: (List<LatLng>) -> Uni
         avoidHills = false,
         tipo = "corrida"
     )
-
     RetrofitClient.instance.generateRoute(request).enqueue(object : Callback<RouteResponse> {
         override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
             response.body()?.let { route ->
@@ -365,8 +277,12 @@ private fun fetchRoute(lat: Double, lng: Double, onResult: (List<LatLng>) -> Uni
             }
         }
 
-        override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
-            t.printStackTrace()
-        }
+        override fun onFailure(call: Call<RouteResponse>, t: Throwable) = t.printStackTrace()
     })
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RunMapScreenPreview() {
+    RunMapScreen()
 }

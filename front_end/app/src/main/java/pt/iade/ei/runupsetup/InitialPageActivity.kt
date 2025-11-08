@@ -56,6 +56,10 @@ import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import pt.iade.ei.runupsetup.RouteFiltersActivity
+
 
 /*
 imports duvidosos
@@ -119,6 +123,7 @@ fun InitialPageView() {
         }
         ,
         bottomBar = {
+            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -193,7 +198,10 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
@@ -215,7 +223,10 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
@@ -279,8 +290,12 @@ fun InitialPageView() {
                         .padding(start = 20.dp, top = 40.dp)
                 ) {
                     // Botão de iniciar
+                    val context = LocalContext.current
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, RouteFiltersActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         modifier = Modifier.height(50.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
