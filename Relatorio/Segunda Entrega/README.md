@@ -25,7 +25,7 @@ Corrida, Caminhada, RunUp, Saúde, Fitness
 - [Guiões Preliminares](#uma-versão-preliminar-de-três-guiões)
 - [Diagrama de classes](#diagrama-de-classes)
 - [Documentação REST](#documentação-rest)
-- [Dicionario de dados](#dicionario-de-dados)
+- [Dicionario de dados](#dicionário-de-dados)
 - [Estutura de dados](#estrutura-dos-dados)
 - [Solução a Implementar](#descrição-da-solução-a-implementar)
 - [Planeamento e Calendarização](#planeamento-e-calendarização)
@@ -93,10 +93,14 @@ Acompanhamento de desempenho e progresso, a falta de progresso é um dos fatores
 
 ## Pesquisa de Mercado
 
-Strava = Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas.
+Strava  Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas.
+
 Adidas Running = Registra Quilômetros, Elevação, Kcal.
+
 Nike Running = Faz tudo que os demais e define metas.
+
 Marcas como PUMA,Under Armor e New Balance também possuem aplicações.
+
 Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas funcionalidades precisa pagar uma assinatura. 
 
 ---
