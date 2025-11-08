@@ -157,7 +157,6 @@ classDiagram
         +String senha
         +LocalDateTime dataCriacao
     }
-
     class Meta {
         +Long id
         +String descricao
@@ -165,7 +164,6 @@ classDiagram
         +LocalDate dataFim
         +Usuario usuario
     }
-
     class Corrida {
         +Long id
         +String nome
@@ -182,7 +180,6 @@ classDiagram
         +String tipo
         +Usuario usuario
     }
-
     class Postagem {
         +Long id
         +String titulo
@@ -190,7 +187,6 @@ classDiagram
         +LocalDateTime dataPostagem
         +Usuario usuario
     }
-
     %% =======================
     %% SERVIÇOS E CONTROLADORES
     %% =======================
@@ -198,11 +194,9 @@ classDiagram
         +Route generateRoute(RouteRequest request)
         +List<Route> getSavedRoutes(Usuario usuario)
     }
-
     class RouteController {
         +ResponseEntity<Route> generateRoute(RouteRequest request)
     }
-
     %% =======================
     %% RELAÇÕES
     %% =======================
