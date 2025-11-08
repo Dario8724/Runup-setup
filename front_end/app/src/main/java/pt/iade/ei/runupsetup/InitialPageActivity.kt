@@ -123,6 +123,7 @@ fun InitialPageView() {
         }
         ,
         bottomBar = {
+            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -197,7 +198,10 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
@@ -218,7 +222,6 @@ fun InitialPageView() {
                             )
                         }
                     }
-                    val context = LocalContext.current
                     Button(
                         onClick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)

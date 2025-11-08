@@ -76,7 +76,21 @@ fun ProfilePageView() {
 
                     BottomNavButton(icon = Icons.Default.LocationOn, text = "Rotas")
                     BottomNavButton(icon = Icons.Default.Person, text = "Comunidade")
-                    BottomNavButton(icon = Icons.Default.Info, text = "Histórico")
+
+                    // 🔹 Histórico (vai para HistoryDetailPage)
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)
+                            Text("Histórico", fontSize = 10.sp, color = Color.Black)
+                        }
+                    }
+
                     BottomNavButton(icon = Icons.Default.AccountCircle, text = "Perfil", selected = true)
                 }
             }

@@ -65,5 +65,11 @@
             android:label="Perfil"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- 🔹 Tela de histórico detalhado -->
+        <activity
+            android:name=".HistoryDetailPage"
+            android:exported="false"
+            android:label="Histórico"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 </manifest>
