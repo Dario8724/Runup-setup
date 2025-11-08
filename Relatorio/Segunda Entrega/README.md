@@ -144,6 +144,157 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 ![Persona2](./Imagens/Persona2.png)
 
 ---
+## Diagrama de classes
+
+classDiagram
+    %% =======================
+    %% ENTIDADES
+    %% =======================
+    class Usuario {
+        +Long id
+        +String nome
+        +String email
+        +String senha
+        +LocalDateTime dataCriacao
+    }
+
+    class Meta {
+        +Long id
+        +String descricao
+        +LocalDate dataInicio
+        +LocalDate dataFim
+        +Usuario usuario
+    }
+
+    class Corrida {
+        +Long id
+        +String nome
+        +Double originLat
+        +Double originLng
+        +Double destLat
+        +Double destLng
+        +Double desiredDistanceKm
+        +Boolean preferTrees
+        +Boolean nearBeach
+        +Boolean nearPark
+        +Boolean sunnyRoute
+        +Boolean avoidHills
+        +String tipo
+        +Usuario usuario
+    }
+
+    class Postagem {
+        +Long id
+        +String titulo
+        +String conteudo
+        +LocalDateTime dataPostagem
+        +Usuario usuario
+    }
+
+    %% =======================
+    %% SERVIÇOS E CONTROLADORES
+    %% =======================
+    class RouteService {
+        +Route generateRoute(RouteRequest request)
+        +List<Route> getSavedRoutes(Usuario usuario)
+    }
+
+    class RouteController {
+        +ResponseEntity<Route> generateRoute(RouteRequest request)
+    }
+
+    %% =======================
+    %% RELAÇÕES
+    %% =======================
+    Usuario "1" --> "*" Meta : possui >
+    Usuario "1" --> "*" Corrida : realiza >
+    Usuario "1" --> "*" Postagem : cria >
+    RouteController --> RouteService : usa >
+    RouteService --> Corrida : gera >
+---
+## Documentação REST
+A seguir é apresentada a documentação da principal rota disponível na API RunUp.
+
+Requisição
+URL base:
+http://localhost:8080/api/routes/generate
+
+Método HTTP:
+POST
+
+Cabeçalhos (Headers):
+Content-Type: application/json
+Accept: application/json
+
+Corpo (Body JSON):
+{
+  "nome": "Corrida na Foz",
+  "originLat": 41.1540,
+  "originLng": -8.6535,
+  "destLat": 41.1501,
+  "destLng": -8.6800,
+  "desiredDistanceKm": 5,
+  "preferTrees": true,
+  "nearBeach": true,
+  "nearPark": true,
+  "sunnyRoute": true,
+  "avoidHills": false,
+  "tipo": "corrida"
+}
+
+Resposta de sucesso (200 OK)
+
+Descrição:
+Retorna uma rota gerada com base nas preferências enviadas.
+
+Exemplo de resposta:
+
+{
+  "routeName": "Corrida na Foz",
+  "totalDistanceKm": 5.1,
+  "estimatedTimeMin": 32,
+  "startPoint": {
+    "lat": 41.1540,
+    "lng": -8.6535
+  },
+  "endPoint": {
+    "lat": 41.1501,
+    "lng": -8.6800
+  },
+  "path": [
+    { "lat": 41.1535, "lng": -8.6550 },
+    { "lat": 41.1520, "lng": -8.6620 },
+    { "lat": 41.1510, "lng": -8.6700 }
+  ],
+  "preferences": {
+    "preferTrees": true,
+    "nearBeach": true,
+    "nearPark": true,
+    "sunnyRoute": true,
+    "avoidHills": false
+  }
+}
+
+Respostas de erro: 
+
+| Código                      | Tipo              | Descrição                                             |
+| --------------------------- | ----------------- | ----------------------------------------------------- |
+| 400 Bad Request           | Erro de validação | Dados incompletos ou inválidos no corpo da requisição |
+| 500 Internal Server Error | Erro no servidor  | Falha ao gerar a rota ou erro inesperado              |
+
+Notas adicionais:
+
+• Este endpoint utiliza um serviço interno (RouteService) para calcular o percurso e retornar um conjunto de coordenadas e informações resumidas.
+
+• Futuramente, pretende-se adicionar:
+
+   • POST /api/routes/save → para guardar rotas no histórico do utilizador
+
+   • GET /api/routes → para listar rotas já geradas
+
+   • DELETE /api/routes/{id} → para remover rotas salvas
+
+---
 ## Dicionário de Dados
 
 **Entidade: Usuario**
