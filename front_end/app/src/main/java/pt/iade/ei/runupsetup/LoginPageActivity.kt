@@ -112,7 +112,7 @@ fun LoginView(){
                 //Botão Login
                 OutlinedButton(
                     onClick = {
-                        val intent = Intent(context, MainActivity::class.java)
+                        val intent = Intent(context, InitialPageActivity::class.java)
                         context.startActivity(intent)
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
