@@ -26,7 +26,7 @@ Corrida, Caminhada, RunUp, Saúde, Fitness
 - [Diagrama de classes](#diagrama-de-classes)
 - [Documentação REST](#documentação-rest)
 - [Dicionario de dados](#dicionario-de-dados)
-- [Estutura de dados](#estrutura-de-dados)
+- [Estutura de dados](#estrutura-dos-dados)
 - [Solução a Implementar](#descrição-da-solução-a-implementar)
 - [Planeamento e Calendarização](#planeamento-e-calendarização)
 - [Mockup da Aplicação](#mockup-da-aplicação)
