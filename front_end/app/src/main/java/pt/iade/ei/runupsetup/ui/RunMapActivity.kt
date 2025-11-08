@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -39,6 +40,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.math.roundToInt
+import androidx.compose.material3.*
+import androidx.compose.ui.text.font.Font
 
 class RunMapActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
@@ -108,19 +111,35 @@ fun RunMapScreen() {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Corrida em andamento") }) }
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Corrida em andamento",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        color = Color(0xFF222222),
+                        lineHeight = 30.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFFFAF7F2)
+            ))
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color(0xFFFAF7F2))
         ) {
             // Mapa 40% da tela
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(0.6f)
             ) {
                 GoogleMap(
                     modifier = Modifier.fillMaxSize(),
@@ -141,15 +160,16 @@ fun RunMapScreen() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .border(2.dp, Color.Gray, RoundedCornerShape(20.dp)),
                     shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFAF7F2))
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Estatísticas", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                        Text("Estatísticas", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
                         Spacer(Modifier.height(16.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -181,19 +201,27 @@ fun RunMapScreen() {
                                 ) { routePoints = it }
                             }
                         },
-                        colors = ButtonDefaults.buttonColors(Color(0xFF007AFF)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFF6ECB63)),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
-                    ) { Text("Iniciar", color = Color.White) }
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(120.dp)
+                            .padding(4.dp)
+                            .border(2.dp, Color.Gray, RoundedCornerShape(50))
+                    ) { Text("Iniciar", color = Color.White, fontWeight = FontWeight.ExtraBold) }
 
                     Button(
                         onClick = { if (isRunning) isPaused = !isPaused },
                         colors = ButtonDefaults.buttonColors(
-                            if (isPaused) Color(0xFF34C759) else Color(0xFFFF9500)
+                            if (isPaused) Color(0xFF34C759) else Color(0xFFFFC300)
                         ),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
-                    ) { Text(if (isPaused) "Retomar" else "Pausar", color = Color.White) }
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(120.dp)
+                            .padding(4.dp)
+                            .border(2.dp,Color.Gray,RoundedCornerShape(50))
+                    ) { Text(if (isPaused) "Retomar" else "Pausar", color = Color.White, fontWeight = FontWeight.ExtraBold) }
 
                     Button(
                         onClick = {
@@ -201,10 +229,14 @@ fun RunMapScreen() {
                             isRunning = false
                             isPaused = false
                         },
-                        colors = ButtonDefaults.buttonColors(Color(0xFFFF3B30)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFFFF4C4C)),
                         shape = RoundedCornerShape(50),
-                        modifier = Modifier.weight(1f).height(60.dp).padding(4.dp)
-                    ) { Text("Parar", color = Color.White) }
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(120.dp)
+                            .padding(4.dp)
+                            .border(2.dp,Color.Gray,RoundedCornerShape(50))
+                    ) { Text("Parar", color = Color.White, fontWeight = FontWeight.ExtraBold) }
                 }
             } else {
                 // Tela de resumo
@@ -217,34 +249,69 @@ fun RunMapScreen() {
 @Composable
 fun StatBox(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF007AFF))
-        Text(label, fontSize = 14.sp, color = Color.Gray)
+        Text(value, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6ECB63))
+        Text(label, fontSize = 14.sp, fontWeight = FontWeight.ExtraBold ,color = Color.Gray)
     }
 }
 
 @Composable
 fun SummaryScreen(duration: Int, distance: Double, calories: Int) {
     val context = LocalContext.current
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Resumo da Corrida", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = Color(0xFF007AFF))
-        Spacer(Modifier.height(24.dp))
-        StatBox("Tempo Total", formatTime(duration))
-        StatBox("Distância", "%.2f km".format(distance))
-        StatBox("Calorias", calories.toString())
-        Spacer(Modifier.height(40.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                "Resumo da Corrida",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF6ECB63)
+            )
+
+            StatBoxSmall("Tempo Total", formatTime(duration))
+            StatBoxSmall("Distância", "%.2f km".format(distance))
+            StatBoxSmall("Calorias", calories.toString())
+        }
+
         Button(
             onClick = {
                 val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
             },
-            colors = ButtonDefaults.buttonColors(Color(0xFF007AFF)),
-            shape = RoundedCornerShape(50),
-            modifier = Modifier.fillMaxWidth().height(60.dp)
-        ) { Text("Voltar ao Início", color = Color.White, fontSize = 18.sp) }
+            colors = ButtonDefaults.buttonColors(Color(0xFF6ECB63)),
+            shape = RoundedCornerShape(40),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp) // 👈 menor altura
+                .border(1.dp, Color.Gray, RoundedCornerShape(40)) // 👈 contorno cinza
+        ) {
+            Text("Voltar ao Início", color = Color.White, fontSize = 16.sp)
+        }
+    }
+}
+
+@Composable
+fun StatBoxSmall(label: String, value: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            value,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color(0xFF6ECB63)
+        )
+        Text(
+            label,
+            fontSize = 16.sp,
+            color = Color.Gray
+        )
     }
 }
 
