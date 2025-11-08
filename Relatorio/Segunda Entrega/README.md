@@ -138,10 +138,10 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
     •	Objetivo: Tornar a app atraente para o amigo e motivá-lo a começar com metas realistas.
 
 ---
-![Persona1](../Imagens/Persona1.png)
+![Persona1](.../Imagens/Persona1.png)
 
 ---
-![Persona2](../Imagens/Persona2.png)
+![Persona2](.../Imagens/Persona2.png)
 
 ---
 ## Diagrama de classes
