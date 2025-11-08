@@ -147,6 +147,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 ## Diagrama de classes
 
 classDiagram
+
     %% =======================
     %% ENTIDADES
     %% =======================
