@@ -1,3 +1,26 @@
+# IDE e sistema
+.idea/
+.gradle/
+.DS_Store
+
+# Build e cache
+/build/
+*/build/
+
+# Arquivos locais
+local.properties
+
+# Logs
+*.log
+
+# Android Studio
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Configurações temporárias
+*.iml
+
 *.iml
 .gradle
 /local.properties
