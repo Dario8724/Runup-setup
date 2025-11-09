@@ -149,10 +149,10 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
     •	Objetivo: Tornar a app atraente para o amigo e motivá-lo a começar com metas realistas.
 
 ---
-![Persona1](../../Imagens/Persona1.png)
+![Persona1](./Imagens/Persona1.png)
 
 ---
-![Persona2](../../Imagens/Persona2.png)
+![Persona2](./Imagens/Persona2.png)
 
 ---
 ## Diagrama de classes
@@ -348,7 +348,7 @@ Notas adicionais:
 
 ---
 ## Estrutura dos Dados 
-![Estrutura de Dados](../../Imagens/Estruturadedados.png)
+![Estrutura de Dados](./Imagens/Estruturadedados.png)
 
 ---
 ## Descrição da Solução a Implementar
@@ -442,7 +442,7 @@ Foram realizados testes iniciais de:
 ## Mockup da Aplicação
 
 
-![Mockup do aplicativo](../../Imagens/Mockup_RunUp.png)
+![Mockup do aplicativo](./Imagens/Mockup_RunUp.png)
 
 
 # Mockup Interativo
@@ -460,7 +460,7 @@ Com a junção do backend e das telas principais, o projeto começa a ganhar for
 
 ## Poster 
 
-[Poster do aplicativo](../../Imagens/Poster_RunUp.pdf)
+[Poster do aplicativo](./Imagens/Poster_RunUp.pdf)
 
 ---
 ## Bibliografia
