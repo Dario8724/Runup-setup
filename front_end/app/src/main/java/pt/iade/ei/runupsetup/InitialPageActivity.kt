@@ -133,7 +133,10 @@ fun InitialPageView() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
@@ -176,7 +179,10 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor =Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified

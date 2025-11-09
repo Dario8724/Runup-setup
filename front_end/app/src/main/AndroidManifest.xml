@@ -71,5 +71,13 @@
             android:exported="false"
             android:label="Histórico"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 🔹 Tela de Comunidade -->
+        <activity
+            android:name=".ComunityPageActivity"
+            android:exported="false"
+            android:label="Comunidade"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
 </manifest>
