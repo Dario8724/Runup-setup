@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -24,11 +25,16 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Label
 import androidx.compose.material3.Scaffold
@@ -50,6 +56,10 @@ import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import pt.iade.ei.runupsetup.RouteFiltersActivity
+
 
 /*
 imports duvidosos
@@ -113,6 +123,7 @@ fun InitialPageView() {
         }
         ,
         bottomBar = {
+            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -122,20 +133,20 @@ fun InitialPageView() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
-
                             Icon(
-                                Icons.Default.Home,
+                                Icons.Outlined.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
                             )
@@ -150,18 +161,15 @@ fun InitialPageView() {
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
+                            contentColor = Color.Black
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.LocationOn,
+                                painter = painterResource(R.drawable.outline_map_24),
                                 contentDescription = "Botão para a página de rotas",
-                                tint = Color.Black
                             )
                             Text(
                                 text = "Rotas",
@@ -169,22 +177,22 @@ fun InitialPageView() {
                                 color = Color.Black
                             )
                         }
-                        // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor =Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Person,
+                                painter = painterResource(R.drawable.comunity_icon),
                                 contentDescription = "Botão para a página de comunidade",
                                 tint = Color.Black
                             )
@@ -196,20 +204,20 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
-                            // added the info icon because i could not find the right icon
                         )
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Info,
+                                painter = painterResource(R.drawable.outline_history_24),
                                 contentDescription = "Botão para a página de histórico",
                                 tint = Color.Black
                             )
@@ -221,20 +229,20 @@ fun InitialPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
-
                         ){
                             Icon(
-                                Icons.Default.AccountCircle,
+                                Icons.Outlined.AccountCircle,
                                 contentDescription = " Botão para a página de perfil",
                                 tint = Color.Black
                             )
@@ -243,8 +251,6 @@ fun InitialPageView() {
                                 fontSize = 7.5.sp,
                                 color = Color.Black
                             )
-                            // repair the profile button
-                            // perhaps reduce the fontsize
                         }
                     }
                 }
@@ -290,8 +296,12 @@ fun InitialPageView() {
                         .padding(start = 20.dp, top = 40.dp)
                 ) {
                     // Botão de iniciar
+                    val context = LocalContext.current
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, RouteFiltersActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         modifier = Modifier.height(50.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
@@ -314,12 +324,18 @@ fun InitialPageView() {
                 }
             }
             Card (
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
                 onClick = {},
-                modifier = Modifier.padding(horizontal = 10.dp),
-                enabled = false,
-                //.copy(alpha = 0.95f))
-                // add later to the other buttons and cards that lead somewhere
-                // false for now because it doesn't lead anywhere
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
             ){
                 Column {
                     Row {
@@ -371,12 +387,16 @@ fun InitialPageView() {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
             )
-            // card for routes
             Card (
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
                 onClick = {},
-                enabled = false
-                // false for now
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
             ){
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -386,7 +406,7 @@ fun InitialPageView() {
                         .padding(all = 8.dp )
                 ) {
                     Icon(
-                        Icons.Default.LocationOn,
+                        painter = painterResource(R.drawable.outline_map_24),
                         contentDescription = "Icone do mapa"
                     )
                     Column {
@@ -406,10 +426,15 @@ fun InitialPageView() {
             }
             // card for goals
             Card(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
                 onClick = {},
-                enabled = false
-                // false for now
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
             )
             {
                 Row(
@@ -420,7 +445,7 @@ fun InitialPageView() {
                         .padding(all = 8.dp )
                 ){
                     Icon(
-                        Icons.Default.Menu,
+                        painter = painterResource(R.drawable.outline_circle_circle_24),
                         contentDescription = "Botão para a página de metas"
                     )
                     Column {
@@ -433,7 +458,6 @@ fun InitialPageView() {
                             text = "Acompanhe seu progresso"
                         )
                     }
-                    // seta para proseguir
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "seta para proseguir",
@@ -441,11 +465,16 @@ fun InitialPageView() {
                     )
                 }
             }
-            // card for history
             Card (
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
                 onClick = {},
-                enabled = false,
+                shape = RoundedCornerShape(12.dp),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
             )
             {
                 Row (
@@ -456,7 +485,7 @@ fun InitialPageView() {
                         .padding(all = 8.dp)
                 ) {
                     Icon(
-                        Icons.Default.Info,
+                        painter = painterResource(R.drawable.outline_history_24),
                         contentDescription = "Botão para a página de históricos"
                     )
                     Column {

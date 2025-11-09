@@ -1,4 +1,5 @@
 package pt.iade.ei.runupsetup
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,18 +13,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,10 +39,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,9 +58,6 @@ class HistoryDetailPage : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RunupSetupTheme {
-                // criar a função DetailView e menciona-lo aqui
-                // criar uma página experimental para o projeto
-                //
                 HistoryDetailPageView()
             }
         }
@@ -100,6 +105,7 @@ fun HistoryDetailPageView() {
         }
         ,
         bottomBar = {
+            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -109,19 +115,20 @@ fun HistoryDetailPageView() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.Home,
+                                Icons.Outlined.Home,
                                 contentDescription ="Botão para a página inicial",
                                 tint = Color.Black,
                             )
@@ -136,18 +143,15 @@ fun HistoryDetailPageView() {
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
+                            contentColor = Color.Black
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.LocationOn,
+                                painter = painterResource(R.drawable.outline_map_24),
                                 contentDescription = "Botão para a página de rotas",
-                                tint = Color.Black
                             )
                             Text(
                                 text = "Rotas",
@@ -155,22 +159,22 @@ fun HistoryDetailPageView() {
                                 color = Color.Black
                             )
                         }
-                        // added the location simbol since I can´t find the comunity icon
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor =Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Person,
+                                painter = painterResource(R.drawable.comunity_icon),
                                 contentDescription = "Botão para a página de comunidade",
                                 tint = Color.Black
                             )
@@ -182,20 +186,20 @@ fun HistoryDetailPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
-                            // added the info icon because i could not find the right icon
                         )
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Info,
+                                painter = painterResource(R.drawable.outline_history_24),
                                 contentDescription = "Botão para a página de histórico",
                                 tint = Color.Black
                             )
@@ -207,19 +211,20 @@ fun HistoryDetailPageView() {
                         }
                     }
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),
                             contentColor = Color.Unspecified
-                            // I have made it unspecified for now so it´s decided with the team in class
-                            // also the thing is unspecified anyway
                         )
                     ) {
                         Column (
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
                             Icon(
-                                Icons.Default.AccountCircle,
+                                Icons.Outlined.AccountCircle,
                                 contentDescription = " Botão para a página de perfil",
                                 tint = Color.Black
                             )
@@ -238,80 +243,386 @@ fun HistoryDetailPageView() {
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            Row(
-                modifier = Modifier.padding(innerPadding),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "As suas atividades recentes",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Black,
-                    fontSize = 40.sp
-                )
-            }
-            Row (
-            ) {
-                Text(
-                    text = item.title,
-                    fontFamily = FontFamily.SansSerif,
-                    //fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
-                )
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            // Mapa da corrida com tamanho original
-            Image (
-                painter = painterResource(item.minimap),
-                contentDescription = "Mapa da corrida",
-                contentScale = ContentScale.FillBounds,
+            Text(
+                text = "Histórico ",
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                text = "Suas atividades recentes"
+            )
+            Card (
                 modifier = Modifier
-                    .height(250.dp)
-                    .width(width = 380.dp)
-            )
-            Spacer(
-                modifier = Modifier.height(30.dp)
-            )
-            Column {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape,
+                elevation = CardDefaults.cardElevation(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF7CCE6B)
+                )
+            ){
+                Row (
+                    modifier = Modifier
+                                    .padding(horizontal = 12.dp)
+                                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ){
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        Text(
+                            text = "23"
+                        )
+                        Text(
+                            text = "Atividades"
+                        )
+                    }
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "112"
+                        )
+                        Text(
+                            text = "km Total"
+                        )
+                    }
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        Text(
+                        text = "18h"
+                    )
+                        Text(
+                            text = "Tempo Total"
+                        )
+                    }
+                }
+            }
+
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                // this needs changing
+                Text(
+                    text = "Novembro de 2025"
+                )
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color(0xFF7CCE6B)
+                    )
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                    Icons.Outlined.DateRange,
+                    contentDescription = "Filtrar datas"
+                )
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                       horizontalArrangement = Arrangement.SpaceBetween,
+                    ){
                         Text(
-                            text = "Pace médio",
-                            fontWeight = FontWeight.Black
+                            text = "Very serious text "
                         )
-                        Text(text = item.minimumPace)
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Tempo",
-                            fontWeight = FontWeight.Black
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
                         )
-                        Text(text = item.duration)
+                        Text("Parque da Cidade")
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
                         Text(
-                            text = "Distância",
-                            fontWeight = FontWeight.Black
+                            text = "Very serious text "
                         )
-                        Text(
-                            text = item.distance
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
                         )
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally){
-                        Text(
-                            text = "Calorias",
-                            fontWeight = FontWeight.Black
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
                         )
-                        Text(text = item.calories)
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(
+                            text = "Very serious text "
+                        )
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
+                    }
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
+                        )
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        Text(
+                            text = "Very serious text "
+                        )
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
+                    }
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
+                        )
+                        Text("Parque da Cidade")
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
                     }
                 }
             }
         }
     }
 }
-// TODO: add labels below the icons and finish the history page
+// TODO: polish this page so it looks better
+// add some cards with the histories and maybe add total time and kilometer
 
 @Preview(showBackground = true)
 @Composable
