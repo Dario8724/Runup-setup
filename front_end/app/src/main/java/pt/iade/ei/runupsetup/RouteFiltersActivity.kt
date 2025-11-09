@@ -1,0 +1,255 @@
+package pt.iade.ei.runupsetup
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.models.RouteRequest
+import pt.iade.ei.runupsetup.ui.RunMapActivity
+
+class RouteFiltersActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                RouteFiltersScreen(
+                    onGenerateRoute = { routeRequest ->
+                        val intent = Intent(this, RunMapActivity::class.java)
+                        intent.putExtra("routeRequest", routeRequest)
+                        startActivity(intent)
+                    },
+                    onBack = { finish() }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RouteFiltersScreen(
+    onGenerateRoute: (RouteRequest) -> Unit,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+
+    var nome by remember { mutableStateOf(TextFieldValue("")) }
+    var tipo by remember { mutableStateOf("corrida") }
+    var selectedDistance by remember { mutableStateOf("5 km") }
+
+    var preferTrees by remember { mutableStateOf(false) }
+    var nearBeach by remember { mutableStateOf(false) }
+    var nearPark by remember { mutableStateOf(false) }
+    var sunnyRoute by remember { mutableStateOf(false) }
+    var avoidHills by remember { mutableStateOf(false) }
+
+    val distances = listOf("2 km", "5 km", "10 km")
+
+    // Cores personalizadas
+    val backgroundColor = Color(0xFFFAF7F2)
+    val greenLight = Color(0xFFB8E986)  // verde mais claro
+    val greenMain = Color(0xFF6ECB63)   // verde principal
+    val greenDark = Color(0xFF4CAF50)   // verde mais escuro
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Nova Rota",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp,
+                        color = Color(0xFF222222)
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = backgroundColor
+                )
+            )
+        },
+        containerColor = backgroundColor
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OutlinedTextField(
+                value = nome,
+                onValueChange = { nome = it },
+                label = { Text("Nome da rota") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(20.dp))
+
+            Text("Tipo de atividade", fontWeight = FontWeight.Medium)
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                listOf("corrida", "caminhada").forEach { option ->
+                    FilterChip(
+                        selected = tipo == option,
+                        onClick = { tipo = option },
+                        label = { Text(option.replaceFirstChar { it.uppercase() }) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            containerColor = greenLight,
+                            selectedContainerColor = greenMain,
+                            labelColor = Color.Black,
+                            selectedLabelColor = Color.White
+                        )
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Text("Distância desejada", fontWeight = FontWeight.Medium)
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                distances.forEach { distance ->
+                    FilterChip(
+                        selected = selectedDistance == distance,
+                        onClick = { selectedDistance = distance },
+                        label = { Text(distance) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            containerColor = greenLight,
+                            selectedContainerColor = greenMain,
+                            labelColor = Color.Black,
+                            selectedLabelColor = Color.White
+                        )
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Text("Filtros adicionais", fontWeight = FontWeight.Medium)
+            Spacer(Modifier.height(8.dp))
+
+            Column(Modifier.fillMaxWidth()) {
+                FilterCheck("Mais árvores", preferTrees) { preferTrees = it }
+                FilterCheck("Perto da praia", nearBeach) { nearBeach = it }
+                FilterCheck("Perto de parque", nearPark) { nearPark = it }
+                FilterCheck("Rota ensolarada", sunnyRoute) { sunnyRoute = it }
+                FilterCheck("Evitar subidas", avoidHills) { avoidHills = it }
+            }
+
+            Spacer(Modifier.height(28.dp))
+
+            Button(
+                onClick = {
+                    if (nome.text.isBlank()) return@Button
+
+                    val originLat = 38.781810
+                    val originLng = -9.102510
+                    val destLat = originLat + 0.01
+                    val destLng = originLng + 0.01
+
+                    val routeRequest = RouteRequest(
+                        nome = nome.text,
+                        originLat = originLat,
+                        originLng = originLng,
+                        destLat = destLat,
+                        destLng = destLng,
+                        desiredDistanceKm = selectedDistance.replace(" km", "").toDouble(),
+                        preferTrees = preferTrees,
+                        nearBeach = nearBeach,
+                        nearPark = nearPark,
+                        sunnyRoute = sunnyRoute,
+                        avoidHills = avoidHills,
+                        tipo = tipo
+                    )
+
+                    onGenerateRoute(routeRequest)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = greenMain)
+            ) {
+                Text("Gerar Rota", fontSize = 18.sp, color = Color.White)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun FilterCheck(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .toggleable(value = checked, onValueChange = onCheckedChange)
+            .padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Spacer(Modifier.width(8.dp))
+        Text(label)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RouteFiltersScreenPreview() {
+    MaterialTheme {
+        RouteFiltersScreen(onGenerateRoute = {}, onBack = {})
+    }
+}

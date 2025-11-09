@@ -1,21 +1,26 @@
 package pt.iade.ei.runupsetup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +43,7 @@ class ProfilePageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePageView() {
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -48,18 +54,91 @@ fun ProfilePageView() {
         bottomBar = {
             BottomAppBar(containerColor = Color.White) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp), // reduz altura total
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    BottomNavButton(icon = Icons.Default.Home, text = "Início")
-                    BottomNavButton(icon = Icons.Default.LocationOn, text = "Rotas")
-                    BottomNavButton(icon = Icons.Default.Person, text = "Comunidade")
-                    BottomNavButton(icon = Icons.Default.Info, text = "Histórico")
-                    BottomNavButton(icon = Icons.Default.AccountCircle, text = "Perfil", selected = true)
+                    val context = LocalContext.current
+
+                    // 🔹 Início
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, InitialPageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.Home, contentDescription = "Início", tint = Color.Black)
+                        Text("Início", fontSize = 10.sp, color = Color.Black)
+                    }
+
+                    // 🔹 Rotas
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                // ação do botão de rotas
+                            }
+                    ) {
+                        Icon(Icons.Default.LocationOn, contentDescription = "Rotas", tint = Color.Gray)
+                        Text("Rotas", fontSize = 10.sp, color = Color.Gray)
+                    }
+
+                    // 🔹 Comunidade
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, ComunityPageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.Person, contentDescription = "Comunidade", tint = Color.Black)
+                        Text("Comunidade", fontSize = 10.sp, color = Color.Black)
+                    }
+
+                    // 🔹 Histórico
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, HistoryDetailPage::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)
+                        Text("Histórico", fontSize = 10.sp, color = Color.Black)
+                    }
+
+                    // 🔹 Perfil
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, ProfilePageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Color.Black)
+                        Text("Perfil", fontSize = 10.sp, color = Color.Black)
+                    }
                 }
             }
         }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -123,13 +202,14 @@ fun ProfilePageView() {
                     Text("18.5 / 25 km", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(modifier = Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = 18.5f / 25f,
-                        color = Color(0xFF7CCE6B),
-                        trackColor = Color.LightGray,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(8.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                    progress = { 18.5f / 25f },
+                    modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(8.dp)
+                                                .clip(RoundedCornerShape(8.dp)),
+                    color = Color(0xFF7CCE6B),
+                    trackColor = Color.LightGray,
+                    strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
@@ -211,46 +291,3 @@ fun ProfilePagePreview() {
         ProfilePageView()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

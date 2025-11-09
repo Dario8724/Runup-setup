@@ -1,5 +1,6 @@
 package pt.iade.ei.runupsetup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,12 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.ui.MainActivity
 
 class LoginPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,7 @@ class LoginPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(){
+    val context = LocalContext.current
     Scaffold(
         containerColor = Color(0xFFFAF7F2), //cor do fundo
         topBar = {
@@ -107,7 +111,10 @@ fun LoginView(){
 
                 //Botão Login
                 OutlinedButton(
-                    onClick = { /* TODO: ação de registrar */},
+                    onClick = {
+                        val intent = Intent(context, InitialPageActivity::class.java)
+                        context.startActivity(intent)
+                    },
                     colors = ButtonDefaults.outlinedButtonColors(
                         containerColor = Color.White,
                                 contentColor = Color.Black
