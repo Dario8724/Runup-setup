@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -52,49 +54,91 @@ fun ProfilePageView() {
         bottomBar = {
             BottomAppBar(containerColor = Color.White) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp), // reduz altura total
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // 🔹 Botão "Início" que volta para InitialPageActivity
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, InitialPageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    val context = LocalContext.current
+
+                    // 🔹 Início
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, InitialPageActivity::class.java)
+                                context.startActivity(intent)
+                            }
                     ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(
-                                imageVector = Icons.Default.Home,
-                                contentDescription = "Início",
-                                tint = Color.Black
-                            )
-                            Text("Início", fontSize = 10.sp, color = Color.Black)
-                        }
+                        Icon(Icons.Default.Home, contentDescription = "Início", tint = Color.Black)
+                        Text("Início", fontSize = 10.sp, color = Color.Black)
                     }
 
-                    BottomNavButton(icon = Icons.Default.LocationOn, text = "Rotas")
-                    BottomNavButton(icon = Icons.Default.Person, text = "Comunidade")
-
-                    // 🔹 Histórico (vai para HistoryDetailPage)
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, HistoryDetailPage::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    // 🔹 Rotas
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                // ação do botão de rotas
+                            }
                     ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)
-                            Text("Histórico", fontSize = 10.sp, color = Color.Black)
-                        }
+                        Icon(Icons.Default.LocationOn, contentDescription = "Rotas", tint = Color.Gray)
+                        Text("Rotas", fontSize = 10.sp, color = Color.Gray)
                     }
 
-                    BottomNavButton(icon = Icons.Default.AccountCircle, text = "Perfil", selected = true)
+                    // 🔹 Comunidade
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, ComunityPageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.Person, contentDescription = "Comunidade", tint = Color.Black)
+                        Text("Comunidade", fontSize = 10.sp, color = Color.Black)
+                    }
+
+                    // 🔹 Histórico
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, HistoryDetailPage::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)
+                        Text("Histórico", fontSize = 10.sp, color = Color.Black)
+                    }
+
+                    // 🔹 Perfil
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                val intent = Intent(context, ProfilePageActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                    ) {
+                        Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Color.Black)
+                        Text("Perfil", fontSize = 10.sp, color = Color.Black)
+                    }
                 }
             }
         }
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
