@@ -1,6 +1,7 @@
 package pt.iade.ei.runupsetup
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -307,7 +309,7 @@ fun HistoryDetailPageView() {
             ){
                 // this needs changing
                 Text(
-                    text = "Novembro de 2025"
+                    text = DateFormat.format("MMMM 'de' yyyy", item.date).toString()
                 )
                 Button(
                     onClick = {},
