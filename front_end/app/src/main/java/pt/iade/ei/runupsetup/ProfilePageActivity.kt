@@ -402,15 +402,43 @@ fun CardTestView() {
             ) {
                 Card (
                 ){
-                    Row {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+
+                    ){
                         Text(
                             text = "Recordes pessoais"
                         )
-                    }
-                    Row {
-                        Text(
-                            text = "Aqui vai um ícone de troféu"
+                        Icon(
+                            painter = painterResource(R.drawable.yellow_trophy),
+                            contentDescription = "Ícone do troféu amarelo"
                         )
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ){
+                        Card() {
+                            Text(
+                                text = "Maior distância"
+                            )
+                            Text(
+                                text = "12.3 km"
+                            )
+                        }
+                        Card() {
+                            Text(
+                                text = "Melhor Ritmo"
+                            )
+                            Text(
+                                text = "6:38"
+                            )
+                            Text(
+                                text ="min/km"
+                            )
+                        }
                     }
                 }
             }
