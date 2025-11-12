@@ -1,6 +1,7 @@
 package pt.iade.ei.runupsetup
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -307,7 +308,7 @@ fun HistoryDetailPageView() {
             ){
                 // this needs changing
                 Text(
-                    text = "Novembro de 2025"
+                    text = DateFormat.format("MMMM 'de' yyyy", item.date).toString()
                 )
                 Button(
                     onClick = {},
