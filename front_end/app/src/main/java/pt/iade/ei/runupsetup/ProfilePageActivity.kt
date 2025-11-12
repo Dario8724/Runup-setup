@@ -9,10 +9,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
@@ -21,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,88 +57,135 @@ fun ProfilePageView() {
             )
         },
         bottomBar = {
-            BottomAppBar(containerColor = Color.White) {
+            val context = LocalContext.current
+            BottomAppBar(
+                containerColor = Color.White,
+            ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp), // reduz altura total
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val context = LocalContext.current
-
-                    // 🔹 Início
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                val intent = Intent(context, InitialPageActivity::class.java)
-                                context.startActivity(intent)
-                            }
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
                     ) {
-                        Icon(Icons.Default.Home, contentDescription = "Início", tint = Color.Black)
-                        Text("Início", fontSize = 10.sp, color = Color.Black)
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                Icons.Outlined.Home,
+                                contentDescription ="Botão para a página inicial",
+                                tint = Color.Black,
+                            )
+                            Text(
+                                text = "Início",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
-
-                    // 🔹 Rotas
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                // ação do botão de rotas
-                            }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Black
+                        )
                     ) {
-                        Icon(Icons.Default.LocationOn, contentDescription = "Rotas", tint = Color.Gray)
-                        Text("Rotas", fontSize = 10.sp, color = Color.Gray)
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                painter = painterResource(R.drawable.outline_map_24),
+                                contentDescription = "Botão para a página de rotas",
+                            )
+                            Text(
+                                text = "Rotas",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
-
-                    // 🔹 Comunidade
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                val intent = Intent(context, ComunityPageActivity::class.java)
-                                context.startActivity(intent)
-                            }
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor =Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
                     ) {
-                        Icon(Icons.Default.Person, contentDescription = "Comunidade", tint = Color.Black)
-                        Text("Comunidade", fontSize = 10.sp, color = Color.Black)
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.comunity_icon),
+                                contentDescription = "Botão para a página de comunidade",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Comunidade",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
-
-                    // 🔹 Histórico
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                val intent = Intent(context, HistoryDetailPage::class.java)
-                                context.startActivity(intent)
-                            }
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
                     ) {
-                        Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)
-                        Text("Histórico", fontSize = 10.sp, color = Color.Black)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.outline_history_24),
+                                contentDescription = "Botão para a página de histórico",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Histórico",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
-
-                    // 🔹 Perfil
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                val intent = Intent(context, ProfilePageActivity::class.java)
-                                context.startActivity(intent)
-                            }
+                    Button(
+                        onClick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
                     ) {
-                        Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Color.Black)
-                        Text("Perfil", fontSize = 10.sp, color = Color.Black)
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(
+                                Icons.Outlined.AccountCircle,
+                                contentDescription = " Botão para a página de perfil",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Perfil",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
                     }
                 }
             }
@@ -145,7 +197,8 @@ fun ProfilePageView() {
                 .padding(innerPadding)
                 .fillMaxSize()
                 .background(Color(0xFFF8F8F8))
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // ----- Header -----
@@ -181,6 +234,7 @@ fun ProfilePageView() {
                     }
                 }
             }
+
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -236,6 +290,51 @@ fun ProfilePageView() {
                     StatRow("Calorias Queimadas", "1,240 kcal", "Últimos 7 dias")
                     Spacer(modifier = Modifier.height(10.dp))
                     StatRow("Tempo Total", "2h 45min", "Últimos 7 dias")
+                }
+            }
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+
+                    // Título e botão "+ Nova"
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            "Minhas Metas",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+                        Text(
+                            "+ Nova",
+                            color = Color(0xFF7CCE6B),
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    /*
+                    // Meta 1
+                    GoalProgressItem(
+                        title = "Correr 5km sem parar",
+                        progress = 0.75f
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Meta 2
+                    GoalProgressItem(
+                        title = "100km em Outubro",
+                        progress = 0.65f
+                    )*/
+
                 }
             }
         }
