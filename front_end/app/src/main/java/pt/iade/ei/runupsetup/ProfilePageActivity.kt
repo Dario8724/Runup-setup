@@ -397,51 +397,95 @@ fun ProfilePagePreview() {
 @Composable
 fun CardTestView() {
     Scaffold { innerPadding ->
-            Column(
-                modifier = Modifier.padding(innerPadding)
+        Column(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = RoundedCornerShape(25.dp)
             ) {
-                Card (
-                ){
-                    Row (
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
 
-                    ){
+                Column(modifier = Modifier.padding(20.dp)) {
+
+                    // Título + Ícone
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
-                            text = "Recordes pessoais"
+                            text = "Recordes pessoais",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
                         )
                         Icon(
                             painter = painterResource(R.drawable.yellow_trophy),
-                            contentDescription = "Ícone do troféu amarelo"
+                            contentDescription = "Ícone de troféu amarelo",
+                            tint = Color.Unspecified
                         )
                     }
+
                     Spacer(modifier = Modifier.height(20.dp))
-                    Row (
+
+                    // Cards internos
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
-                    ){
-                        Card() {
-                            Text(
-                                text = "Maior distância"
-                            )
-                            Text(
-                                text = "12.3 km"
-                            )
+                    ) {
+
+                        // Card: Maior distância
+                        Card(
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8)),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 8.dp)
+                        ) {
+                            Column(modifier = Modifier.padding(12.dp)) {
+                                Text(
+                                    text = "Maior distância",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "12.3 km",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
-                        Card() {
-                            Text(
-                                text = "Melhor Ritmo"
-                            )
-                            Text(
-                                text = "6:38"
-                            )
-                            Text(
-                                text ="min/km"
-                            )
+
+                        // Card: Melhor ritmo
+                        Card(
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8)),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 8.dp)
+                        ) {
+                            Column(modifier = Modifier.padding(12.dp)) {
+                                Text(
+                                    text = "Melhor Ritmo",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "6:38",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = "min/km",
+                                    fontSize = 14.sp
+                                )
+                            }
                         }
                     }
                 }
             }
+        }
     }
 }
 
