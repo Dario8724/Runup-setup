@@ -416,7 +416,7 @@ fun CardTestView() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Recordes pessoais",
+                            text = "Recordes Pessoais",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -427,58 +427,75 @@ fun CardTestView() {
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(35.dp))
 
-                    // Cards internos
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
 
-                        // Card: Maior distância
+                        // ---- CARD: MAIOR DISTÂNCIA ----
                         Card(
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8)),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(0xFFFFF7E6) // Amarelo pastel igual ao mockup
+                            ),
                             modifier = Modifier
-                                .weight(1f)
-                                .padding(end = 8.dp)
+                                .width(150.dp)
+                                .height(95.dp)
                         ) {
-                            Column(modifier = Modifier.padding(12.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
                                 Text(
-                                    text = "Maior distância",
+                                    text = "Maior Distância",
                                     fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
+                                    color = Color.Black
                                 )
+                                Spacer(Modifier.height(4.dp))
                                 Text(
                                     text = "12.3 km",
-                                    fontSize = 18.sp,
+                                    fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                             }
                         }
 
-                        // Card: Melhor ritmo
+                        // ---- CARD: MELHOR RITMO ----
                         Card(
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8)),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(0xFFF3F1FF) // Azul/lilás pastel do mockup
+                            ),
                             modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 8.dp)
+                                .width(150.dp)
+                                .height(95.dp)
                         ) {
-                            Column(modifier = Modifier.padding(12.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
                                 Text(
                                     text = "Melhor Ritmo",
                                     fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
+                                    color = Color.Black
                                 )
+                                Spacer(Modifier.height(4.dp))
                                 Text(
                                     text = "6:38",
-                                    fontSize = 18.sp,
+                                    fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
                                     text = "min/km",
-                                    fontSize = 14.sp
+                                    fontSize = 12.sp
                                 )
                             }
                         }
