@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
@@ -88,29 +90,16 @@ fun ComunityActivityView() {
     Scaffold(
         topBar = {
             TopAppBar(
-                colors = topAppBarColors(
-                    //containerColor = Color.White
-                     containerColor = Color(0xFF7CCE6B),
-                ),
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                                //  contentColor = Color.Unspecified
-                                // not necessary
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
-                    }
-                }
+                    Text(
+                        text = "Comunidade",
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Black
+                    )
+                },
+                colors = topAppBarColors(
+                     containerColor = Color(0xFF7CCE6B)
+                )
             )
         },
         bottomBar = {
@@ -249,13 +238,11 @@ fun ComunityActivityView() {
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = "Comunidade",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Black
-            )
+
             Text(
                 text = "Conecte-se com outros corredores"
             )
@@ -430,6 +417,122 @@ fun ComunityActivityView() {
                                 contentDescription = "Partilhar"
                             )
                         }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(Color.Gray, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "JC", fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(text = "João Costa", fontWeight = FontWeight.SemiBold)
+                            Text(
+                                text = "há 2 horas",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = "Trail running no fim de semana é tudo! Vista incrível lá do topo \uD83C\uDFD4\uFE0F",
+                        fontSize = 14.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Transparent, RoundedCornerShape(12.dp))
+                            .padding(vertical = 12.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item2.distance, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "km", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item2.duration, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "tempo", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item2.minimumPace, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "min/km", fontSize = 12.sp, color = Color.Gray)
+                        }
+
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(text = item2.calories, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                            Text(text = "kcal", fontSize = 12.sp, color = Color.Gray)
+                        }
+                    }
+                }
+                Row ( modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent)
+                    .padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly){
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.FavoriteBorder,
+                            contentDescription = "Like button"
+                        )
+                        Text(
+                            text = "24",
+                        )
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_mode_comment_24),
+                            contentDescription = "Comment icon"
+                        )
+                        Text(
+                            text = "5"
+                        )
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.Share,
+                            contentDescription = "Partilhar"
+                        )
                     }
                 }
             }

@@ -60,6 +60,7 @@ import android.content.Intent
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.platform.LocalContext
 import pt.iade.ei.runupsetup.RouteFiltersActivity
 
@@ -93,27 +94,8 @@ fun InitialPageView() {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = Color(0xFF7CCE6B),
-                    //titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                                //  contentColor = Color.Unspecified
-                                // not necessary
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
-                    }
-                }
+                title = {}
             )
         }
         ,
@@ -258,68 +240,8 @@ fun InitialPageView() {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Box{
-                // add filter
-                Image(
-                    painter = painterResource(R.drawable.corredor_ao_por_do_sol),
-                    contentDescription = "Imagem de um corredor ao pôr do sol",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .align (Alignment.TopStart)
-                        .padding(start = 20.dp, top = 40.dp)
-                ) {
-                    Text(
-                        text = "Olá, Corredor",
-                        fontWeight = FontWeight.Black,
-                        fontSize = 25.sp
-                    )
-                    Text(
-                        text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
-                        fontWeight = FontWeight.Black,
-                        fontSize = 25.sp
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 15.dp)
-                        .align (Alignment.BottomEnd)
-                        .padding(start = 20.dp, top = 40.dp)
-                ) {
-                    // Botão de iniciar
-                    val context = LocalContext.current
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, RouteFiltersActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier.height(50.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Row (
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = "Start button"
-                            )
-                            Text(
-                                text = "Start",
-                                modifier = Modifier.padding(start = 5.dp)
-                            )
-                        }
-                    }
-                }
-            }
+            // function containing the header
+            InitialPageHeader()
             Card (
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 8.dp)
@@ -559,10 +481,77 @@ fun InitialPageView() {
 
     }
 }
+@Composable
+fun InitialPageHeader(){
+    Box{
+
+        Image(
+            painter = painterResource(R.drawable.corredor_ao_por_do_sol),
+            contentDescription = "Imagem de um corredor ao pôr do sol",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp),
+        )
+        Column(
+            modifier = Modifier
+                .align (Alignment.TopStart)
+                .padding(start = 20.dp, top = 40.dp)
+        ) {
+            Text(
+                text = "Olá, Corredor",
+                fontWeight = FontWeight.Black,
+                fontSize = 25.sp
+            )
+            Text(
+                text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
+                fontWeight = FontWeight.Black,
+                fontSize = 25.sp
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 15.dp)
+                .align (Alignment.BottomEnd)
+                .padding(start = 20.dp, top = 40.dp)
+        ) {
+            // Botão de iniciar
+            val context = LocalContext.current
+            Button(
+                onClick = {
+                    val intent = Intent(context, RouteFiltersActivity::class.java)
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7CCE6B),
+                    contentColor = Color.Unspecified
+                )
+            ) {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = "Start button"
+                    )
+                    Text(
+                        text = "Start",
+                        modifier = Modifier.padding(start = 5.dp)
+                    )
+                }
+            }
+        }
+    }
+// function for this page's header
+}
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
         InitialPageView()
+        //InitialPageHeader()
     }
 }

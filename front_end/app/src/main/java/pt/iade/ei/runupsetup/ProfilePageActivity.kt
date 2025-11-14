@@ -391,39 +391,3 @@ fun ProfilePagePreview() {
     }
 }
 
-// testing working with two previews
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CardTestView() {
-    Scaffold { innerPadding ->
-            Column(
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                Card (
-                ){
-                    Row {
-                        Text(
-                            text = "Recordes pessoais"
-                        )
-                    }
-                    Row {
-                        Text(
-                            text = "Aqui vai um ícone de troféu"
-                        )
-                    }
-                }
-            }
-    }
-}
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun CardPreview() {
-    RunupSetupTheme {
-        CardTestView()
-    }
-}
