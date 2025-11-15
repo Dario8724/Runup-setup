@@ -58,6 +58,13 @@
             android:label="Corrida em Tempo Real"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- 🔹 Tela de geração de rota -->
+        <activity
+            android:name=".ui.RouteActivity"
+            android:exported="false"
+            android:label="Gerar Rota"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!-- 🔹 Tela de perfil -->
         <activity
             android:name=".ProfilePageActivity"
