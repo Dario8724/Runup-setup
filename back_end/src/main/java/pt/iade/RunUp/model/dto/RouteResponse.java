@@ -9,6 +9,6 @@ public class RouteResponse {
     private Long id;
     private String name;
     private double distance;
-    private double duration;
+    private double duration;    
     private String polyline;
 }
