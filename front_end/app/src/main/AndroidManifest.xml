@@ -86,5 +86,31 @@
             android:label="Comunidade"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- 🔹 Telas de Registro -->
+        <activity
+            android:name=".RegisterPageActivity"
+            android:exported="false"
+            android:label="Criar Conta"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".QuestionnaireGenderActivity"
+            android:exported="false"
+            android:label="Gênero"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".QuestionnairePageActivity"
+            android:exported="false"
+            android:label="Questionário"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".RegistrationSuccessActivity"
+            android:exported="false"
+            android:label="Sucesso"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
     </application>
 </manifest>

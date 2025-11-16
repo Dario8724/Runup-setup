@@ -97,7 +97,10 @@ fun LoginView(){
                     .padding(bottom = 32.dp)
             ) {
                 Button(
-                    onClick = { /* TODO: ação de login */},
+                    onClick = {
+                        val intent = Intent(context, RegisterPageActivity::class.java)
+                        context.startActivity(intent)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF6ECB63),
                         contentColor = Color.White

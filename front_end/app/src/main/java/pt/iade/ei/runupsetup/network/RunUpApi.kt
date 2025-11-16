@@ -12,4 +12,9 @@ interface RunUpApi{
     @Headers("Content-Type: application/json")
     @POST("/api/routes/generate")
     fun generateRoute(@Body request: RouteRequest): Call<RouteResponse>
+
+    @POST("/usuarios/cadastrar")
+    suspend fun cadastrarUsuario(
+        @Body usuario: UserRegisterDto
+    ): retrofit2.Response<Void>
 }
