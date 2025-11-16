@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pt.iade.RunUp.model.Usuario;
 import pt.iade.RunUp.model.dto.UsuarioDTO;
 import pt.iade.RunUp.repository.UsuarioRepository;
+import pt.iade.RunUp.model.dto.LoginResponseDTO;
+import pt.iade.RunUp.model.dto.LoginRequestDTO;
 
 @Service
 public class UsuarioService {
@@ -29,5 +31,23 @@ public class UsuarioService {
         u.setExperiencia(dto.experiencia);
 
         return usuarioRepository.save(u);
+    }
+
+    public LoginResponseDTO login(String email, String senha) {
+        Usuario u = usuarioRepository.findByEmail(email);
+
+        if (u == null) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+
+        if (!u.getSenha().equals(senha)) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
+        return new LoginResponseDTO(
+            u.getId_usuario(),
+            u.getNome(),
+            u.getEmail()
+        );
     }
 }
