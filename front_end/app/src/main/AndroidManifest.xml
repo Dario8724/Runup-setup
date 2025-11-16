@@ -37,6 +37,14 @@
             </intent-filter>
         </activity>
 
+        <!-- 🔹 Tela principal do login -->
+        <activity
+            android:name=".UserLoginActivity"
+            android:exported="false"
+            android:label="Página Login do Usuario"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+
         <!-- 🔹 Tela principal após login -->
         <activity
             android:name=".InitialPageActivity"

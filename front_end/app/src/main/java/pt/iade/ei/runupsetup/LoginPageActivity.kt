@@ -36,6 +36,17 @@ import pt.iade.ei.runupsetup.ui.MainActivity
 class LoginPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+        val savedEmail = prefs.getString("logged_email", null)
+
+        if (savedEmail != null) {
+            // Usuário logado → vai direto para a ProfilePageActivity
+            val intent = Intent(this, ProfilePageActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
         setContent {
                 LoginView()
             }
@@ -115,7 +126,7 @@ fun LoginView(){
                 //Botão Login
                 OutlinedButton(
                     onClick = {
-                        val intent = Intent(context, InitialPageActivity::class.java)
+                        val intent = Intent(context, UserLoginActivity::class.java)
                         context.startActivity(intent)
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
