@@ -48,7 +48,29 @@ fun ProfilePageView() {
         topBar = {
             TopAppBar(
                 title = { Text(text = "Perfil", color = Color.White, fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B)),
+                actions = {
+                    val context = LocalContext.current
+
+                    Text(
+                        text = "Logout",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable {
+                                // 🔥 Limpa o Remember Me
+                                val prefs = context.getSharedPreferences("runup_prefs", android.content.Context.MODE_PRIVATE)
+                                prefs.edit().remove("logged_email").apply()
+
+                                // 🔥 Volta para a tela inicial
+                                val intent = Intent(context, LoginPageActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                context.startActivity(intent)
+                            }
+                    )
+                }
             )
         },
         bottomBar = {

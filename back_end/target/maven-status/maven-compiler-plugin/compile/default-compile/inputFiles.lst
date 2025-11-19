@@ -1,6 +1,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/UsuarioController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/RouteScorer.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/UsuarioRepository.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/LoginRequestDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/RunUpApplication.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/Route.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/Usuario.java
@@ -13,6 +14,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/util/PolylineDecoder.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/GoogleDirectionsClient.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/DirectionsResult.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/LoginResponseDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/UsuarioService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/GoogleElevationClient.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/RouteController.java
