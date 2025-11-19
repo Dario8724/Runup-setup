@@ -71,11 +71,80 @@ fun PrivacyPageView(onBack: () -> Unit) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium,
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+
+                    Text(
+                        text = "Política de Privacidade do RunUp",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = "A RunUp está comprometida em proteger a sua privacidade. Esta política descreve como coletamos, usamos e protegemos as suas informações pessoais.",
+                        fontSize = 15.sp,
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Informações que Coletamos",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "Coletamos informações que você nos fornece diretamente, como nome, e-mail, foto de perfil e dados de atividades físicas (distância, tempo, localização GPS, calorias e ritmo). Essas informações são necessárias para fornecer os serviços do aplicativo.",
+                        fontSize = 15.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Como Usamos Suas Informações",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "Utilizamos os seus dados para registrar e apresentar as suas atividades, calcular estatísticas, criar rotas personalizadas, permitir interação com a comunidade e melhorar continuamente a experiência do aplicativo.",
+                        fontSize = 15.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Adicione mais parágrafos conforme necessário
+                    Text(
+                        text = "Dados de localização são usados apenas quando você permite e para fornecer funcionalidades relacionadas ao treino e rotas.",
+                        fontSize = 14.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Se quiser ver mais detalhes ou exportar os seus dados, entre em contato via suporte.",
+                        fontSize = 14.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+
+
+
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // exemplo de botão para abrir outra activity (opcional)
-            val context = LocalContext.current
 
         }
     }
