@@ -42,7 +42,7 @@ class LoginPageActivity : ComponentActivity() {
 
         if (savedEmail != null) {
             // Usuário logado → vai direto para a ProfilePageActivity
-            val intent = Intent(this, ProfilePageActivity::class.java)
+            val intent = Intent(this, InitialPageActivity::class.java)
             startActivity(intent)
             finish()
             return
