@@ -57,17 +57,21 @@ fun QuestionnaireGenderView(
     Scaffold(
         containerColor = Color(0xFFFAF7F2),
         topBar = {
-            IconButton(
-                onClick = { onBackClick() },
+            Row(
                 modifier = Modifier
-                    .padding(start = 8.dp, top = 8.dp)
+                    .fillMaxWidth()
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .padding(start = 16.dp, top = 16.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.Start
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Voltar",
-                    tint = Color.Black,
-                    modifier = Modifier.size(28.dp)
-                )
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Voltar",
+                        tint = Color.Black,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
             }
         },
         bottomBar = {
@@ -145,19 +149,12 @@ fun QuestionnaireGenderView(
                         fontSize = 16.sp,
                         fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
                     )
-                    if (isSelected) {
-                        Spacer(Modifier.weight(1f))
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = null,
-                            tint = Color(0xFF6ECB63)
-                        )
                     }
                 }
             }
         }
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable

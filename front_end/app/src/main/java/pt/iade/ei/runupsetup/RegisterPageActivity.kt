@@ -40,11 +40,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.QuestionnaireGenderActivity
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+
 
 class RegisterPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +83,9 @@ fun RegisterView(
     val nascimento = remember { mutableStateOf("") }
 
     val errorMessage = remember { mutableStateOf("") }
+    val senhaVisivel = remember { mutableStateOf(false) }
+    val confirmarSenhaVisivel = remember { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     Scaffold(
@@ -200,7 +207,13 @@ fun RegisterView(
                 onValueChange = { senha.value = it },
                 label = { Text("Senha") },
                 singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (senhaVisivel.value) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (senhaVisivel.value) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { senhaVisivel.value = !senhaVisivel.value }) {
+                        Icon(imageVector = icon, contentDescription = "Mostrar/ocultar senha")
+                    }
+                },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
             )
 
@@ -209,7 +222,13 @@ fun RegisterView(
                 onValueChange = { confirmarSenha.value = it },
                 label = { Text("Confirmar senha") },
                 singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (confirmarSenhaVisivel.value) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (confirmarSenhaVisivel.value) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    IconButton(onClick = { confirmarSenhaVisivel.value = !confirmarSenhaVisivel.value }) {
+                        Icon(imageVector = icon, contentDescription = "Mostrar/ocultar senha")
+                    }
+                },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
             )
 

@@ -125,16 +125,21 @@ fun QuestionnairePageView(
     Scaffold(
         containerColor = backgroundColor,
         topBar = {
-            IconButton(
-                onClick = { onBackClick() },
-                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .padding(start = 16.dp, top = 8.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.Start
             ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Voltar",
-                    tint = Color.Black,
-                    modifier = Modifier.size(28.dp)
-                )
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Voltar",
+                        tint = Color.Black,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
             }
         },
         bottomBar = {
@@ -202,6 +207,12 @@ fun QuestionnairePageView(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = heightText.isNotEmpty() && !heightValid,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    cursorColor = Color.Black
+                ),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -218,6 +229,12 @@ fun QuestionnairePageView(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = weightText.isNotEmpty() && !weightValid,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Black,
+                    unfocusedBorderColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    cursorColor = Color.Black
+                ),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -236,15 +253,29 @@ fun QuestionnairePageView(
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
                     modifier = Modifier
                         .menuAnchor()
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Black,
+                        unfocusedBorderColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black
+                    ),
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
+                    containerColor = Color(0xFFFAF7F2)
                 ) {
                     expOptions.forEach { option ->
+                        val selected = experience == option
                         DropdownMenuItem(
-                            text = { Text(option) },
+                            text = { Text(
+                                option,
+                                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+                            ) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(if (selected) Color(0xFFE8F5E9) else Color.Transparent),
                             onClick = {
                                 experience = option
                                 expanded = false
