@@ -21,7 +21,12 @@ class RouteActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
+    @RequiresPermission(
+        allOf = [
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ]
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -42,78 +47,45 @@ class RouteActivity : AppCompatActivity() {
         val destLat = originLat + 0.02
         val destLng = originLng + 0.02
 
-        // 🔹 Recebe filtros e parâmetros
-        val nome = intent.getStringExtra("nome") ?: "Rota personalizada"
-        val desiredDistance = intent.getDoubleExtra("distance", 5.0)
-        val preferTrees = intent.getBooleanExtra("trees", false)
-        val nearBeach = intent.getBooleanExtra("beach", false)
-        val nearPark = intent.getBooleanExtra("park", false)
-        val sunnyRoute = intent.getBooleanExtra("sunny", false)
-        val tipo = intent.getStringExtra("tipo") ?: "corrida"
-
-        // 🔹 Log antes da requisição
-        Log.d("DEBUG_ROUTE", """
--------------------------
-📤 ENVIANDO REQUISIÇÃO DE ROTA
-Nome: $nome
-Distância desejada: $desiredDistance km
-Preferência Árvores: $preferTrees
-Perto da Praia: $nearBeach
-Perto de Parque: $nearPark
-Rota ensolarada: $sunnyRoute
-Tipo: $tipo
-Origem: ($originLat, $originLng)
-Destino: ($destLat, $destLng)
--------------------------
-""".trimIndent())
-
         val request = RouteRequest(
-            nome = nome,
+            nome = intent.getStringExtra("nome") ?: "Rota personalizada",
             originLat = originLat,
             originLng = originLng,
             destLat = destLat,
             destLng = destLng,
-            desiredDistanceKm = desiredDistance,
-            preferTrees = preferTrees,
-            nearBeach = nearBeach,
-            nearPark = nearPark,
-            sunnyRoute = sunnyRoute,
+            desiredDistanceKm = intent.getDoubleExtra("distance", 5.0),
+            preferTrees = intent.getBooleanExtra("trees", false),
+            nearBeach = intent.getBooleanExtra("beach", false),
+            nearPark = intent.getBooleanExtra("park", false),
+            sunnyRoute = intent.getBooleanExtra("sunny", false),
             avoidHills = false,
-            tipo = tipo
+            tipo = intent.getStringExtra("tipo") ?: "corrida"
         )
 
-        // 🔹 Log do objeto completo
-        Log.d("DEBUG_ROUTE", "📦 RouteRequest completo: $request")
+        RetrofitClient.instance.generateRoute(request)
+            .enqueue(object : Callback<RouteResponse> {
+                override fun onResponse(
+                    call: Call<RouteResponse>,
+                    response: Response<RouteResponse>
+                ) {
 
-        RetrofitClient.instance.generateRoute(request).enqueue(object : Callback<RouteResponse> {
-            override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
-                Log.d("DEBUG_ROUTE", """
-✅ RESPOSTA DO SERVIDOR
-Status: ${response.code()}
-Corpo: ${response.body()}
--------------------------
-""".trimIndent())
+                    if (response.isSuccessful && response.body() != null) {
+                        val route = response.body()!!
 
-                if (response.isSuccessful && response.body() != null) {
-                    val route = response.body()!!
-                    Log.d("DEBUG_ROUTE", "✅ Rota recebida: $route")
+                        val intent = Intent(this@RouteActivity, RunMapActivity::class.java)
+                        intent.putExtra("routeResponse", route)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@RouteActivity, "Erro ao gerar rota", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                }
 
-                    val intent = Intent(this@RouteActivity, RunMapActivity::class.java)
-                    intent.putExtra("routeResponse", route)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Log.e("DEBUG_ROUTE", "❌ Erro na resposta: ${response.code()}")
-                    Toast.makeText(this@RouteActivity, "Erro ao gerar rota", Toast.LENGTH_LONG).show()
+                override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
+                    Toast.makeText(this@RouteActivity, "Falha ao conectar ao servidor", Toast.LENGTH_LONG).show()
                     finish()
                 }
-            }
-
-            override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
-                Log.e("DEBUG_ROUTE", "❌ Falha ao gerar rota: ${t.message}")
-                Toast.makeText(this@RouteActivity, "Falha ao gerar rota", Toast.LENGTH_LONG).show()
-                finish()
-            }
-        })
+            })
     }
 }
