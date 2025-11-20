@@ -265,8 +265,11 @@ fun InitialPageView() {
                         )
                     }
                     Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
@@ -481,6 +484,7 @@ fun InitialPageView() {
 
     }
 }
+// function for this page's header
 @Composable
 fun InitialPageHeader(){
     Box{
@@ -545,13 +549,16 @@ fun InitialPageHeader(){
             }
         }
     }
-// function for this page's header
 }
+// todo : implement a card for dayle summaries of activities
+// fix the padding and optimize the code
+// create a composable for the bottom app bar in the components and just call the function in every activity
+// make the code reusable
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
-        InitialPageView()
-        //InitialPageHeader()
+       InitialPageView()
+          //InitialPageHeader()
     }
 }
