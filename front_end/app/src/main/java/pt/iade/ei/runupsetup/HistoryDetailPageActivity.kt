@@ -86,25 +86,7 @@ fun HistoryDetailPageView() {
                     containerColor = Color(0xFF7CCE6B),
                     //titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                            //  contentColor = Color.Unspecified
-                            // not necessary
-                              )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
-                    }
-                }
+                title = {}
             )
         }
         ,
