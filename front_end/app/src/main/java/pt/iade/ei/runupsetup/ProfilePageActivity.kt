@@ -416,6 +416,92 @@ fun PrivacyCard(onClick: () -> Unit = {}) {
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TrainingPreferenciesCard(onClick: () -> Unit = {}) {
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp), // 🔥 aumenta o tamanho do card
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = "Preferências de Treino",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AccountSettingsCard(onClick: () -> Unit = {}) {
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp), // 🔥 aumenta o tamanho do card
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = "Configurações da Conta",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
+
 
 
 // ---------- Preview do Card de Meta Individual ----------
