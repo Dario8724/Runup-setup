@@ -1,10 +1,6 @@
 package pt.iade.ei.runupsetup.ui.components
-import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,7 +18,7 @@ import pt.iade.ei.runupsetup.InitialPageActivity
 import pt.iade.ei.runupsetup.R
 
 @Composable
-fun ButtonItem(
+fun BottomBarItem(
     @DrawableRes icon : Int,
     label : String,
     onclick : () -> Unit = {}
@@ -46,128 +42,43 @@ fun ButtonItem(
         }
     }
 }
+// testing the
 @Composable
 fun BottomBar(
-){
+) {
     BottomAppBar(
         containerColor = Color(0xF3EDF7),
     ) {
-    Row(
+        Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Unspecified,
-                    containerColor = Color(0xF3EDF7)
-                )
-            ) {
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Icon(
-                        painter = painterResource(R.drawable.outline_home_24),
-                        contentDescription ="Botão para a página inicial",
-                        tint = Color.Black,
-                    )
-                    Text(
-                        text = "Início",
-                        fontSize = 7.5.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Unspecified,
-                    containerColor = Color(0xF3EDF7)
-                )
-            ) {
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Icon(
-                        painter = painterResource(pt.iade.ei.runupsetup.R.drawable.outline_map_24),
-                        contentDescription = "Botão para a página de rotas",
-                        tint = Color.Black
-                    )
-                    Text(
-                        text = "Rotas",
-                        fontSize = 7.5.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Unspecified,
-                    containerColor = Color(0xF3EDF7)
-                )
-            ) {
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(pt.iade.ei.runupsetup.R.drawable.comunity_icon),
-                        contentDescription = "Botão para a página de comunidade",
-                        tint = Color.Black
-                    )
-                    Text(
-                        text = "Comunidade",
-                        fontSize = 7.5.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Unspecified,
-                    containerColor = Color(0xF3EDF7)
-                )
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_history_24),
-                        contentDescription = "Botão para a página de histórico",
-                        tint = Color.Black
-                    )
-                    Text(
-                        text = "Histórico",
-                        fontSize = 7.5.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Unspecified,
-                    containerColor = Color(0xF3EDF7)
-                )
-            ) {
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Icon(
-                        Icons.Outlined.AccountCircle,
-                        contentDescription = " Botão para a página de perfil",
-                        tint = Color.Black
-                    )
-                    Text(
-                        text = "Perfil",
-                        fontSize = 7.5.sp,
-                        color = Color.Black
-                    )
-                }
-            }
-        }
+            verticalAlignment = Alignment.CenterVertically){
+            BottomBarItem(
+            onclick = {},
+            icon = R.drawable.outline_home_24,
+            label = "Início"
+        )
+            BottomBarItem(
+            onclick = {},
+            icon = R.drawable.outline_map_24,
+            label = "Rotas"
+        )
+            BottomBarItem(
+            onclick = {},
+            icon = R.drawable.comunity_icon,
+            label = "Comunidade"
+        )
+            BottomBarItem(
+            onclick = {},
+            icon = R.drawable.outline_history_24,
+            label = "Histórico"
+        )
+            BottomBarItem(
+            onclick = {},
+            icon = R.drawable.outline_account_circle_24,
+            label = "Perfil"
+        )
+    }
     }
 }
 
