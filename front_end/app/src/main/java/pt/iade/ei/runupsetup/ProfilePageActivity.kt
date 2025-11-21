@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
@@ -372,6 +374,49 @@ fun PersonalRecordsCardPreview() {
         PersonalRecordsCard()
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PrivacyCard(onClick: () -> Unit = {}) {
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp), // 🔥 aumenta o tamanho do card
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = "Privacidade",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
 
 // ---------- Preview do Card de Meta Individual ----------
 @Preview(showBackground = true)
@@ -397,5 +442,12 @@ fun RecordCardPreview() {
 fun MyGoalsCardPreview() {
     RunupSetupTheme {
         MyGoalsCard()
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun PrivacyCardPreview() {
+    RunupSetupTheme {
+        PrivacyCard()
     }
 }
