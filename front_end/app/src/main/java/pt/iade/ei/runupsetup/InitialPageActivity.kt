@@ -57,17 +57,13 @@ import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 import android.content.Intent
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.platform.LocalContext
 import pt.iade.ei.runupsetup.RouteFiltersActivity
 
-
-/*
-imports duvidosos
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Target
- */
 
 class InitialPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,27 +94,8 @@ fun InitialPageView() {
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = Color(0xFF7CCE6B),
-                    //titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                                //  contentColor = Color.Unspecified
-                                // not necessary
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
-                    }
-                }
+                title = {}
             )
         }
         ,
@@ -259,70 +236,12 @@ fun InitialPageView() {
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Box{
-                Image(
-                    painter = painterResource(R.drawable.corredor_ao_por_do_sol),
-                    contentDescription = "Imagem de um corredor ao pôr do sol",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .align (Alignment.TopStart)
-                        .padding(start = 20.dp, top = 40.dp)
-                ) {
-                    Text(
-                        text = "Olá, Corredor",
-                        fontWeight = FontWeight.Black,
-                        fontSize = 25.sp
-                    )
-                    Text(
-                        text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
-                        fontWeight = FontWeight.Black,
-                        fontSize = 25.sp
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 15.dp)
-                        .align (Alignment.BottomEnd)
-                        .padding(start = 20.dp, top = 40.dp)
-                ) {
-                    // Botão de iniciar
-                    val context = LocalContext.current
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, RouteFiltersActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier.height(50.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Row (
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.PlayArrow,
-                                contentDescription = "Start button"
-                            )
-                            Text(
-                                text = "Start",
-                                modifier = Modifier.padding(start = 5.dp)
-                            )
-                        }
-                    }
-                }
-            }
+            // function containing the header
+            InitialPageHeader()
             Card (
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 8.dp)
@@ -346,8 +265,11 @@ fun InitialPageView() {
                         )
                     }
                     Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
@@ -387,141 +309,256 @@ fun InitialPageView() {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
             )
-            Card (
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            ){
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp )
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_map_24),
-                        contentDescription = "Icone do mapa"
-                    )
-                    Column {
-                        Text(
-                            text = "Explorar rotas"
-                        )
-                        Text(
-                            text = "Acompanhe seu progresso "
-                        )
-                    }
-                    // seta para proseguir
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    ) }
-            }
-            // card for goals
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            )
-            {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp )
-                ){
-                    Icon(
-                        painter = painterResource(R.drawable.outline_circle_circle_24),
-                        contentDescription = "Botão para a página de metas"
-                    )
-                    Column {
-                        Text(
-                            text = "Metas pessoais",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(
-                            text = "Acompanhe seu progresso"
-                        )
-                    }
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    )
-                }
-            }
-            Card (
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            )
-            {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_history_24),
-                        contentDescription = "Botão para a página de históricos"
-                    )
-                    Column {
-                        Text(
-                            text = "Histórico",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(
-                            text = "Veja as suas atividades"
-                        )
-                    }
-                    // seta para proseguir
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    )
-                }
-            }
+            Column {
 
-            // probable card for conquests
-            /*
-            Card (
-                modifier
-            ){
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                ){
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_map_24),
+                            contentDescription = "Icone do mapa"
+                        )
+                        Column {
+                            Text(
+                                text = "Explorar rotas"
+                            )
+                            Text(
+                                text = "Acompanhe seu progresso "
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        ) }
+                }
+                // card for goals
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
+                    ){
+                        Icon(
+                            painter = painterResource(R.drawable.outline_circle_circle_24),
+                            contentDescription = "Botão para a página de metas"
+                        )
+                        Column {
+                            Text(
+                                text = "Metas pessoais",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Acompanhe seu progresso"
+                            )
+                        }
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_history_24),
+                            contentDescription = "Botão para a página de históricos"
+                        )
+                        Column {
+                            Text(
+                                text = "Histórico",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Veja as suas atividades"
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_history_24),
+                            contentDescription = "Botão para a página de históricos"
+                        )
+                        Column {
+                            Text(
+                                text = "Histórico",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Veja as suas atividades"
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+
+                // probable card for conquests
+                /*
+                Card (
+                    modifier
+                ){
+                }
+                 */
             }
-             */
         }
 
     }
 }
+// function for this page's header
+@Composable
+fun InitialPageHeader(){
+    Box{
+
+        Image(
+            painter = painterResource(R.drawable.corredor_ao_por_do_sol),
+            contentDescription = "Imagem de um corredor ao pôr do sol",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp),
+        )
+        Column(
+            modifier = Modifier
+                .align (Alignment.TopStart)
+                .padding(start = 20.dp, top = 40.dp)
+        ) {
+            Text(
+                text = "Olá, Corredor",
+                fontWeight = FontWeight.Black,
+                fontSize = 25.sp
+            )
+            Text(
+                text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
+                fontWeight = FontWeight.Black,
+                fontSize = 25.sp
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 15.dp)
+                .align (Alignment.BottomEnd)
+                .padding(start = 20.dp, top = 40.dp)
+        ) {
+            // Botão de iniciar
+            val context = LocalContext.current
+            Button(
+                onClick = {
+                    val intent = Intent(context, RouteFiltersActivity::class.java)
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF7CCE6B),
+                    contentColor = Color.Unspecified
+                )
+            ) {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = "Start button"
+                    )
+                    Text(
+                        text = "Start",
+                        modifier = Modifier.padding(start = 5.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+// todo : implement a card for dayle summaries of activities
+// fix the padding and optimize the code
+// create a composable for the bottom app bar in the components and just call the function in every activity
+// make the code reusable
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
-        InitialPageView()
+       InitialPageView()
+          //InitialPageHeader()
     }
 }

@@ -1,6 +1,7 @@
 package pt.iade.ei.runupsetup
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -82,25 +86,7 @@ fun HistoryDetailPageView() {
                     containerColor = Color(0xFF7CCE6B),
                     //titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                            //  contentColor = Color.Unspecified
-                            // not necessary
-                              )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                                // faltava criar <string name="back">Back</string> no arquivo strings.xml
-                            )
-                        }
-                    }
-                }
+                title = {}
             )
         }
         ,
@@ -242,18 +228,23 @@ fun HistoryDetailPageView() {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(start = 4.dp, end = 4.dp),
+
         ) {
             Text(
                 text = "Histórico ",
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Black
             )
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Suas atividades recentes"
             )
+            Spacer(modifier = Modifier.height(4.dp))
             Card (
                 modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
                     .fillMaxWidth(),
                 shape = RectangleShape,
                 elevation = CardDefaults.cardElevation(),
@@ -263,7 +254,7 @@ fun HistoryDetailPageView() {
             ){
                 Row (
                     modifier = Modifier
-                                    .padding(horizontal = 12.dp)
+                                    .padding(horizontal = 24.dp, vertical = 20.dp)
                                     .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ){
@@ -271,43 +262,54 @@ fun HistoryDetailPageView() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
                         Text(
-                            text = "23"
+                            text = "23",
+                            fontSize = 22.sp,
+                            color = Color.White
                         )
                         Text(
-                            text = "Atividades"
+                            text = "Atividades",
+                            color = Color.White
                         )
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "112"
+                            text = "112" ,
+                            fontSize = 22.sp,
+                            color = Color.White
                         )
                         Text(
-                            text = "km Total"
+                            text = "km Total",
+                            color = Color.White
                         )
                     }
                     Column (
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
                         Text(
-                        text = "18h"
+                        text = "18h",
+                            fontSize = 22.sp,
+                            color = Color.White
                     )
                         Text(
-                            text = "Tempo Total"
+                            text = "Tempo Total",
+                            color = Color.White
                         )
                     }
                 }
             }
 
             Row (
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(start = 5.dp)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
                 // this needs changing
                 Text(
-                    text = "Novembro de 2025"
+                    text = DateFormat.format("MMMM 'de' yyyy", item.date).toString()
                 )
                 Button(
                     onClick = {},
@@ -336,7 +338,84 @@ fun HistoryDetailPageView() {
                     pressedElevation = 12.dp
                 )
             ) {
-                Column {
+                Column( modifier = Modifier.padding(16.dp)) {
+                    Row (
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ){
+                        Text(
+                            text = "Very serious text "
+                        )
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Gray
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row ( modifier = Modifier.padding(vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Icon(
+                            Icons.Outlined.LocationOn,
+                            contentDescription = "Localização"
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("Parque da Cidade")
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Pace médio",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.minimumPace)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Tempo",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.duration)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Distância",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = item.distance
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "Calorias",
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(text = item.calories)
+                        }
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+                onClick = {},
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 12.dp
+                )
+            ) {
+                Column( modifier = Modifier.padding(16.dp)) {
                     Row (
                         modifier = Modifier.fillMaxWidth(),
                        horizontalArrangement = Arrangement.SpaceBetween,
@@ -350,6 +429,7 @@ fun HistoryDetailPageView() {
                             tint = Color.Gray
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Row ( modifier = Modifier.padding(vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
@@ -357,8 +437,10 @@ fun HistoryDetailPageView() {
                             Icons.Outlined.LocationOn,
                             contentDescription = "Localização"
                         )
+                            Spacer(modifier = Modifier.width(6.dp))
                         Text("Parque da Cidade")
                     }
+                    Spacer(modifier = Modifier.height(12.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()
@@ -410,10 +492,10 @@ fun HistoryDetailPageView() {
                     pressedElevation = 12.dp
                 )
             ) {
-                Column {
+                Column( modifier = Modifier.padding(16.dp)) {
                     Row (
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ){
                         Text(
                             text = "Very serious text "
@@ -424,6 +506,7 @@ fun HistoryDetailPageView() {
                             tint = Color.Gray
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Row ( modifier = Modifier.padding(vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
@@ -431,8 +514,10 @@ fun HistoryDetailPageView() {
                             Icons.Outlined.LocationOn,
                             contentDescription = "Localização"
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text("Parque da Cidade")
                     }
+                    Spacer(modifier = Modifier.height(12.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()
@@ -484,10 +569,10 @@ fun HistoryDetailPageView() {
                     pressedElevation = 12.dp
                 )
             ) {
-                Column {
+                Column( modifier = Modifier.padding(16.dp)) {
                     Row (
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ){
                         Text(
                             text = "Very serious text "
@@ -498,6 +583,7 @@ fun HistoryDetailPageView() {
                             tint = Color.Gray
                         )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Row ( modifier = Modifier.padding(vertical = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
@@ -505,82 +591,10 @@ fun HistoryDetailPageView() {
                             Icons.Outlined.LocationOn,
                             contentDescription = "Localização"
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text("Parque da Cidade")
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Pace médio",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.minimumPace)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Tempo",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.duration)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Distância",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = item.distance
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally){
-                            Text(
-                                text = "Calorias",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.calories)
-                        }
-                    }
-                }
-            }
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            ) {
-                Column {
-                    Row (
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ){
-                        Text(
-                            text = "Very serious text "
-                        )
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "seta para proseguir",
-                            tint = Color.Gray
-                        )
-                    }
-                    Row ( modifier = Modifier.padding(vertical = 5.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        Icon(
-                            Icons.Outlined.LocationOn,
-                            contentDescription = "Localização"
-                        )
-                        Text("Parque da Cidade")
-                    }
+                    Spacer(modifier = Modifier.height(12.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()
