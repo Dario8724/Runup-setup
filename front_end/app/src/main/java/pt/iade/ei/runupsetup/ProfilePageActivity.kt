@@ -135,7 +135,7 @@ fun ProfilePageView() {
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                val intent = Intent(context, HistoryDetailPage::class.java)
+                                val intent = Intent(context, HistoryPage::class.java)
                                 context.startActivity(intent)
                             }
                     ) {

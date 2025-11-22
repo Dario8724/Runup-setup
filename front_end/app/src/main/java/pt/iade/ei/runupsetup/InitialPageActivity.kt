@@ -182,7 +182,7 @@ fun InitialPageView() {
                     }
                     Button(
                         onClick = {
-                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            val intent = Intent(context, HistoryPage::class.java)
                             context.startActivity(intent)
                         },
                         colors = ButtonDefaults.buttonColors(
