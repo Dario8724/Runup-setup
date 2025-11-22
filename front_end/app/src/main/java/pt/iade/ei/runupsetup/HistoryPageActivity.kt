@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 
@@ -92,9 +93,21 @@ fun HistoryPageView() {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
-                        onClick = {
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {},
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                        val intent = Intent(context, ComunityPageActivity::class.java)
                             context.startActivity(intent)
                         },
                         colors = ButtonDefaults.buttonColors(
@@ -336,7 +349,7 @@ fun HistoryPageView() {
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ){
                         Text(
-                            text = "Very serious text "
+                            text = "Corrida",
                         )
                         Icon(
                             Icons.AutoMirrored.Filled.KeyboardArrowRight,
