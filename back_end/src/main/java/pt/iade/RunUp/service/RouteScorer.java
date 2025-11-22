@@ -1,106 +1,68 @@
 package pt.iade.RunUp.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pt.iade.RunUp.integration.GooglePlacesClient;
-import pt.iade.RunUp.integration.WeatherClient;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class RouteScorer {
-    private final GooglePlacesClient placesClient;
-    private final WeatherClient weatherClient;
 
-    // 🔹 Decodifica polyline do Google
-    private List<double[]> decodePolyline(String encoded) {
-        List<double[]> poly = new ArrayList<>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
+    /**
+     * Agora recebe coordenadas decodificadas da rota
+     */
+    public double scoreRoute(
+            List<double[]> coords,
+            double routeKm,
+            double desiredKm,
+            boolean preferTrees,
+            boolean nearBeach,
+            boolean nearPark,
+            boolean sunnyRoute
+    ) {
+        double score = 0;
 
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
+        // --- 1) Distância ---
+        double diff = Math.abs(routeKm - desiredKm);
+        score -= diff * 2.0;  // penaliza diferença
 
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            double latitude = lat / 1E5;
-            double longitude = lng / 1E5;
-            poly.add(new double[]{latitude, longitude});
-        }
-        return poly;
-    }
-
-    // 🔹 Ponto central aproximado
-    private double[] getPolylineCenter(String encoded) {
-        List<double[]> points = decodePolyline(encoded);
-        if (points.isEmpty()) return new double[]{0.0, 0.0};
-        int mid = points.size() / 2;
-        return points.get(mid);
-    }
-
-    // 🔹 Avaliação da rota com preferências
-    public double scoreRoute(String polyline, boolean preferTrees, boolean nearBeach,
-                             boolean nearPark, boolean preferSun, double targetKm) {
-
-        double score = 0.0;
-
-        // Ponto médio da rota
-        double[] center = getPolylineCenter(polyline);
-        double lat = center[0];
-        double lng = center[1];
-
-        // 🌳 Árvores — no Google Places não há tipo “tree”, então usamos “park” como aproximação
+        // --- 2) Árvores (mock), mas pode ligar ao DB ou API ---
         if (preferTrees) {
-            Map<String, Object> trees = placesClient.searchPlaces(lat, lng, "park");
-            int count = extractPlaceCount(trees);
-            score += count * 0.1;
+            // aqui você pode melhorar depois com dados reais
+            score += estimateTrees(coords) * 40.0;
         }
 
-        // 🏖️ Praia
+        // --- 3) Praia ---
         if (nearBeach) {
-            Map<String, Object> beach = placesClient.searchPlaces(lat, lng, "beach");
-            int count = extractPlaceCount(beach);
-            score += count * 1.0;
+            score += estimateBeachProximity(coords) * 80.0;
         }
 
-        // 🌲 Parque
+        // --- 4) Parque ---
         if (nearPark) {
-            Map<String, Object> park = placesClient.searchPlaces(lat, lng, "park");
-            int count = extractPlaceCount(park);
-            score += count * 0.8;
+            score += estimateParkProximity(coords) * 80.0;
         }
 
-        // ☀️ Clima ensolarado
-        if (preferSun) {
-            boolean sunny = weatherClient.isSunny(lat, lng);
-            score += sunny ? 2.0 : -1.0;
+        // --- 5) Sol ---
+        if (sunnyRoute) {
+            score += estimateSunExposure(coords) * 50.0;
         }
 
         return score;
     }
 
-    // 🔹 Contagem de resultados da API Google Places
-    private int extractPlaceCount(Map<String, Object> data) {
-        if (data == null || !data.containsKey("results")) return 0;
-        List<?> results = (List<?>) data.get("results");
-        return results.size();
+    private double estimateTrees(List<double[]> coords) {
+        // mock simples por enquanto
+        return Math.min(1.0, coords.size() / 3000.0);
+    }
+
+    private double estimateBeachProximity(List<double[]> coords) {
+        // mock simples — depois pode colocar geofencing real
+        return Math.random() * 0.4; 
+    }
+
+    private double estimateParkProximity(List<double[]> coords) {
+        return Math.random() * 0.4;
+    }
+
+    private double estimateSunExposure(List<double[]> coords) {
+        return 0.2 + Math.random() * 0.6;
     }
 }

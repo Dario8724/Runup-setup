@@ -1,16 +1,15 @@
 package pt.iade.ei.runupsetup.ui
 
+import android.Manifest
+import android.content.Intent
+import android.location.Location
 import android.os.Bundle
-import android.widget.TextView
+import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
-import pt.iade.ei.runupsetup.R
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import pt.iade.ei.runupsetup.models.RouteRequest
 import pt.iade.ei.runupsetup.models.RouteResponse
 import pt.iade.ei.runupsetup.network.RetrofitClient
@@ -18,74 +17,75 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RouteActivity : AppCompatActivity(), OnMapReadyCallback {
+class RouteActivity : AppCompatActivity() {
 
-    private lateinit var map: GoogleMap
-    private lateinit var textDistance: TextView
-    private lateinit var textDuration: TextView
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    @RequiresPermission(
+        allOf = [
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ]
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_route)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        textDistance = findViewById(R.id.textDistance)
-        textDuration = findViewById(R.id.textDuration)
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                gerarRota(location)
+            } else {
+                Toast.makeText(this, "Não foi possível obter localização atual", Toast.LENGTH_LONG).show()
+                finish()
+            }
+        }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-
-        // Coordenadas de teste (Lisboa)
-        val originLat = 38.7169
-        val originLng = -9.1399
-        val destLat = 38.7083
-        val destLng = -9.1408
+    private fun gerarRota(location: Location) {
+        val originLat = location.latitude
+        val originLng = location.longitude
+        val destLat = originLat + 0.02
+        val destLng = originLng + 0.02
 
         val request = RouteRequest(
-            nome = "Rota Teste",
+            nome = intent.getStringExtra("nome") ?: "Rota personalizada",
             originLat = originLat,
             originLng = originLng,
             destLat = destLat,
             destLng = destLng,
-            desiredDistanceKm = 5.0,
-            preferTrees = true,
-            nearBeach = false,
-            nearPark = false,
-            sunnyRoute = false,
+            desiredDistanceKm = intent.getDoubleExtra("distance", 5.0),
+            preferTrees = intent.getBooleanExtra("trees", false),
+            nearBeach = intent.getBooleanExtra("beach", false),
+            nearPark = intent.getBooleanExtra("park", false),
+            sunnyRoute = intent.getBooleanExtra("sunny", false),
             avoidHills = false,
-            tipo = "corrida"
+            tipo = intent.getStringExtra("tipo") ?: "corrida"
         )
 
-        RetrofitClient.instance.generateRoute(request).enqueue(object : Callback<RouteResponse> {
-            override fun onResponse(call: Call<RouteResponse>, response: Response<RouteResponse>) {
-                if (response.isSuccessful) {
-                    val route = response.body()
-                    route?.let {
-                        textDistance.text = "Distância: ${it.distance} km"
-                        textDuration.text = "Duração: ${it.duration} min"
+        RetrofitClient.instance.generateRoute(request)
+            .enqueue(object : Callback<RouteResponse> {
+                override fun onResponse(
+                    call: Call<RouteResponse>,
+                    response: Response<RouteResponse>
+                ) {
 
-                        if (it.polyline.isNotEmpty()) {
-                            val points = PolyUtil.decode(it.polyline)
-                            map.addPolyline(
-                                PolylineOptions()
-                                    .addAll(points)
-                                    .width(10f)
-                                    .color(0xFF1976D2.toInt())
-                            )
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(points.first(), 14f))
-                        }
+                    if (response.isSuccessful && response.body() != null) {
+                        val route = response.body()!!
+
+                        val intent = Intent(this@RouteActivity, RunMapActivity::class.java)
+                        intent.putExtra("routeResponse", route)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@RouteActivity, "Erro ao gerar rota", Toast.LENGTH_LONG).show()
+                        finish()
                     }
-                } else {
-                    textDistance.text = "Erro: ${response.code()}"
                 }
-            }
 
-            override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
-                textDistance.text = "Falha: ${t.message}"
-            }
-        })
+                override fun onFailure(call: Call<RouteResponse>, t: Throwable) {
+                    Toast.makeText(this@RouteActivity, "Falha ao conectar ao servidor", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+            })
     }
 }

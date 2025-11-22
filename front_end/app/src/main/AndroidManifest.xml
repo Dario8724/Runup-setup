@@ -29,13 +29,20 @@
         <activity
             android:name=".LoginPageActivity"
             android:exported="true"
-            android:label="Login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 🔹 Tela principal do login -->
+        <activity
+            android:name=".UserLoginActivity"
+            android:exported="false"
+            android:label="Página Login do Usuario"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
 
         <!-- 🔹 Tela principal após login -->
         <activity
@@ -58,6 +65,13 @@
             android:label="Corrida em Tempo Real"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- 🔹 Tela de geração de rota -->
+        <activity
+            android:name=".ui.RouteActivity"
+            android:exported="false"
+            android:label="Gerar Rota"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!-- 🔹 Tela de perfil -->
         <activity
             android:name=".ProfilePageActivity"
@@ -65,9 +79,9 @@
             android:label="Perfil"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de histórico detalhado -->
+        <!-- 🔹 Tela de histórico -->
         <activity
-            android:name=".HistoryDetailPage"
+            android:name=".HistoryPage"
             android:exported="false"
             android:label="Histórico"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -78,6 +92,32 @@
             android:exported="false"
             android:label="Comunidade"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- 🔹 Telas de Registro -->
+        <activity
+            android:name=".RegisterPageActivity"
+            android:exported="false"
+            android:label="Criar Conta"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".QuestionnaireGenderActivity"
+            android:exported="false"
+            android:label="Gênero"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".QuestionnairePageActivity"
+            android:exported="false"
+            android:label="Questionário"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".RegistrationSuccessActivity"
+            android:exported="false"
+            android:label="Sucesso"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
 
     </application>
 </manifest>

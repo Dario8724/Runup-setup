@@ -31,11 +31,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.ui.MainActivity
+
 
 class LoginPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+        val savedEmail = prefs.getString("logged_email", null)
+
+        if (savedEmail != null) {
+            // Usuário logado → vai direto para a ProfilePageActivity
+            val intent = Intent(this, InitialPageActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
         setContent {
                 LoginView()
             }
@@ -97,7 +108,10 @@ fun LoginView(){
                     .padding(bottom = 32.dp)
             ) {
                 Button(
-                    onClick = { /* TODO: ação de login */},
+                    onClick = {
+                        val intent = Intent(context, RegisterPageActivity::class.java)
+                        context.startActivity(intent)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF6ECB63),
                         contentColor = Color.White
@@ -112,7 +126,7 @@ fun LoginView(){
                 //Botão Login
                 OutlinedButton(
                     onClick = {
-                        val intent = Intent(context, InitialPageActivity::class.java)
+                        val intent = Intent(context, UserLoginActivity::class.java)
                         context.startActivity(intent)
                     },
                     colors = ButtonDefaults.outlinedButtonColors(
