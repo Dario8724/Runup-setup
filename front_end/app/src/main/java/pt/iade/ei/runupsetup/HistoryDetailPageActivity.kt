@@ -258,7 +258,7 @@ BottomBarItem(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ){
                         Text(
-                            text = "Very serious text "
+                            text = "Corrida",
                         )
                         Icon(
                             Icons.AutoMirrored.Filled.KeyboardArrowRight,
