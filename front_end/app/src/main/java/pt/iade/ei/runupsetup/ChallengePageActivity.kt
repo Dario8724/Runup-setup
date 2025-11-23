@@ -3,8 +3,15 @@ package pt.iade.ei.runupsetup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class ChallengePageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +43,19 @@ fun ChallengePageView(){
             daysLeft = 14,
             reward = "Medalha Virtual"
 
+        ),
+                ChallengeItem(
+                title = "Streak de 7 Dias",
+        participants = 856,
+        progress = 42,
+        daysLeft = 6,
+        reward = "Badge Especial"
+    )
+    )
 
+    Column( modifier = Modifier.padding(26.dp)) {
+    }
+    Text(text = "Desafio", fontSize = 26.sp, fontWeight = FontWeight.Black)
+    Text(text= "Participe e ganhe prémios exclusivos")
 
-
-}
+    }
