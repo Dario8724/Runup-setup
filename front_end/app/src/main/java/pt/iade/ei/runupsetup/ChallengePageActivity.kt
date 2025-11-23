@@ -56,6 +56,6 @@ fun ChallengePageView(){
     Column( modifier = Modifier.padding(26.dp)) {
     }
     Text(text = "Desafio", fontSize = 26.sp, fontWeight = FontWeight.Black)
-    Text(text= "Participe e ganhe prémios exclusivos")
+    Text(text= "Participe e ganhe premios exclusivos")
 
     }
