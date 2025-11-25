@@ -4,18 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "rota")
+@Table(name = "tipo")
 @Data
-public class Route {
+public class RunType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rota_id")
+    @Column(name = "tipo_id")
     private Integer id;
 
-    @Column(name = "rota_nome")
+    @Column(name = "tipo_nome")
     private String name;
-
-    @Column(name = "rota_elevacao")
-    private Double elevation;
 }
