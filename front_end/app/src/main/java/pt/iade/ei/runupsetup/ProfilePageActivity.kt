@@ -135,8 +135,8 @@ fun ProfilePageView() {
                         modifier = Modifier
                             .weight(1f)
                             .clickable {
-                                val intent = Intent(context, HistoryPage::class.java)
-                                context.startActivity(intent)
+                               // val intent = Intent(context, HistoryPage::class.java)
+                               // context.startActivity(intent)
                             }
                     ) {
                         Icon(Icons.Default.Info, contentDescription = "Histórico", tint = Color.Black)

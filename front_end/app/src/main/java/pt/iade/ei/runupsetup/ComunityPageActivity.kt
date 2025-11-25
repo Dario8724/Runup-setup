@@ -185,8 +185,8 @@ fun ComunityActivityView() {
                     }
                     Button(
                         onClick = {
-                            val intent = Intent(context, HistoryPage::class.java)
-                            context.startActivity(intent)
+                            //val intent = Intent(context, HistoryPage::class.java)
+                            //context.startActivity(intent)
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF7CCE6B),

@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.DateRange
@@ -24,11 +27,14 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,8 +44,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,20 +57,20 @@ import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 
-class HistoryPage : ComponentActivity() {
+class HistoryDetailPage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             RunupSetupTheme {
-                HistoryPageView()
+                HistoryDetailPageView()
             }
         }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryPageView() {
+fun HistoryDetailPageView() {
     val item = HistoryItemModel1(
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
@@ -107,126 +115,27 @@ fun HistoryPageView() {
                     )
                     BottomBarItem(
                         onclick = {
-                        val intent = Intent(context, ComunityPageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.Home,
-                                contentDescription ="Botão para a página inicial",
-                                tint = Color.Black,
-                            )
-                            Text(
-                                text = "Início",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Black
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                painter = painterResource(R.drawable.outline_map_24),
-                                contentDescription = "Botão para a página de rotas",
-                            )
-                            Text(
-                                text = "Rotas",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
                             val intent = Intent(context, ComunityPageActivity::class.java)
                             context.startActivity(intent)
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor =Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.comunity_icon),
-                                contentDescription = "Botão para a página de comunidade",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Comunidade",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, HistoryPage::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_history_24),
-                                contentDescription = "Botão para a página de histórico",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Histórico",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade"
+                    )
+
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, HistoryDetailPage::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.AccountCircle,
-                                contentDescription = " Botão para a página de perfil",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Perfil",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                }
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )       }
             }
         },
     ) { innerPadding ->
@@ -236,7 +145,7 @@ fun HistoryPageView() {
                 .verticalScroll(rememberScrollState())
                 .padding(start = 4.dp, end = 4.dp),
 
-        ) {
+            ) {
             Text(
                 text = "Histórico ",
                 fontSize = 25.sp,
@@ -259,8 +168,8 @@ fun HistoryPageView() {
             ){
                 Row (
                     modifier = Modifier
-                                    .padding(horizontal = 24.dp, vertical = 20.dp)
-                                    .fillMaxWidth(),
+                        .padding(horizontal = 24.dp, vertical = 20.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ){
                     Column (
@@ -293,10 +202,10 @@ fun HistoryPageView() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
                         Text(
-                        text = "18h",
+                            text = "18h",
                             fontSize = 22.sp,
                             color = Color.White
-                    )
+                        )
                         Text(
                             text = "Tempo Total",
                             color = Color.White
@@ -324,9 +233,9 @@ fun HistoryPageView() {
                     )
                 ) {
                     Icon(
-                    Icons.Outlined.DateRange,
-                    contentDescription = "Filtrar datas"
-                )
+                        Icons.Outlined.DateRange,
+                        contentDescription = "Filtrar datas"
+                    )
                 }
             }
             Card(
@@ -423,7 +332,7 @@ fun HistoryPageView() {
                 Column( modifier = Modifier.padding(16.dp)) {
                     Row (
                         modifier = Modifier.fillMaxWidth(),
-                       horizontalArrangement = Arrangement.SpaceBetween,
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ){
                         Text(
                             text = "Very serious text "
@@ -442,7 +351,7 @@ fun HistoryPageView() {
                             Icons.Outlined.LocationOn,
                             contentDescription = "Localização"
                         )
-                            Spacer(modifier = Modifier.width(6.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text("Parque da Cidade")
                     }
                     Spacer(modifier = Modifier.height(12.dp))
@@ -647,6 +556,6 @@ fun HistoryPageView() {
 @Composable
 fun HistoryDetailPagePreview() {
     RunupSetupTheme {
-        HistoryPageView()
+        HistoryDetailPageView()
     }
 }
