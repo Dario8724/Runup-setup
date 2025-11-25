@@ -16,9 +16,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -105,7 +109,8 @@ fun ChallengePage() {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
 
             Text(
@@ -138,13 +143,10 @@ fun ChallengePage() {
             }
 
             Box(
+                // adicionar border
                 modifier = Modifier
                     .weight(1f)
                     .padding(5.dp)
-                    .border(
-                        width = 1.dp,
-                        shape = RoundedCornerShape(12)
-                    )
                     .padding(vertical = 12.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -182,6 +184,20 @@ fun ChallengeCardSimple(
     daysLeft: Int,
     @DrawableRes reward : Int
 ){
+    Card (
+        modifier = Modifier
+        .padding(horizontal = 10.dp, vertical = 8.dp)
+        .fillMaxWidth(),
+        onClick = {},
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp,
+            pressedElevation = 12.dp
+        )
+    ) {
     Column (
         modifier = Modifier.padding(all = 4.dp)
     ) {
@@ -229,14 +245,23 @@ fun ChallengeCardSimple(
             }
         }
         Column {
-            Button(onClick = {})
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF7CCE6B),
+                contentColor = Color.Unspecified
+                )
+            )
             {
-                Text(
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ){ Text(
                     "Ver detalhes",
                     color = Color.White
-                    )
+                ) }
             }
         }
+    }
     }
 }
 
