@@ -4,6 +4,7 @@ import android.icu.text.CaseMap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -45,7 +48,12 @@ class ChallengePageActivity : ComponentActivity() {
     }
 
 }
+// todo: criar fun ChallengeCardSimples()
 
+
+
+
+// vai para uma arquivo separado
 data class ChallengeItem(
     val title: String,
     val participants: Int,
@@ -112,7 +120,6 @@ fun ChallengePage() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             )
-
             {
                 Box(
                     modifier = Modifier
@@ -148,19 +155,9 @@ fun ChallengePage() {
 
 
         Spacer(Modifier.height(10.dp))
-
-
-        ChallengeCardSimple(
-            title = "Desafio 100km Outubro",
-            participants = "1243 participantes",
-            progress = 65,
-            dayLeft = 14,
-            reward = "Medalha Virtual"
-        )
-
+        // espaço entre cards
         Spacer(Modifier.height(12.dp))
-
-
+/*
         ChallengePageView(
             title = "Streak  de 7 Dias",
             participants = "856 participantes",
@@ -168,7 +165,7 @@ fun ChallengePage() {
             dayLeft = 6,
             reward = "Badge Especial"
         )
-
+*/
 
         Spacer(Modifier.height(20.dp))
 
@@ -177,11 +174,89 @@ fun ChallengePage() {
 }
 
 }
+@Composable
+fun ChallengeCardSimple(
+    title: String,
+    participants: String,
+    progress: Int,
+    daysLeft: Int,
+    @DrawableRes reward : Int
+){
+    Column (
+        modifier = Modifier.padding(all = 4.dp)
+    ) {
+        // primeira linha com ícone o número de participantes e o nome do desafio
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                // aqui vem o ícone do desafio
+            }
+            Column {
+                Text(
+                    text = title
+                )
+                Text(
+                    text = participants
+                )
+            }
+        }
+        Row {
+            Text(
+                text = "Seu progresso"
+            )
+            Text(
+                text = progress.toString()
+            )
+        }
+        // aqui deve vir a barra de progresso
+    }
 
+    Row (verticalAlignment = Alignment.CenterVertically) {
+        Column {
+            Row {
+                Text(
+                text = "Termina em Prêmio "
+            )
+            }
+            Row {
+                Text(
+                    text = daysLeft.toString()
+                )
+                Text(
+                    "Medalha "
+                )
+            }
+        }
+        Column {
+            Button(onClick = {})
+            {
+                Text(
+                    "Ver detalhes",
+                    color = Color.White
+                    )
+            }
+        }
+    }
+}
 
+//  main preview
  @Preview(showBackground = true)
 @Composable
  fun PreviewChallengePageView() {
      ChallengePageView()
  }
+
+
+@Preview(showBackground = true)
+@Composable
+fun ChallengeCardPreviewView() {
+    ChallengeCardSimple(
+        title = "Desafio 100km Outubro",
+        participants = "1243 participantes",
+        progress = 65,
+        dayLeft = 14,
+        reward = R.drawable.baseline_key_24
+    )
+}
 
