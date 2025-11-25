@@ -115,8 +115,7 @@ fun InitialPageView() {
                         icon = R.drawable.comunity_icon,
                         label = "Comunidade")
                     BottomBarItem(
-                        onclick = {
-                            val intent = Intent(context, HistoryDetailPage::class.java)
+                        onclick = {val intent = Intent(context, HistoryPage::class.java)
                             context.startActivity(intent)},
                         icon = R.drawable.outline_history_24,
                         label = "Histórico"

@@ -4,38 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.RouteRequest
+import pt.iade.ei.runupsetup.ui.RouteActivity
 import pt.iade.ei.runupsetup.ui.RunMapActivity
 
 class RouteFiltersActivity : ComponentActivity() {
@@ -55,8 +31,14 @@ class RouteFiltersActivity : ComponentActivity() {
             MaterialTheme {
                 RouteFiltersScreen(
                     onGenerateRoute = { routeRequest ->
-                        val intent = Intent(this, RunMapActivity::class.java)
-                        intent.putExtra("routeRequest", routeRequest)
+                        val intent = Intent(this, RouteActivity::class.java)
+                        intent.putExtra("nome", routeRequest.nome)
+                        intent.putExtra("distance", routeRequest.desiredDistanceKm)
+                        intent.putExtra("trees", routeRequest.preferTrees)
+                        intent.putExtra("beach", routeRequest.nearBeach)
+                        intent.putExtra("park", routeRequest.nearPark)
+                        intent.putExtra("sunny", routeRequest.sunnyRoute)
+                        intent.putExtra("tipo", routeRequest.tipo)
                         startActivity(intent)
                     },
                     onBack = { finish() }
@@ -72,8 +54,6 @@ fun RouteFiltersScreen(
     onGenerateRoute: (RouteRequest) -> Unit,
     onBack: () -> Unit
 ) {
-    val context = LocalContext.current
-
     var nome by remember { mutableStateOf(TextFieldValue("")) }
     var tipo by remember { mutableStateOf("corrida") }
     var selectedDistance by remember { mutableStateOf("5 km") }
@@ -86,11 +66,10 @@ fun RouteFiltersScreen(
 
     val distances = listOf("2 km", "5 km", "10 km")
 
-    // Cores personalizadas
+    // Paleta de cores
     val backgroundColor = Color(0xFFFAF7F2)
-    val greenLight = Color(0xFFB8E986)  // verde mais claro
-    val greenMain = Color(0xFF6ECB63)   // verde principal
-    val greenDark = Color(0xFF4CAF50)   // verde mais escuro
+    val greenLight = Color(0xFFB8E986)
+    val greenMain = Color(0xFF6ECB63)
 
     Scaffold(
         topBar = {
@@ -122,6 +101,7 @@ fun RouteFiltersScreen(
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Nome da rota
             OutlinedTextField(
                 value = nome,
                 onValueChange = { nome = it },
@@ -131,6 +111,7 @@ fun RouteFiltersScreen(
 
             Spacer(Modifier.height(20.dp))
 
+            // Tipo de atividade
             Text("Tipo de atividade", fontWeight = FontWeight.Medium)
             Row(
                 Modifier
@@ -155,6 +136,7 @@ fun RouteFiltersScreen(
 
             Spacer(Modifier.height(16.dp))
 
+            // Distância
             Text("Distância desejada", fontWeight = FontWeight.Medium)
             Row(
                 Modifier
@@ -179,6 +161,7 @@ fun RouteFiltersScreen(
 
             Spacer(Modifier.height(16.dp))
 
+            // Filtros adicionais
             Text("Filtros adicionais", fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(8.dp))
 
@@ -192,28 +175,37 @@ fun RouteFiltersScreen(
 
             Spacer(Modifier.height(28.dp))
 
+            // Botão principal
             Button(
                 onClick = {
-                    if (nome.text.isBlank()) return@Button
+                    val nomeLimpo = nome.text.trim()
+                    if (nomeLimpo.isEmpty()) return@Button
 
+                    val tipoNormalizado = tipo.lowercase()
+                    val distanceValue = selectedDistance.replace(" km", "").toDouble()
+
+                    // Localização base do emulador
                     val originLat = 38.781810
                     val originLng = -9.102510
-                    val destLat = originLat + 0.01
-                    val destLng = originLng + 0.01
+
+                    // Ajuste proporcional de destino conforme a distância
+                    val fator = distanceValue / 2.0
+                    val destLat = originLat + 0.009 * fator
+                    val destLng = originLng + 0.009 * fator
 
                     val routeRequest = RouteRequest(
-                        nome = nome.text,
+                        nome = nomeLimpo,
                         originLat = originLat,
                         originLng = originLng,
                         destLat = destLat,
                         destLng = destLng,
-                        desiredDistanceKm = selectedDistance.replace(" km", "").toDouble(),
+                        desiredDistanceKm = distanceValue,
                         preferTrees = preferTrees,
                         nearBeach = nearBeach,
                         nearPark = nearPark,
                         sunnyRoute = sunnyRoute,
                         avoidHills = avoidHills,
-                        tipo = tipo
+                        tipo = tipoNormalizado
                     )
 
                     onGenerateRoute(routeRequest)
@@ -229,7 +221,6 @@ fun RouteFiltersScreen(
         }
     }
 }
-
 
 @Composable
 fun FilterCheck(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {

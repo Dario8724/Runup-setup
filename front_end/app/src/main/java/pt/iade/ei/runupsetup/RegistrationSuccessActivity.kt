@@ -1,8 +1,9 @@
 package pt.iade.ei.runupsetup
 
-import android.graphics.drawable.Icon
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.ui.Alignment
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -20,15 +22,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
+class RegistrationSuccessActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            RegistrationSuccessView(
+                onDone = {
+                    // Aqui você decide para onde vai depois do registro concluído.
+                    // Exemplo: Voltar para a tela inicial / login:
+                    val intent = Intent(this, InitialPageActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+            )
+        }
+    }
+}
+
 @Composable
-fun RegistrationSucessView(
+fun RegistrationSuccessView(
     onDone: () -> Unit = {}
 ) {
     val backgroundColor = Color(0xFFFAF7F2)
     val accentColor = Color(0xFF6ECB63)
     val iconBackground = Color(0xFF333333)
 
-    Scaffold (
+    Scaffold(
         containerColor = backgroundColor,
         bottomBar = {
             Box(
@@ -45,14 +66,17 @@ fun RegistrationSucessView(
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = accentColor)
                 ) {
-                    Text("Concluir",
+                    Text(
+                        "Concluir",
                         color = Color.White,
-                        fontSize = 16.sp)
+                        fontSize = 16.sp
+                    )
                 }
             }
         }
     ) { innerPadding ->
-        Column (
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -60,7 +84,8 @@ fun RegistrationSucessView(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            //Icone de suceso
+
+            // Ícone de sucesso
             Box(
                 modifier = Modifier
                     .size(90.dp)
@@ -78,7 +103,7 @@ fun RegistrationSucessView(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            //Mensagem principal
+            // Mensagem principal
             Text(
                 text = "Tudo pronto!",
                 fontSize = 28.sp,
@@ -89,7 +114,7 @@ fun RegistrationSucessView(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            //Texto secundario
+            // Texto secundário
             Text(
                 text = "A sua conta foi configurada com sucesso. Vamos começar a sua jornada de corrida!",
                 fontSize = 16.sp,
@@ -104,5 +129,5 @@ fun RegistrationSucessView(
 @Preview(showBackground = true)
 @Composable
 fun RegistrationSuccessViewPreview() {
-    RegistrationSucessView ()
+    RegistrationSuccessView()
 }
