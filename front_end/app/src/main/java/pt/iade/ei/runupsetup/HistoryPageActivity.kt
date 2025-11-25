@@ -114,7 +114,7 @@ fun HistoryPageView() {
                         label = "Comunidade")
             BottomBarItem(
             onclick = {
-            val intent = Intent(context, HistoryDetailPage::class.java)
+            val intent = Intent(context, HistoryPage::class.java)
              context.startActivity(intent)},
             icon = R.drawable.outline_history_24,
             label = "Histórico"

@@ -1,4 +1,5 @@
 package pt.iade.ei.runupsetup
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,8 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
@@ -44,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 
@@ -76,26 +81,12 @@ fun RoutePageView() {
                 colors = topAppBarColors(
                     containerColor = Color(0xFF7CCE6B),
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically)
-                    {
-                        Button(
-                            onClick = {},
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Black
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
-                            )
-                        }
-                    }
-                }
+                title = {}
             )
         }
         ,
         bottomBar = {
+            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -104,121 +95,47 @@ fun RoutePageView() {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.Home,
-                                contentDescription ="Botão para a página inicial",
-                                tint = Color.Black,
-                            )
-                            Text(
-                                text = "Início",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Black
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                painter = painterResource(R.drawable.outline_map_24),
-                                contentDescription = "Botão para a página de rotas",
-                            )
-                            Text(
-                                text = "Rotas",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor =Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.comunity_icon),
-                                contentDescription = "Botão para a página de comunidade",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Comunidade",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_history_24),
-                                contentDescription = "Botão para a página de histórico",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Histórico",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.AccountCircle,
-                                contentDescription = " Botão para a página de perfil",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Perfil",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, RoutePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade")
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, HistoryPage::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )
                 }
             }
         },
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
