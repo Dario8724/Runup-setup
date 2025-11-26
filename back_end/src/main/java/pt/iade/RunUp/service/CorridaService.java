@@ -52,7 +52,7 @@ public class CorridaService {
         Usuario usuario = usuarioRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Tipo tipo = tipoRepository.findByNome(request.getTipoNome())
+        Tipo tipo = tipoRepository.findFirstByNome(request.getTipoNome())
                 .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + request.getTipoNome()));
 
         Rota rota = new Rota();

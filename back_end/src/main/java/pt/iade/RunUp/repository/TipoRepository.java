@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface TipoRepository extends JpaRepository<Tipo, Integer> {
 
-    Optional<Tipo> findByNome(String nome);
+    Optional<Tipo> findFirstByNome(String nome);
 }

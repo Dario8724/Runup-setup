@@ -69,7 +69,7 @@ public class CorridaGenerationService {
 
         String nomeTipo = request.getTipoAtividade() == TipoAtividade.CORRIDA ? "CORRIDA" : "CAMINHADA";
 
-        Tipo tipo = tipoRepository.findByNome(nomeTipo)
+        Tipo tipo = tipoRepository.findFirstByNome(nomeTipo)
                 .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + nomeTipo));
 
         if (request.getFiltros() != null &&
