@@ -201,11 +201,14 @@ fun InitialPageView() {
                     }
                 }
             }
-            Text(
+            Row (modifier = Modifier.padding(start = 8.dp)){
+                Text(
                 text = "Atalhos rápidos",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
-            )
+            ) }
+            // adicionar paddin
+
             Column {
                     ShortCutCard(
                         icon = R.drawable.outline_map_24,
@@ -235,7 +238,7 @@ fun InitialPageView() {
 @Composable
 fun InitialPageHeader(){
     Box{
-
+            // todo : add color filter to match the green
         Image(
             painter = painterResource(R.drawable.corredor_ao_por_do_sol),
             contentDescription = "Imagem de um corredor ao pôr do sol",

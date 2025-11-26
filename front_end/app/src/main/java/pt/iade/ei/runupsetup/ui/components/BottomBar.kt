@@ -6,6 +6,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,9 +27,20 @@ fun BottomBarItem(
     onclick : () -> Unit = {}
 ){
     Button(onClick = {},
+        // botão selecionado
+        /*
+        colors = ButtonDefaults.colors(
+            selectedIconColor = Color.DarkGray,
+            unselectedIconColor = Color.White,
+            unselectedTextColor = Color.Black,
+            selectedTextColor = Color.Black,
+            indicatorColor = Color.Green
+        )
+        */
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.Unspecified,
-            containerColor = Color(0xF3EDF7)
+            containerColor = Color(0xF3EDF7),
+
         )
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
