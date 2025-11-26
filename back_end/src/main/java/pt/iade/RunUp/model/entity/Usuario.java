@@ -12,13 +12,13 @@ public class Usuario {
     @Column(name = "user_id")
     private Integer id;
 
-    @Column(name = "user_nome", nullable = false)
+    @Column(name = "user_nome")
     private String nome;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "user_email")
     private String email;
 
-    @Column(name = "user_senha", nullable = false)
+    @Column(name = "user_senha")
     private String senha;
 
     @Column(name = "user_data_de_nascimento")
@@ -36,4 +36,21 @@ public class Usuario {
     @Column(name = "user_experiencia")
     private String experiencia;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    // os outros getters/setters podes adicionar depois se precisares
 }
