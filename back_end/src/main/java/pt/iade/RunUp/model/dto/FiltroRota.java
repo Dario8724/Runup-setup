@@ -1,4 +1,4 @@
-package pt.iade.RunUp.dto;
+package pt.iade.RunUp.model.dto;
 
 public enum FiltroRota {
     ARBORIZADA,

@@ -1,7 +1,7 @@
 package pt.iade.RunUp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pt.iade.RunUp.model.Corrida;
+import pt.iade.RunUp.model.entity.Corrida;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package pt.iade.RunUp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pt.iade.RunUp.model.Usuario;
+import pt.iade.RunUp.model.entity.Usuario;
 
 import java.util.Optional;
 

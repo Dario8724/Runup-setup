@@ -2,8 +2,8 @@ package pt.iade.RunUp.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pt.iade.RunUp.dto.CorridaGeradaResponse;
-import pt.iade.RunUp.dto.GenerateCorridaRequest;
+import pt.iade.RunUp.model.dto.CorridaGeradaResponse;
+import pt.iade.RunUp.model.dto.GenerateCorridaRequest;
 import pt.iade.RunUp.service.CorridaGenerationService;
 
 @RestController

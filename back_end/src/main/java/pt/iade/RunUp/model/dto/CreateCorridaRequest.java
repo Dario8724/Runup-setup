@@ -1,4 +1,4 @@
-package pt.iade.RunUp.dto;
+package pt.iade.RunUp.model.dto;
 
 import java.util.List;
 

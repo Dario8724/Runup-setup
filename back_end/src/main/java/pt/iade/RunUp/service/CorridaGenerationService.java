@@ -2,12 +2,12 @@ package pt.iade.RunUp.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pt.iade.RunUp.dto.*;
+import pt.iade.RunUp.model.dto.*;
 import pt.iade.RunUp.integration.GoogleDirectionsClient;
 import pt.iade.RunUp.integration.GoogleElevationClient;
 import pt.iade.RunUp.integration.GooglePlacesClient;
 import pt.iade.RunUp.integration.WeatherClient;
-import pt.iade.RunUp.model.*;
+import pt.iade.RunUp.model.entity.*;
 import pt.iade.RunUp.repository.*;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package pt.iade.RunUp.model;
+package pt.iade.RunUp.model.entity;
 
 import jakarta.persistence.*;
 

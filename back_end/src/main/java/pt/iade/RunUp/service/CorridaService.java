@@ -2,10 +2,10 @@ package pt.iade.RunUp.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pt.iade.RunUp.dto.CorridaResponse;
-import pt.iade.RunUp.dto.CreateCorridaRequest;
-import pt.iade.RunUp.dto.RoutePointDTO;
-import pt.iade.RunUp.model.*;
+import pt.iade.RunUp.model.dto.CorridaResponse;
+import pt.iade.RunUp.model.dto.CreateCorridaRequest;
+import pt.iade.RunUp.model.dto.RoutePointDTO;
+import pt.iade.RunUp.model.entity.*;
 import pt.iade.RunUp.repository.*;
 
 import java.time.LocalDate;
