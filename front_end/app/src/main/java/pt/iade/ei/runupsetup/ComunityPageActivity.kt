@@ -156,10 +156,13 @@ fun ComunityActivityView() {
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-
-            Text(
-                text = "Conecte-se com outros corredores"
-            )
+            Row(
+                modifier = Modifier.padding(start = 8.dp)
+            ){
+                Text(
+                    text = "Conecte-se com outros corredores"
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

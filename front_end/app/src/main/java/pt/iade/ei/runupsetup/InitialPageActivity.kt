@@ -46,6 +46,7 @@ import android.content.Intent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 
@@ -245,12 +246,11 @@ fun InitialPageHeader(){
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),
-        )
+                .height(250.dp),)
         Column(
             modifier = Modifier
                 .align (Alignment.TopStart)
-                .padding(start = 20.dp, top = 40.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
             Text(
                 text = "Olá, Corredor",
@@ -271,7 +271,7 @@ fun InitialPageHeader(){
                 .fillMaxWidth()
                 .padding(vertical = 15.dp)
                 .align (Alignment.BottomEnd)
-                .padding(start = 20.dp, top = 40.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
             StartButton()
         }
