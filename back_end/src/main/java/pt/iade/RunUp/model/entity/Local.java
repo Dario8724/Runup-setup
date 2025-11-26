@@ -1,12 +1,10 @@
 package pt.iade.RunUp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
 @Table(name = "local")
-@Data
-public class LocalPlace {
+public class Local {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +13,14 @@ public class LocalPlace {
 
     @Column(name = "local_nome")
     private String nome;
+
+    @Column(name = "local_latitude")
+    private Double latitude;
+
+    @Column(name = "local_longitude")
+    private Double longitude;
+
+    @Column(name = "local_elevacao")
+    private Double elevacao;
+
 }

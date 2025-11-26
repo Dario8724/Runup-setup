@@ -1,18 +1,17 @@
 package pt.iade.RunUp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name = "tipo")
-@Data
-public class RunType {
+@Table(name = "caracteristica")
+public class Caracteristica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tipo_id")
+    @Column(name = "caract_id")
     private Integer id;
 
-    @Column(name = "tipo_nome")
-    private String name;
+    @Column(name = "caract_tipo")
+    private String tipo;  
+
 }

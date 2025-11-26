@@ -1,12 +1,11 @@
 package pt.iade.RunUp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import java.util.List;
 
 @Entity
 @Table(name = "rota")
-@Data
-public class Route {
+public class Rota {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +13,12 @@ public class Route {
     private Integer id;
 
     @Column(name = "rota_nome")
-    private String name;
+    private String nome;
 
     @Column(name = "rota_elevacao")
-    private Double elevation;
+    private Double elevacao;
+
+    @OneToMany(mappedBy = "rota", cascade = CascadeType.ALL)
+    private List<LigacaoRotaLocal> locais; 
+
 }
