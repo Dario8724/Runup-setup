@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CorridaGenerationService {
@@ -97,6 +98,42 @@ public class CorridaGenerationService {
         );
 
         double totalElevationGain = 0.0;
+
+        if (!pontos.isEmpty()) {
+            List<String> latLngPairs = new ArrayList<>();
+            for (RoutePointDTO p : pontos) {
+                latLngPairs.add(p.getLatitude() + "," + p.getLongitude());
+        }
+
+        List<Map<String, Object>> elevationResults = elevationClient.getElevations(latLngPairs);
+
+        boolean first = true;
+        double lastElevation = 0.0;
+
+        for (int i = 0; i < pontos.size() && i < elevationResults.size(); i++) {
+            RoutePointDTO ponto = pontos.get(i);
+            Map<String, Object> elevInfo = elevationResults.get(i);
+
+            Object elevObj = elevInfo.get("elevation");
+            double elevation = 0.0;
+            if (elevObj instanceof Number) {
+                elevation = ((Number) elevObj).doubleValue();
+            }
+
+            ponto.setElevation(elevation);
+
+            if (first) {
+                lastElevation = elevation;
+                first = false;
+            } else {
+                double diff = elevation - lastElevation;
+                if (diff > 0) {
+                    totalElevationGain += diff;
+                }
+                lastElevation = elevation;
+            }
+        }
+    }
 
         double paceMinPerKm = request.getTipoAtividade() == TipoAtividade.CORRIDA ? 6.0 : 12.0;
         double durationMinutes = distanceKm * paceMinPerKm;
