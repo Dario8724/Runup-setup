@@ -89,7 +89,7 @@ public class CorridaGenerationService {
             // PERTO_PARQUE → começar num parque próximo
             if (request.getFiltros().contains(FiltroRota.PERTO_PARQUE)) {
                 try {
-                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 1500,"park");
+                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 1500, "park");
 
                     if (placesResp != null && placesResp.containsKey("results")) {
                         @SuppressWarnings("unchecked")
@@ -124,7 +124,7 @@ public class CorridaGenerationService {
                 // PERTO_PRAIA → tentar achar uma “praia” perto
             } else if (request.getFiltros().contains(FiltroRota.PERTO_PRAIA)) {
                 try {
-                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 5000,"praia");
+                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 5000, "praia");
 
                     if (placesResp != null && placesResp.containsKey("results")) {
                         @SuppressWarnings("unchecked")
@@ -168,8 +168,35 @@ public class CorridaGenerationService {
                 }
             }
 
-            // ENSOLARADA, ARBORIZADA etc. podemos usar depois com weatherClient / Places
-            // adicionais
+            // 5b) Se o user pediu ENSOLARADA, consultar o tempo atual nesse ponto de
+            // partida
+            String weatherCondition = null;
+            boolean ensolaradaAtendida = true; // por default assumimos que sim
+
+            if (request.getFiltros() != null && request.getFiltros().contains(FiltroRota.ENSOLARADA)) {
+                try {
+                    weatherCondition = weatherClient.getWeather(routeStartLat, routeStartLng);
+                    if (weatherCondition == null) {
+                        weatherCondition = "Unknown";
+                    }
+
+                    // OpenWeather "main" costuma ser: Clear, Clouds, Rain, Drizzle, Thunderstorm,
+                    // Snow, etc.
+                    ensolaradaAtendida = weatherCondition.equalsIgnoreCase("Clear");
+
+                    System.out.println("[Weather] Condição atual: " + weatherCondition +
+                            " | filtro ENSOLARADA atendido? " + ensolaradaAtendida);
+
+                } catch (Exception e) {
+                    System.out.println("Erro ao consultar OpenWeather: " + e.getMessage());
+                    weatherCondition = "Unknown";
+                    ensolaradaAtendida = false; // não conseguimos garantir que está ensolarado
+                }
+            } else {
+                // se não pediu ENSOLARADA, podes opcionalmente nem chamar API
+                weatherCondition = null; // ou, se quiseres, também podíamos sempre chamar para mostrar ao user
+            }
+
         }
 
         // 6) Distância alvo
@@ -311,6 +338,8 @@ public class CorridaGenerationService {
         resp.setDataCriacao(corrida.getData());
         resp.setFiltrosAplicados(request.getFiltros());
         resp.setPontos(pontos);
+        resp.setWeatherCondition(weatherCondition);
+        resp.setEnsolaradaAtendida(ensolaradaAtendida);
 
         return resp;
     }

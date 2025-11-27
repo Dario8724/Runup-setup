@@ -20,6 +20,25 @@ public class CorridaGeradaResponse {
     private List<FiltroRota> filtrosAplicados;
     private List<RoutePointDTO> pontos;
 
+    private String weatherCondition;      
+    private boolean ensolaradaAtendida;
+
+     public String getWeatherCondition() {
+        return weatherCondition;
+    }
+
+    public void setWeatherCondition(String weatherCondition) {
+        this.weatherCondition = weatherCondition;
+    }
+
+    public boolean isEnsolaradaAtendida() {
+        return ensolaradaAtendida;
+    }
+
+    public void setEnsolaradaAtendida(boolean ensolaradaAtendida) {
+        this.ensolaradaAtendida = ensolaradaAtendida;
+    }
+
     public Integer getCorridaId() {
         return corridaId;
     }
