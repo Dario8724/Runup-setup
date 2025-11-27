@@ -87,17 +87,16 @@ public class CorridaGenerationService {
             }
         }
 
-        String travelMode = "WALKING"; 
+        double distanceKm = request.getDistanceKm() != null ? request.getDistanceKm() : 5.0;
 
-        List<RoutePointDTO> pontos = new ArrayList<>();
+        List<RoutePointDTO> pontos = directionsClient.gerarPontosDaRota(
+            request.getStartLatitude(),
+            request.getStartLongitude(),
+            distanceKm,
+            request.getTipoAtividade()
+        );
 
         double totalElevationGain = 0.0;
-
-        if (!pontos.isEmpty()) {
- 
-        }
-
-        double distanceKm = request.getDistanceKm() != null ? request.getDistanceKm() : 5.0;
 
         double paceMinPerKm = request.getTipoAtividade() == TipoAtividade.CORRIDA ? 6.0 : 12.0;
         double durationMinutes = distanceKm * paceMinPerKm;

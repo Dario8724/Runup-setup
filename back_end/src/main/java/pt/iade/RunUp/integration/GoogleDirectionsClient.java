@@ -1,14 +1,16 @@
 package pt.iade.RunUp.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import pt.iade.RunUp.model.dto.RoutePointDTO;
+import pt.iade.RunUp.model.dto.TipoAtividade;
+import pt.iade.RunUp.util.PolylineDecoder;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Component
 public class GoogleDirectionsClient {
@@ -19,63 +21,65 @@ public class GoogleDirectionsClient {
     private static final String DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json";
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final Logger logger = Logger.getLogger(GoogleDirectionsClient.class.getName());
 
-    /**
-     * Chamada básica (origin -> destination).
-     */
-    public Map<String, Object> getRoute(double originLat, double originLng,
-                                        double destLat, double destLng) {
-        try {
-            URI uri = UriComponentsBuilder.fromHttpUrl(DIRECTIONS_URL)
-                    .queryParam("origin", originLat + "," + originLng)
-                    .queryParam("destination", destLat + "," + destLng)
-                    .queryParam("mode", "walking")
-                    .queryParam("alternatives", "true")
-                    .queryParam("key", apiKey)
-                    .build()
-                    .encode()
-                    .toUri();
+    public List<RoutePointDTO> gerarPontosDaRota(double startLat,
+                                                 double startLng,
+                                                 double distanceKm,
+                                                 TipoAtividade tipoAtividade) {
 
-            logger.fine("Calling Directions: " + uri.toString());
-            Map<String, Object> resp = restTemplate.getForObject(uri, Map.class);
-            return resp;
-        } catch (Exception e) {
-            logger.severe("Erro na chamada básica de Directions: " + e.getMessage());
-            return null;
+        String origin = startLat + "," + startLng;
+
+        double deltaLat = distanceKm / 111.0;
+        String destination = (startLat + deltaLat) + "," + startLng;
+
+        String mode = "walking"; 
+
+        String url = UriComponentsBuilder.fromHttpUrl(DIRECTIONS_URL)
+                .queryParam("origin", origin)
+                .queryParam("destination", destination)
+                .queryParam("mode", mode)
+                .queryParam("key", apiKey)
+                .toUriString();
+
+        Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+
+        List<RoutePointDTO> pontos = new ArrayList<>();
+
+        if (response == null) {
+            return pontos;
         }
-    }
 
-    /**
-     * Chamada com waypoints — ideal para loops (origin == destination).
-     * waypoints deve estar no formato "via:lat,lng|via:lat2,lng2|..."
-     *
-     * Nota: usamos UriComponentsBuilder.encode() para garantir que pipes/commas sejam corretamente codificados.
-     */
-    public Map<String, Object> getRouteWithWaypoints(double originLat, double originLng,
-                                                     double destLat, double destLng,
-                                                     String waypointParam) {
-        try {
-            UriComponentsBuilder b = UriComponentsBuilder.fromHttpUrl(DIRECTIONS_URL)
-                    .queryParam("origin", originLat + "," + originLng)
-                    .queryParam("destination", destLat + "," + destLng)
-                    .queryParam("mode", "walking")
-                    .queryParam("alternatives", "true")
-                    .queryParam("key", apiKey);
-
-            if (waypointParam != null && !waypointParam.isBlank()) {
-                // adiciona waypoints como valor de query; será codificado por .encode()
-                b.queryParam("waypoints", waypointParam);
-            }
-
-            URI uri = b.build().encode().toUri();
-            logger.fine("Calling Directions (waypoints): " + uri.toString());
-            Map<String, Object> resp = restTemplate.getForObject(uri, Map.class);
-            return resp;
-        } catch (Exception e) {
-            logger.severe("Erro em Directions com waypoints: " + e.getMessage());
-            return null;
+        Object status = response.get("status");
+        if (status == null || !"OK".equals(status.toString())) {
+            return pontos;
         }
+
+        List<Map<String, Object>> routes = (List<Map<String, Object>>) response.get("routes");
+        if (routes == null || routes.isEmpty()) {
+            return pontos;
+        }
+
+        Map<String, Object> route = routes.get(0);
+        Map<String, Object> overviewPolyline = (Map<String, Object>) route.get("overview_polyline");
+        if (overviewPolyline == null) {
+            return pontos;
+        }
+
+        String encoded = (String) overviewPolyline.get("points");
+        if (encoded == null || encoded.isEmpty()) {
+            return pontos;
+        }
+
+        List<double[]> decoded = PolylineDecoder.decode(encoded);
+
+        for (double[] coord : decoded) {
+            RoutePointDTO dto = new RoutePointDTO();
+            dto.setLatitude(coord[0]);
+            dto.setLongitude(coord[1]);
+            dto.setElevation(0.0); 
+            pontos.add(dto);
+        }
+
+        return pontos;
     }
 }
