@@ -35,18 +35,18 @@ public class CorridaGenerationService {
     private final WeatherClient weatherClient;
 
     public CorridaGenerationService(UsuarioRepository usuarioRepository,
-                                    TipoRepository tipoRepository,
-                                    RotaRepository rotaRepository,
-                                    LocalRepository localRepository,
-                                    LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
-                                    CaracteristicaRepository caracteristicaRepository,
-                                    CaracteristicaRotaRepository caracteristicaRotaRepository,
-                                    CorridaRepository corridaRepository,
-                                    MetaUsuarioRepository metaUsuarioRepository,
-                                    GoogleDirectionsClient directionsClient,
-                                    GoogleElevationClient elevationClient,
-                                    GooglePlacesClient placesClient,
-                                    WeatherClient weatherClient) {
+            TipoRepository tipoRepository,
+            RotaRepository rotaRepository,
+            LocalRepository localRepository,
+            LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
+            CaracteristicaRepository caracteristicaRepository,
+            CaracteristicaRotaRepository caracteristicaRotaRepository,
+            CorridaRepository corridaRepository,
+            MetaUsuarioRepository metaUsuarioRepository,
+            GoogleDirectionsClient directionsClient,
+            GoogleElevationClient elevationClient,
+            GooglePlacesClient placesClient,
+            WeatherClient weatherClient) {
         this.usuarioRepository = usuarioRepository;
         this.tipoRepository = tipoRepository;
         this.rotaRepository = rotaRepository;
@@ -65,76 +65,163 @@ public class CorridaGenerationService {
     @Transactional
     public CorridaGeradaResponse gerarCorrida(GenerateCorridaRequest request) {
 
+        // 1) Buscar usuário
         Usuario usuario = usuarioRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
+        // 2) Definir tipo (CORRIDA ou CAMINHADA)
         String nomeTipo = request.getTipoAtividade() == TipoAtividade.CORRIDA ? "CORRIDA" : "CAMINHADA";
 
         Tipo tipo = tipoRepository.findFirstByNome(nomeTipo)
                 .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + nomeTipo));
 
-        if (request.getFiltros() != null &&
-                request.getFiltros().contains(FiltroRota.ENSOLARADA)) {
-        }
+        // 3) Coordenadas iniciais (onde o user está)
+        double startLat = request.getStartLatitude();
+        double startLng = request.getStartLongitude();
 
-        double targetLat = request.getStartLatitude();
-        double targetLng = request.getStartLongitude();
+        // 4) Ponto de partida efetivo da rota (pode ser ajustado pelos filtros)
+        double routeStartLat = startLat;
+        double routeStartLng = startLng;
 
+        // 5) Filtros que mexem no ponto de partida (PERTO_PARQUE / PERTO_PRAIA)
         if (request.getFiltros() != null && !request.getFiltros().isEmpty()) {
+
+            // PERTO_PARQUE → começar num parque próximo
             if (request.getFiltros().contains(FiltroRota.PERTO_PARQUE)) {
+                try {
+                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 1500,"park");
 
+                    if (placesResp != null && placesResp.containsKey("results")) {
+                        @SuppressWarnings("unchecked")
+                        List<Map<String, Object>> results = (List<Map<String, Object>>) placesResp.get("results");
+
+                        if (results != null && !results.isEmpty()) {
+                            Map<String, Object> first = results.get(0);
+
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> geometry = (Map<String, Object>) first.get("geometry");
+
+                            if (geometry != null) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> location = (Map<String, Object>) geometry.get("location");
+
+                                if (location != null) {
+                                    Object latObj = location.get("lat");
+                                    Object lngObj = location.get("lng");
+
+                                    if (latObj instanceof Number && lngObj instanceof Number) {
+                                        routeStartLat = ((Number) latObj).doubleValue();
+                                        routeStartLng = ((Number) lngObj).doubleValue();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erro ao consultar Google Places (parque): " + e.getMessage());
+                }
+
+                // PERTO_PRAIA → tentar achar uma “praia” perto
             } else if (request.getFiltros().contains(FiltroRota.PERTO_PRAIA)) {
+                try {
+                    Map<String, Object> placesResp = placesClient.searchNearby(startLat, startLng, 5000,"praia");
 
+                    if (placesResp != null && placesResp.containsKey("results")) {
+                        @SuppressWarnings("unchecked")
+                        List<Map<String, Object>> results = (List<Map<String, Object>>) placesResp.get("results");
+
+                        if (results != null && !results.isEmpty()) {
+                            // default: primeiro resultado
+                            Map<String, Object> chosen = results.get(0);
+
+                            // tentar achar algo com "praia" no nome
+                            for (Map<String, Object> r : results) {
+                                Object nameObj = r.get("name");
+                                if (nameObj instanceof String &&
+                                        ((String) nameObj).toLowerCase().contains("praia")) {
+                                    chosen = r;
+                                    break;
+                                }
+                            }
+
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> geometry = (Map<String, Object>) chosen.get("geometry");
+
+                            if (geometry != null) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> location = (Map<String, Object>) geometry.get("location");
+
+                                if (location != null) {
+                                    Object latObj = location.get("lat");
+                                    Object lngObj = location.get("lng");
+
+                                    if (latObj instanceof Number && lngObj instanceof Number) {
+                                        routeStartLat = ((Number) latObj).doubleValue();
+                                        routeStartLng = ((Number) lngObj).doubleValue();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erro ao consultar Google Places (praia): " + e.getMessage());
+                }
             }
+
+            // ENSOLARADA, ARBORIZADA etc. podemos usar depois com weatherClient / Places
+            // adicionais
         }
 
-        double distanceKm = request.getDistanceKm() != null ? request.getDistanceKm() : 5.0;
+        // 6) Distância alvo
+        double distanceKm = (request.getDistanceKm() != null) ? request.getDistanceKm() : 5.0;
 
+        // 7) Gerar pontos da rota via Google Directions (teu client)
         List<RoutePointDTO> pontos = directionsClient.gerarPontosDaRota(
-            request.getStartLatitude(),
-            request.getStartLongitude(),
-            distanceKm,
-            request.getTipoAtividade()
-        );
+                routeStartLat,
+                routeStartLng,
+                distanceKm,
+                request.getTipoAtividade());
 
+        // 8) Consultar elevação e calcular ganho total de subida
         double totalElevationGain = 0.0;
 
         if (!pontos.isEmpty()) {
             List<String> latLngPairs = new ArrayList<>();
             for (RoutePointDTO p : pontos) {
                 latLngPairs.add(p.getLatitude() + "," + p.getLongitude());
-        }
-
-        List<Map<String, Object>> elevationResults = elevationClient.getElevations(latLngPairs);
-
-        boolean first = true;
-        double lastElevation = 0.0;
-
-        for (int i = 0; i < pontos.size() && i < elevationResults.size(); i++) {
-            RoutePointDTO ponto = pontos.get(i);
-            Map<String, Object> elevInfo = elevationResults.get(i);
-
-            Object elevObj = elevInfo.get("elevation");
-            double elevation = 0.0;
-            if (elevObj instanceof Number) {
-                elevation = ((Number) elevObj).doubleValue();
             }
 
-            ponto.setElevation(elevation);
+            List<Map<String, Object>> elevationResults = elevationClient.getElevations(latLngPairs);
 
-            if (first) {
-                lastElevation = elevation;
-                first = false;
-            } else {
-                double diff = elevation - lastElevation;
-                if (diff > 0) {
-                    totalElevationGain += diff;
+            boolean first = true;
+            double lastElevation = 0.0;
+
+            for (int i = 0; i < pontos.size() && i < elevationResults.size(); i++) {
+                RoutePointDTO ponto = pontos.get(i);
+                Map<String, Object> elevInfo = elevationResults.get(i);
+
+                Object elevObj = elevInfo.get("elevation");
+                double elevation = 0.0;
+                if (elevObj instanceof Number) {
+                    elevation = ((Number) elevObj).doubleValue();
                 }
-                lastElevation = elevation;
+
+                ponto.setElevation(elevation);
+
+                if (first) {
+                    lastElevation = elevation;
+                    first = false;
+                } else {
+                    double diff = elevation - lastElevation;
+                    if (diff > 0) {
+                        totalElevationGain += diff;
+                    }
+                    lastElevation = elevation;
+                }
             }
         }
-    }
 
+        // 9) Ritmo, duração, calorias (por enquanto fixo)
         double paceMinPerKm = request.getTipoAtividade() == TipoAtividade.CORRIDA ? 6.0 : 12.0;
         double durationMinutes = distanceKm * paceMinPerKm;
         long durationSeconds = Math.round(durationMinutes * 60);
@@ -143,11 +230,13 @@ public class CorridaGenerationService {
                 ? (int) Math.round(distanceKm * 65)
                 : (int) Math.round(distanceKm * 40);
 
+        // 10) Persistir Rota
         Rota rota = new Rota();
         rota.setNome(request.getRouteName());
         rota.setElevacao(totalElevationGain);
         rota = rotaRepository.save(rota);
 
+        // 11) Persistir Locais + LigacaoRotaLocal
         int ordem = 1;
         for (RoutePointDTO p : pontos) {
             Local local = new Local();
@@ -166,9 +255,11 @@ public class CorridaGenerationService {
             ordem++;
         }
 
+        // 12) Persistir características da rota (filtros escolhidos)
         if (request.getFiltros() != null) {
             for (FiltroRota filtro : request.getFiltros()) {
-                if (filtro == FiltroRota.SEM_FILTRO) continue;
+                if (filtro == FiltroRota.SEM_FILTRO)
+                    continue;
 
                 String nomeCaract = filtro.name();
                 Caracteristica caract = caracteristicaRepository.findByTipo(nomeCaract)
@@ -185,6 +276,7 @@ public class CorridaGenerationService {
             }
         }
 
+        // 13) Persistir Corrida
         Corrida corrida = new Corrida();
         corrida.setData(LocalDate.now());
         corrida.setDistancia(distanceKm);
@@ -198,12 +290,14 @@ public class CorridaGenerationService {
 
         corrida = corridaRepository.save(corrida);
 
+        // 14) MetaUsuario (ligar usuário à corrida)
         MetaUsuario mu = new MetaUsuario();
         mu.setUsuario(usuario);
         mu.setCorrida(corrida);
-        mu.setMetaId(null); 
+        mu.setMetaId(null);
         metaUsuarioRepository.save(mu);
 
+        // 15) Montar resposta DTO
         CorridaGeradaResponse resp = new CorridaGeradaResponse();
         resp.setCorridaId(corrida.getId());
         resp.setUserId(usuario.getId());
