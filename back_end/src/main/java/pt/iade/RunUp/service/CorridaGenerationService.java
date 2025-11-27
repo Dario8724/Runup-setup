@@ -83,6 +83,9 @@ public class CorridaGenerationService {
         double routeStartLat = startLat;
         double routeStartLng = startLng;
 
+        String weatherCondition = null;
+        boolean ensolaradaAtendida = true; // por default assumimos que sim
+
         // 5) Filtros que mexem no ponto de partida (PERTO_PARQUE / PERTO_PRAIA)
         if (request.getFiltros() != null && !request.getFiltros().isEmpty()) {
 
@@ -167,11 +170,6 @@ public class CorridaGenerationService {
                     System.out.println("Erro ao consultar Google Places (praia): " + e.getMessage());
                 }
             }
-
-            // 5b) Se o user pediu ENSOLARADA, consultar o tempo atual nesse ponto de
-            // partida
-            String weatherCondition = null;
-            boolean ensolaradaAtendida = true; // por default assumimos que sim
 
             if (request.getFiltros() != null && request.getFiltros().contains(FiltroRota.ENSOLARADA)) {
                 try {
