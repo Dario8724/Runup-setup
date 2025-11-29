@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.channels.ticker
 import pt.iade.ei.runupsetup.models.HistoryItemModel
 import java.util.Calendar
 
@@ -70,22 +71,24 @@ class ComunityPageActivity : ComponentActivity() {
 @Composable
 fun ComunityActivityView() {
     val item1 = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "8.5 km",
         duration = "00:30:45",
         calories = "250 kcal",
         minimumPace = "5'30\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "corrida"
     )
     val item2 = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida aleatória",
         date = Calendar.getInstance(),
         distance = "12.3 km",
         duration = "1:45:20",
         calories = "250 kcal",
         minimumPace = "8'33\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "corrida"
     )
     Scaffold(
         topBar = {

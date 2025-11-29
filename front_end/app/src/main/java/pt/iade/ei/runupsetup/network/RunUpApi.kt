@@ -4,10 +4,12 @@ package pt.iade.ei.runupsetup.network
 import pt.iade.ei.runupsetup.models.RouteRequest
 import pt.iade.ei.runupsetup.models.RouteResponse
 import pt.iade.ei.runupsetup.models.HistoryItemDto
+import pt.iade.ei.runupsetup.models.CorridaDetalheDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.*
 import retrofit2.Response
 
@@ -30,4 +32,10 @@ interface RunUpApi{
     suspend fun getHistorico(
         @Query("userId") userId: Int
     ): Response<List<HistoryItemDto>>
+
+    @GET("/api/corridas/{corridaId}")
+    suspend fun getCorridaDetalhe(
+        @Path("corridaId") corridaId: Int
+    ): Response<CorridaDetalheDto>
+
 }

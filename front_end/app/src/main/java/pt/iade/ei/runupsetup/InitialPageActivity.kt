@@ -62,6 +62,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.channels.ticker
 import pt.iade.ei.runupsetup.RouteFiltersActivity
 
 
@@ -80,13 +81,14 @@ class InitialPageActivity : ComponentActivity() {
 @Composable
 fun InitialPageView() {
     val item = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "5 km",
         duration = "00:30:45",
         calories = "250 kcal",
         minimumPace = "5'30\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "caminhada"
     )
     // most of the content is not needed
     Scaffold(

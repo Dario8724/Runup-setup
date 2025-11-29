@@ -18,6 +18,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaHistoricoItemDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/CaracteristicaRotaRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaGeradaResponse.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaDetalheResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Local.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/CorridaController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/RoutePointDTO.java

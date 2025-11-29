@@ -9,13 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.automirrored.outlined.DirectionsRun
+import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.*
@@ -37,13 +37,14 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class HistoryDetailPage : ComponentActivity() {
+class HistoryPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             RunupSetupTheme {
-                HistoryDetailPageView()
+                HistoryPageView(userId = 1) // por enquanto user fixo
             }
         }
     }
@@ -51,28 +52,25 @@ class HistoryDetailPage : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryDetailPageView(userId: Int = 1) { // por enquanto userId fixo
+fun HistoryPageView(userId: Int) {
     val context = LocalContext.current
 
-    // ---- ESTADO ----
     var items by remember { mutableStateOf<List<HistoryItemModel>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    // ---- CHAMADA AO BACKEND ----
     LaunchedEffect(userId) {
         try {
-            val response = RetrofitClient.instance.getHistorico(userId)
-
-            if (response.isSuccessful) {
-                val body = response.body() ?: emptyList()
-                // Mapear DTO -> UI model
+            val resp = RetrofitClient.instance.getHistorico(userId)
+            if (resp.isSuccessful) {
+                val body = resp.body() ?: emptyList()
                 items = body.map { it.toUiModel() }
+                errorMessage = null
             } else {
-                errorMessage = "Erro ao carregar histórico (${response.code()})"
+                errorMessage = "Erro ao carregar histórico (${resp.code()})"
             }
         } catch (e: Exception) {
-            errorMessage = "Erro de rede: ${e.message}"
+            errorMessage = "Falha: ${e.localizedMessage}"
         } finally {
             isLoading = false
         }
@@ -83,14 +81,13 @@ fun HistoryDetailPageView(userId: Int = 1) { // por enquanto userId fixo
             TopAppBar(
                 colors = topAppBarColors(
                     containerColor = Color(0xFF7CCE6B),
+                    titleContentColor = Color.White
                 ),
-                title = {}
+                title = { Text(text = "Histórico") }
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color.White,
-            ) {
+            BottomAppBar(containerColor = Color.White) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -98,273 +95,302 @@ fun HistoryDetailPageView(userId: Int = 1) { // por enquanto userId fixo
                 ) {
                     BottomBarItem(
                         onclick = {
-                            val intent = Intent(context, InitialPageActivity::class.java)
-                            context.startActivity(intent)
+                            context.startActivity(
+                                Intent(context, InitialPageActivity::class.java)
+                            )
                         },
                         icon = R.drawable.outline_home_24,
                         label = "Início"
                     )
                     BottomBarItem(
-                        onclick = { /* TODO rotas */ },
+                        onclick = { /* Rotas */ },
                         icon = R.drawable.outline_map_24,
                         label = "Rotas"
                     )
                     BottomBarItem(
                         onclick = {
-                            val intent = Intent(context, ComunityPageActivity::class.java)
-                            context.startActivity(intent)
+                            context.startActivity(
+                                Intent(context, ComunityPageActivity::class.java)
+                            )
                         },
                         icon = R.drawable.comunity_icon,
                         label = "Comunidade"
                     )
                     BottomBarItem(
-                        onclick = { /* já estamos no histórico */ },
+                        onclick = {
+                            context.startActivity(
+                                Intent(context, HistoryPageActivity::class.java)
+                            )
+                        },
                         icon = R.drawable.outline_history_24,
                         label = "Histórico"
                     )
                     BottomBarItem(
                         onclick = {
-                            val intent = Intent(context, ProfilePageActivity::class.java)
-                            context.startActivity(intent)
+                            context.startActivity(
+                                Intent(context, ProfilePageActivity::class.java)
+                            )
                         },
                         icon = R.drawable.outline_account_circle_24,
                         label = "Perfil"
                     )
                 }
             }
-        },
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxWidth()
-                .padding(start = 4.dp, end = 4.dp),
-        ) {
-            // Título
-            Text(
-                text = "Histórico ",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Black
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Suas atividades recentes")
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // Card resumo (por enquanto estático; depois podemos calcular com base em items)
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .fillMaxWidth(),
-                shape = RectangleShape,
-                elevation = CardDefaults.cardElevation(),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF7CCE6B)
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp, vertical = 20.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = items.size.toString(),
-                            fontSize = 22.sp,
-                            color = Color.White
-                        )
-                        Text(
-                            text = "Atividades",
-                            color = Color.White
-                        )
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        val totalKm = items
-                            .mapNotNull {
-                                it.distance.replace(" km", "").replace(",", ".").toDoubleOrNull()
-                            }
-                            .sum()
-                        Text(
-                            text = String.format("%.1f", totalKm),
-                            fontSize = 22.sp,
-                            color = Color.White
-                        )
-                        Text(
-                            text = "km Total",
-                            color = Color.White
-                        )
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        // por enquanto só um placeholder
-                        Text(
-                            text = "—",
-                            fontSize = 22.sp,
-                            color = Color.White
-                        )
-                        Text(
-                            text = "Tempo Total",
-                            color = Color.White
-                        )
-                    }
-                }
-            }
-
-            // Filtro por mês (por enquanto só mostra o mês atual ou da primeira corrida)
-            val monthLabel = if (items.isNotEmpty()) {
-                DateFormat.format("MMMM 'de' yyyy", items[0].date).toString()
-            } else {
-                DateFormat.format("MMMM 'de' yyyy", Calendar.getInstance()).toString()
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(start = 5.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = monthLabel)
-                Button(
-                    onClick = { /* TODO abrir filtro de datas */ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color(0xFF7CCE6B)
-                    )
-                ) {
-                    Icon(
-                        Icons.Outlined.DateRange,
-                        contentDescription = "Filtrar datas"
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // ---- ESTADO: LOADING / ERRO / LISTA ----
-            when {
-                isLoading -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 32.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text("Carregando histórico…")
-                    }
-                }
-
-                errorMessage != null -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 32.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = errorMessage!!,
-                            color = Color.Red
-                        )
-                    }
-                }
-
-                else -> {
-                    LazyColumn {
-                        items(items.size) { index ->
-                            val item = items[index]
-                            HistoryItemCard(item = item)
-                        }
-                    }
-                }
-            }
         }
+    ) { innerPadding ->
+        HistoryPageContent(
+            modifier = Modifier.padding(innerPadding),
+            items = items,
+            isLoading = isLoading,
+            errorMessage = errorMessage
+        )
     }
 }
 
 @Composable
-fun HistoryItemCard(item: HistoryItemModel) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .fillMaxWidth(),
-        onClick = {
-            // aqui depois vamos navegar para a tela de detalhes
-            // por enquanto pode deixar vazio
-        },
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 10.dp,
-            pressedElevation = 12.dp
+private fun HistoryPageContent(
+    modifier: Modifier = Modifier,
+    items: List<HistoryItemModel>,
+    isLoading: Boolean,
+    errorMessage: String?
+) {
+    Column(modifier = modifier.fillMaxSize()) {
+
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+            Text(
+                text = "Histórico",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Black
+            )
+            Spacer(Modifier.height(2.dp))
+            Text(text = "Suas atividades recentes")
+        }
+
+        HistoryStatsCard(items)
+
+        Text(
+            text = DateFormat.format("MMMM yyyy", Calendar.getInstance()).toString()
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = "Corrida", // se quiser pode trocar depois por tipo ou título
-                )
-                Icon(
-                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "ver detalhes",
-                    tint = Color.Gray
-                )
+
+        when {
+            isLoading -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(Modifier.height(8.dp))
+                    Text("Carregando histórico…")
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.padding(vertical = 5.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    Icons.Outlined.LocationOn,
-                    contentDescription = "Localização"
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text("Rota: ${item.title}")
+
+            errorMessage != null -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(errorMessage, color = Color.Red)
+                }
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Pace médio",
-                        fontWeight = FontWeight.Black
-                    )
-                    Text(text = item.minimumPace)
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Tempo",
-                        fontWeight = FontWeight.Black
-                    )
-                    Text(text = item.duration)
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Distância",
-                        fontWeight = FontWeight.Black
-                    )
-                    Text(text = item.distance)
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Calorias",
-                        fontWeight = FontWeight.Black
-                    )
-                    Text(text = item.calories)
+
+            else -> {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(items) { item ->
+                        HistoryItemCard(item)
+                    }
                 }
             }
         }
     }
 }
 
+/** Card verde com totais */
+@Composable
+fun HistoryStatsCard(items: List<HistoryItemModel>) {
+    val totalAtividades = items.size
+
+    val totalKm = items.sumOf { item ->
+        item.distance.substringBefore(" ")
+            .replace(",", ".")
+            .toDoubleOrNull() ?: 0.0
+    }
+
+    val totalMinutos = items.sumOf { item ->
+        // duration vem em "HH:MM"
+        val parts = item.duration.split(":")
+        val h = parts.getOrNull(0)?.toIntOrNull() ?: 0
+        val m = parts.getOrNull(1)?.toIntOrNull() ?: 0
+        h * 60 + m
+    }
+    val totalHoras = totalMinutos / 60
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .fillMaxWidth(),
+        shape = RectangleShape,
+        elevation = CardDefaults.cardElevation(),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF7CCE6B)
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 20.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = totalAtividades.toString(), fontSize = 22.sp, color = Color.White)
+                Text("Atividades", color = Color.White)
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = String.format("%.1f", totalKm), fontSize = 22.sp, color = Color.White)
+                Text("km Total", color = Color.White)
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = if (totalHoras > 0) "${totalHoras}h" else "–",
+                    fontSize = 22.sp,
+                    color = Color.White
+                )
+                Text("Tempo Total", color = Color.White)
+            }
+        }
+    }
+}
+
+/** Card de cada item da lista */
+@Composable
+fun HistoryItemCard(item: HistoryItemModel) {
+    val context = LocalContext.current
+
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .fillMaxWidth(),
+        onClick = {
+            val intent = Intent(context, HistoryDetailPageActivity::class.java)
+            intent.putExtra("corridaId", item.corridaId)
+            context.startActivity(intent)
+        },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp, pressedElevation = 12.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    color = Color(0xFFE7F6E4),
+                    shape = RoundedCornerShape(999.dp)
+                ) {
+                    Text(
+                        text = item.tipoLabel,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        fontSize = 12.sp,
+                        color = Color(0xFF228B22),
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                Text(
+                    text = DateFormat.format("dd MMM yyyy · HH:mm", item.date).toString(),
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Outlined.LocationOn,
+                    contentDescription = "Localização",
+                    tint = Color(0xFF7CCE6B)
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(text = item.title, fontSize = 14.sp)
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            // Linha: labels
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Distância", fontSize = 12.sp, color = Color.Gray)
+                Text("Duração", fontSize = 12.sp, color = Color.Gray)
+                Text("Ritmo", fontSize = 12.sp, color = Color.Gray)
+                Text("Calorias", fontSize = 12.sp, color = Color.Gray)
+            }
+
+            Spacer(Modifier.height(4.dp))
+
+            // Linha: valores + ícones pequenos em cima
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.DirectionsRun,
+                        contentDescription = null,
+                        tint = Color(0xFF7CCE6B),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(item.distance, fontWeight = FontWeight.SemiBold)
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.AccessTime,
+                        contentDescription = null,
+                        tint = Color(0xFF7CCE6B),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(item.duration, fontWeight = FontWeight.SemiBold)
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.Speed,
+                        contentDescription = null,
+                        tint = Color(0xFF7CCE6B),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text("${item.minimumPace} min/km", fontWeight = FontWeight.SemiBold)
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Outlined.LocalFireDepartment,
+                        contentDescription = null,
+                        tint = Color(0xFF7CCE6B),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text("${item.calories} kcal", fontWeight = FontWeight.SemiBold)
+                }
+            }
+        }
+    }
+}
+
+/** Converte DTO da API em modelo da UI */
 fun HistoryItemDto.toUiModel(): HistoryItemModel {
-    // data vem como "yyyy-MM-dd"
     val cal = Calendar.getInstance()
     try {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -373,43 +399,64 @@ fun HistoryItemDto.toUiModel(): HistoryItemModel {
     } catch (_: Exception) {
     }
 
-    // formata duração hh:mm:ss
+    // duração só horas e minutos
     val hours = duracaoSegundos / 3600
     val minutes = (duracaoSegundos % 3600) / 60
-    val seconds = duracaoSegundos % 60
-    val durationStr = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    val durationStr = String.format("%02d:%02d", hours, minutes)
 
-    // pace como "6.0 min/km"
-    val paceStr = String.format(Locale.getDefault(), "%.1f min/km", paceMinPorKm)
+    val paceStr = String.format(Locale.getDefault(), "%.1f", paceMinPorKm)
+    val caloriesStr = kcal.toString()
+
+    val tipoLabel = when (tipo.uppercase(Locale.getDefault())) {
+        "CAMINHADA" -> "Caminhada"
+        else -> "Corrida"
+    }
 
     return HistoryItemModel(
+        corridaId = corridaId,
         title = routeName,
         date = cal,
         distance = String.format(Locale.getDefault(), "%.1f km", distanciaKm),
         duration = durationStr,
-        calories = "$kcal kcal",
+        calories = caloriesStr,
         minimumPace = paceStr,
-        minimap = R.drawable.map_image // placeholder
+        tipoLabel = tipoLabel,
     )
 }
 
-// Preview só com um item fake
+/** Preview só da tela de histórico */
 @Preview(showBackground = true)
 @Composable
-fun HistoryDetailPagePreview() {
+fun HistoryPagePreview() {
     val cal = Calendar.getInstance()
-    val fakeItem = HistoryItemModel(
-        title = "Corrida de Segunda",
-        date = cal,
-        distance = "5.0 km",
-        duration = "00:30:45",
-        calories = "250 kcal",
-        minimumPace = "6.0 min/km",
-        minimap = R.drawable.map_image
+    val fakeItems = listOf(
+        HistoryItemModel(
+            corridaId = 1,
+            title = "Parque da Cidade",
+            date = cal,
+            distance = "5.2 km",
+            duration = "00:45",
+            calories = "320",
+            minimumPace = "8.7",
+            tipoLabel = "Corrida",
+        ),
+        HistoryItemModel(
+            corridaId = 2,
+            title = "Marginal do Rio",
+            date = cal,
+            distance = "3.8 km",
+            duration = "00:32",
+            calories = "180",
+            minimumPace = "8.4",
+            tipoLabel = "Caminhada",
+        )
     )
+
     RunupSetupTheme {
-        Column {
-            HistoryItemCard(item = fakeItem)
-        }
+        HistoryPageContent(
+            items = fakeItems,
+            isLoading = false,
+            errorMessage = null
+        )
     }
 }
