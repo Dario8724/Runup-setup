@@ -386,4 +386,47 @@ public class CorridaGenerationService {
         return historico;
     }
 
+    @Transactional(readOnly = true)
+    public CorridaDetalheResponse obterDetalheCorrida(Integer corridaId) {
+
+        Corrida corrida = corridaRepository.findById(corridaId)
+                .orElseThrow(() -> new RuntimeException("Corrida não encontrada"));
+
+        Rota rota = corrida.getRota();
+        if (rota == null) {
+            throw new RuntimeException("Rota não encontrada para a corrida " + corridaId);
+        }
+
+        // usa o método que você já tem: rotaId + OrderByOrdemAsc
+        List<LigacaoRotaLocal> ligacoes = ligacaoRotaLocalRepository.findByRotaIdOrderByOrdemAsc(rota.getId());
+
+        List<RoutePointDTO> pontos = new ArrayList<>();
+        for (LigacaoRotaLocal lig : ligacoes) {
+            Local local = lig.getLocal();
+            if (local == null)
+                continue;
+
+            RoutePointDTO dto = new RoutePointDTO();
+            dto.setLatitude(local.getLatitude());
+            dto.setLongitude(local.getLongitude());
+            dto.setElevation(local.getElevacao());
+            pontos.add(dto);
+        }
+
+        CorridaDetalheResponse resp = new CorridaDetalheResponse();
+        resp.setCorridaId(corrida.getId());
+        resp.setUserId(null); // depois podemos ligar com MetaUsuario se quiser
+        resp.setData(corrida.getData());
+        resp.setDistanciaKm(corrida.getDistancia());
+        resp.setDuracaoSegundos(corrida.getTempo().toSecondOfDay());
+        resp.setPaceMinPorKm(corrida.getRitmo());
+        resp.setKcal(corrida.getKcal());
+        resp.setTipo(corrida.getTipo().getNome());
+        resp.setRouteName(rota.getNome());
+        resp.setTotalElevationGain(rota.getElevacao());
+        resp.setPontos(pontos);
+
+        return resp;
+    }
+
 }

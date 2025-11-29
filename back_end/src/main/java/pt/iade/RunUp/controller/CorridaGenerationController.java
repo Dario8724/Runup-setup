@@ -2,6 +2,8 @@ package pt.iade.RunUp.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import pt.iade.RunUp.model.dto.CorridaDetalheResponse;
 import pt.iade.RunUp.model.dto.CorridaGeradaResponse;
 import pt.iade.RunUp.model.dto.CorridaHistoricoItemDTO;
 import pt.iade.RunUp.model.dto.GenerateCorridaRequest;
@@ -28,5 +30,11 @@ public class CorridaGenerationController {
     @GetMapping("/historico")
     public List<CorridaHistoricoItemDTO> listarHistorico(@RequestParam Integer userId) {
         return corridaGenerationService.listarHistoricoPorUsuario(userId);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CorridaDetalheResponse> getCorridaDetalhe(@PathVariable Integer id) {
+        CorridaDetalheResponse resp = corridaGenerationService.obterDetalheCorrida(id);
+        return ResponseEntity.ok(resp);
     }
 }
