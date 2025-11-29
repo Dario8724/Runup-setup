@@ -53,7 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import pt.iade.ei.runupsetup.models.HistoryItemModel
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 import android.content.Intent
@@ -79,7 +79,7 @@ class InitialPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InitialPageView() {
-    val item = HistoryItemModel1(
+    val item = HistoryItemModel(
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "5 km",

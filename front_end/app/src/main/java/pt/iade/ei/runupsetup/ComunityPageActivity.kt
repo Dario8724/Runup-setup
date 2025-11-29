@@ -54,7 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import pt.iade.ei.runupsetup.models.HistoryItemModel
 import java.util.Calendar
 
 class ComunityPageActivity : ComponentActivity() {
@@ -69,7 +69,7 @@ class ComunityPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComunityActivityView() {
-    val item1 = HistoryItemModel1(
+    val item1 = HistoryItemModel(
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "8.5 km",
@@ -78,7 +78,7 @@ fun ComunityActivityView() {
         minimumPace = "5'30\"/km",
         minimap = R.drawable.map_image
     )
-    val item2 = HistoryItemModel1(
+    val item2 = HistoryItemModel(
         title = "Corrida aleatória",
         date = Calendar.getInstance(),
         distance = "12.3 km",

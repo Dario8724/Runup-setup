@@ -1,11 +1,15 @@
 package pt.iade.ei.runupsetup.network
 
+
 import pt.iade.ei.runupsetup.models.RouteRequest
 import pt.iade.ei.runupsetup.models.RouteResponse
+import pt.iade.ei.runupsetup.models.HistoryItemDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.*
+import retrofit2.Response
 
 interface RunUpApi{
     @Headers("Content-Type: application/json")
@@ -15,11 +19,15 @@ interface RunUpApi{
     @POST("/usuarios/cadastrar")
     suspend fun cadastrarUsuario(
         @Body usuario: UserRegisterDto
-    ): retrofit2.Response<Void>
+    ): Response<Void>
 
     @POST("/usuarios/login")
     suspend fun login(
         @Body loginRequest: LoginRequestDto
-    ): retrofit2.Response<LoginResponseDto>
+    ): Response<LoginResponseDto>
 
+    @GET("/api/corridas/historico")
+    suspend fun getHistorico(
+        @Query("userId") userId: Int
+    ): Response<List<HistoryItemDto>>
 }

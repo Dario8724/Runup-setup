@@ -15,6 +15,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/TipoAtividade.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/LigacaoRotaLocal.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/GoogleDirectionsClient.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaHistoricoItemDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/CaracteristicaRotaRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaGeradaResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Local.java
