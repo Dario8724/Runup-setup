@@ -341,4 +341,49 @@ public class CorridaGenerationService {
 
         return resp;
     }
+
+    @Transactional(readOnly = true)
+    public List<CorridaHistoricoItemDTO> listarHistoricoPorUsuario(Integer userId) {
+
+        // garantir que o usuário existe
+        usuarioRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        List<MetaUsuario> metas = metaUsuarioRepository
+                .findByUsuario_IdOrderByCorrida_DataDesc(userId);
+
+        List<CorridaHistoricoItemDTO> historico = new ArrayList<>();
+
+        for (MetaUsuario mu : metas) {
+            Corrida c = mu.getCorrida();
+            if (c == null)
+                continue;
+
+            CorridaHistoricoItemDTO dto = new CorridaHistoricoItemDTO();
+            dto.setCorridaId(c.getId());
+            dto.setData(c.getData());
+            dto.setDistanciaKm(c.getDistancia());
+
+            if (c.getTempo() != null) {
+                dto.setDuracaoSegundos((long) c.getTempo().toSecondOfDay());
+            }
+
+            dto.setPaceMinPorKm(c.getRitmo());
+            dto.setKcal(c.getKcal());
+
+            if (c.getTipo() != null) {
+                dto.setTipo(c.getTipo().getNome());
+            }
+
+            if (c.getRota() != null) {
+                dto.setRouteName(c.getRota().getNome());
+                dto.setTotalElevationGain(c.getRota().getElevacao());
+            }
+
+            historico.add(dto);
+        }
+
+        return historico;
+    }
+
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MetaUsuarioRepository extends JpaRepository<MetaUsuario, Integer> {
 
-    List<MetaUsuario> findByUsuarioId(Integer userId);
+    List<MetaUsuario> findByUsuario_IdOrderByCorrida_DataDesc(Integer usuarioId);
 }
