@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -232,7 +233,7 @@ fun HistoryStatsCard(items: List<HistoryItemModel>) {
 
     Card(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(vertical = 12.dp)
             .fillMaxWidth(),
         shape = RectangleShape,
         elevation = CardDefaults.cardElevation(),
@@ -325,69 +326,78 @@ fun HistoryItemCard(item: HistoryItemModel) {
 
             Spacer(Modifier.height(12.dp))
 
-            // Linha: labels
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Distância", fontSize = 12.sp, color = Color.Gray)
-                Text("Duração", fontSize = 12.sp, color = Color.Gray)
-                Text("Ritmo", fontSize = 12.sp, color = Color.Gray)
-                Text("Calorias", fontSize = 12.sp, color = Color.Gray)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.DirectionsRun,
+                            contentDescription = null,
+                            tint = Color(0xFF7CCE6B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Distância", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.AccessTime,
+                            contentDescription = null,
+                            tint = Color(0xFF7CCE6B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Duração", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.Speed,
+                            contentDescription = null,
+                            tint = Color(0xFF7CCE6B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Ritmo", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.LocalFireDepartment,
+                            contentDescription = null,
+                            tint = Color(0xFF7CCE6B),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Calorias", fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
             }
 
             Spacer(Modifier.height(4.dp))
 
-            // Linha: valores + ícones pequenos em cima
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.DirectionsRun,
-                        contentDescription = null,
-                        tint = Color(0xFF7CCE6B),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(item.distance, fontWeight = FontWeight.SemiBold)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Outlined.AccessTime,
-                        contentDescription = null,
-                        tint = Color(0xFF7CCE6B),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(item.duration, fontWeight = FontWeight.SemiBold)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Outlined.Speed,
-                        contentDescription = null,
-                        tint = Color(0xFF7CCE6B),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text("${item.minimumPace} min/km", fontWeight = FontWeight.SemiBold)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Outlined.LocalFireDepartment,
-                        contentDescription = null,
-                        tint = Color(0xFF7CCE6B),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text("${item.calories} kcal", fontWeight = FontWeight.SemiBold)
-                }
+                Text(item.distance, fontWeight = FontWeight.SemiBold)
+                Text(item.duration, fontWeight = FontWeight.SemiBold)
+                Text(item.minimumPace, fontWeight = FontWeight.SemiBold)
+                Text(item.calories, fontWeight = FontWeight.SemiBold)
             }
         }
     }
 }
+
 
 /** Converte DTO da API em modelo da UI */
 fun HistoryItemDto.toUiModel(): HistoryItemModel {

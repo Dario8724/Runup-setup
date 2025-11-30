@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import pt.iade.ei.runupsetup.models.CorridaDetalheDto
+import pt.iade.ei.runupsetup.models.RoutePointDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.time.LocalDate
@@ -99,7 +101,6 @@ fun HistoryDetailPageView(corridaId: Int) {
                         )
                     }
                 }
-                // sem botão de share aqui
             )
         }
     ) { innerPadding ->
@@ -146,6 +147,8 @@ fun DetalheConteudo(
     modifier: Modifier = Modifier,
     detalhe: CorridaDetalheDto
 ) {
+    val isPreview = LocalInspectionMode.current
+
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -153,7 +156,6 @@ fun DetalheConteudo(
             .background(Color(0xFFF5F5F5))
     ) {
 
-        // ----- BLOCO ESCURO COM MAPA -----
         if (detalhe.pontos.isNotEmpty()) {
             val latLngList = detalhe.pontos.map { LatLng(it.latitude, it.longitude) }
             val startLatLng = latLngList.first()
@@ -165,25 +167,38 @@ fun DetalheConteudo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp)
-                    .background(Color(0xFF0F172A))
             ) {
-                GoogleMap(
-                    modifier = Modifier.fillMaxSize(),
-                    cameraPositionState = cameraPositionState
-                ) {
-                    Polyline(
-                        points = latLngList,
-                        color = Color(0xFF7CCE6B),
-                        width = 10f
-                    )
-                    Marker(
-                        state = rememberMarkerState(position = latLngList.first()),
-                        title = "Início"
-                    )
-                    Marker(
-                        state = rememberMarkerState(position = latLngList.last()),
-                        title = "Fim"
-                    )
+                if (!isPreview) {
+                    GoogleMap(
+                        modifier = Modifier.fillMaxSize(),
+                        cameraPositionState = cameraPositionState
+                    ) {
+                        Polyline(
+                            points = latLngList,
+                            color = Color(0xFF7CCE6B),
+                            width = 10f
+                        )
+                        Marker(
+                            state = rememberMarkerState(position = latLngList.first()),
+                            title = "Início"
+                        )
+                        Marker(
+                            state = rememberMarkerState(position = latLngList.last()),
+                            title = "Fim"
+                        )
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFF111827)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Preview do mapa",
+                            color = Color.White.copy(alpha = 0.8f)
+                        )
+                    }
                 }
 
                 Row(
@@ -220,7 +235,7 @@ fun DetalheConteudo(
                 }
 
                 Text(
-                    text = "Mapa da Rota",
+                    text = "",
                     color = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -310,8 +325,12 @@ fun DetalheConteudo(
 
             // Estatísticas detalhadas (sem card de medalha)
             Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
@@ -413,10 +432,16 @@ private fun formatDetailDuration(totalSeconds: Long): String {
     return String.format("%02d:%02d", m, s)
 }
 
-/** Preview simples com dados fake */
+/** Preview com dados fake */
 @Preview(showBackground = true)
 @Composable
 fun HistoryDetailPreview() {
+    val fakePontos = listOf(
+        RoutePointDto(38.7223, -9.1393, 50.0),
+        RoutePointDto(38.7230, -9.1380, 55.0),
+        RoutePointDto(38.7240, -9.1379, 60.0)
+    )
+    
     val fake = CorridaDetalheDto(
         corridaId = 1,
         userId = 1,
@@ -428,7 +453,7 @@ fun HistoryDetailPreview() {
         tipo = "CORRIDA",
         routeName = "Parque da Cidade",
         totalElevationGain = 45.0,
-        pontos = emptyList()
+        pontos = fakePontos
     )
 
     RunupSetupTheme {
