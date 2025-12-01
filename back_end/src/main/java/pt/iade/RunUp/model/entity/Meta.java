@@ -14,7 +14,7 @@ public class Meta {
     @Column(name = "meta_nome", length = 100)
     private String nome;
 
-    @Column(name = "meta_distancia", precision = 10, scale = 2)
+    @Column(name = "meta_distancia")
     private Double distancia; 
 
     // Getters e setters
