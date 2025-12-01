@@ -25,9 +25,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔥 AGORA A TELA INICIAL É O LOGIN -->
         <activity
-            android:name=".UserLoginActivity"
+            android:name=".LoginPageActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -37,6 +36,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".UserLoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Histórico -->
         <activity

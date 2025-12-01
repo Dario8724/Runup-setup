@@ -7,38 +7,84 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
+import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
-import androidx.compose.ui.tooling.preview.Preview
 
 class ProfilePageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // pega usuário logado
+        val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+        val loggedEmail = prefs.getString("logged_email", null)
+        val loggedId = prefs.getLong("logged_id", -1L)
+
         setContent {
             RunupSetupTheme {
-                ProfilePageView()
+                // estados que vão ser carregados do backend
+                var weeklyTotal by remember { mutableStateOf<Double?>(null) }
+                var weeklyProgress by remember { mutableStateOf<Double?>(null) }
+                var errorMessage by remember { mutableStateOf<String?>(null) }
+                var isLoading by remember { mutableStateOf(true) }
+
+                // carrega metas do backend assim que a tela abrir
+                LaunchedEffect(loggedId) {
+                    if (loggedId <= 0L) {
+                        isLoading = false
+                        errorMessage = "Usuário não logado."
+                        return@LaunchedEffect
+                    }
+
+                    try {
+                        val response = RetrofitClient.instance.getGoals(loggedId)
+                        if (response.isSuccessful) {
+                            val goals = response.body().orEmpty()
+                            val weeklyGoal = goals.firstOrNull {
+                                it.nome.contains("semanal", ignoreCase = true)
+                            }
+
+                            weeklyTotal = weeklyGoal?.total
+                            weeklyProgress = weeklyGoal?.progresso
+                        } else {
+                            errorMessage = "Erro ao carregar metas (${response.code()})"
+                        }
+                    } catch (e: Exception) {
+                        errorMessage = "Falha ao conectar ao servidor."
+                    } finally {
+                        isLoading = false
+                    }
+                }
+
+                ProfilePageView(
+                    userEmail = loggedEmail,
+                    weeklyTotal = weeklyTotal,
+                    weeklyProgress = weeklyProgress,
+                    isLoading = isLoading,
+                    errorMessage = errorMessage
+                )
             }
         }
     }
@@ -52,13 +98,19 @@ fun navigateTo(context: android.content.Context, destination: Class<*>) {
 // ---------------------------- PROFILE PAGE ----------------------------
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfilePageView() {
+fun ProfilePageView(
+    userEmail: String? = null,
+    weeklyTotal: Double? = null,
+    weeklyProgress: Double? = null,
+    isLoading: Boolean = false,
+    errorMessage: String? = null
+) {
     val context = LocalContext.current
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Perfil", fontWeight = FontWeight.Bold, color = Color.White) },
+                title = { Text("Perfil", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B))
             )
         },
@@ -86,7 +138,7 @@ fun ProfilePageView() {
                     icon = { Icon(painterResource(R.drawable.outline_history_24), contentDescription = "Histórico") },
                     label = { Text("Histórico") },
                     selected = false,
-                    onClick = { navigateTo(context, HistoryDetailPage::class.java) }
+                    onClick = { navigateTo(context, HistoryPageActivity::class.java) }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Outlined.AccountCircle, contentDescription = "Perfil") },
@@ -106,9 +158,14 @@ fun ProfilePageView() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileHeader()
+            ProfileHeader(userEmail = userEmail)
             Spacer(modifier = Modifier.height(24.dp))
-            WeeklyGoalCard()
+            WeeklyGoalCard(
+                weeklyTotal = weeklyTotal,
+                weeklyProgress = weeklyProgress,
+                isLoading = isLoading,
+                errorMessage = errorMessage
+            )
             Spacer(modifier = Modifier.height(20.dp))
             WeeklyStatsCard()
             Spacer(modifier = Modifier.height(20.dp))
@@ -121,7 +178,7 @@ fun ProfilePageView() {
 
 // ---------------------------- COMPONENTS ----------------------------
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(userEmail: String?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -137,13 +194,20 @@ fun ProfileHeader() {
                     .background(Color(0xFFB4E0A2)),
                 contentAlignment = Alignment.Center
             ) {
-                Text("RC", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text("RC", fontSize = 22.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White)
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Rafael Costa", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("Membro desde Set 2025", color = Color.White, fontSize = 14.sp)
+            Text(
+                text = userEmail ?: "Usuário",
+                color = Color.White,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                fontSize = 18.sp
+            )
             Spacer(modifier = Modifier.height(20.dp))
-            Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 StatCard("23", "Corridas")
                 StatCard("112", "km Total")
                 StatCard("18h", "Tempo")
@@ -155,13 +219,18 @@ fun ProfileHeader() {
 @Composable
 fun StatCard(value: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
+        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(label, fontSize = 12.sp, color = Color.White)
     }
 }
 
 @Composable
-fun WeeklyGoalCard() {
+fun WeeklyGoalCard(
+    weeklyTotal: Double?,
+    weeklyProgress: Double?,
+    isLoading: Boolean,
+    errorMessage: String?
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp)
@@ -171,29 +240,68 @@ fun WeeklyGoalCard() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Meta Semanal", fontWeight = FontWeight.Bold)
-                Text("Editar", color = Color(0xFF7CCE6B), fontWeight = FontWeight.Medium)
+                Text("Meta Semanal", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                Text("Editar", color = Color(0xFF7CCE6B), fontWeight = androidx.compose.ui.text.font.FontWeight.Medium)
             }
             Text("Distância a percorrer", fontSize = 14.sp, color = Color.Gray)
             Spacer(modifier = Modifier.height(12.dp))
-            Text("18.5 / 25 km", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = 18.5f / 25f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                color = Color(0xFF7CCE6B),
-                trackColor = Color.LightGray,
-                strokeCap = ProgressIndicatorDefaults.LinearStrokeCap
-            )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                "Faltam 6.5 km para atingir sua meta! 💪",
-                fontSize = 13.sp,
-                color = Color.Gray
-            )
+
+            when {
+                isLoading -> {
+                    Text("Carregando metas...", fontSize = 14.sp, color = Color.Gray)
+                    Spacer(Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        color = Color(0xFF7CCE6B),
+                        trackColor = Color.LightGray
+                    )
+                }
+
+                errorMessage != null -> {
+                    Text(
+                        text = errorMessage,
+                        fontSize = 14.sp,
+                        color = Color(0xFFB00020)
+                    )
+                }
+
+                weeklyTotal != null && weeklyProgress != null -> {
+                    val current = weeklyProgress.coerceAtLeast(0.0)
+                    val total = weeklyTotal.coerceAtLeast(0.0)
+                    val progress = if (total > 0) (current / total).toFloat() else 0f
+                    val restante = (total - current).coerceAtLeast(0.0)
+
+                    Text(
+                        text = String.format("%.1f / %.1f km", current, total),
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        progress = { progress },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        color = Color(0xFF7CCE6B),
+                        trackColor = Color.LightGray,
+                        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "Faltam ${"%.1f".format(restante)} km para atingir sua meta! 💪",
+                        fontSize = 13.sp,
+                        color = Color.Gray
+                    )
+                }
+
+                else -> {
+                    Text("Nenhuma meta semanal encontrada.", fontSize = 14.sp, color = Color.Gray)
+                }
+            }
         }
     }
 }
@@ -205,7 +313,7 @@ fun WeeklyStatsCard() {
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Estatísticas da Semana", fontWeight = FontWeight.Bold)
+            Text("Estatísticas da Semana", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
             StatRow("Distância Total", "18.5 km", "Últimos 7 dias")
             Spacer(modifier = Modifier.height(10.dp))
@@ -224,10 +332,10 @@ fun StatRow(title: String, value: String, subtitle: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(title, fontWeight = FontWeight.SemiBold)
+            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
             Text(subtitle, fontSize = 12.sp, color = Color.Gray)
         }
-        Text(value, fontWeight = FontWeight.Bold)
+        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
     }
 }
 
@@ -243,7 +351,7 @@ fun PersonalRecordsCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Recordes Pessoais", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("Recordes Pessoais", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 16.sp)
                 Icon(
                     painter = painterResource(R.drawable.yellow_trophy),
                     contentDescription = "Ícone de troféu",
@@ -251,7 +359,10 @@ fun PersonalRecordsCard() {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 RecordCard("Maior Distância", "12.3 km", Color(0xFFFFF7E6))
                 RecordCard("Melhor Ritmo", "6:38 min/km", Color(0xFFF3F1FF))
             }
@@ -267,13 +378,15 @@ fun RecordCard(title: String, value: String, bgColor: Color) {
         modifier = Modifier.height(100.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(title, fontSize = 14.sp)
             Spacer(Modifier.height(4.dp))
-            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(value, fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
         }
     }
 }
@@ -291,13 +404,13 @@ fun MyGoalsCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Minhas Metas", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text("+ Nova", color = Color(0xFF7CCE6B), fontWeight = FontWeight.Medium)
+                Text("Minhas Metas", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 16.sp)
+                Text("+ Nova", color = Color(0xFF7CCE6B), fontWeight = androidx.compose.ui.text.font.FontWeight.Medium)
             }
             Spacer(modifier = Modifier.height(16.dp))
-            GoalCard("Correr 5km sem parar", 0.75f, "75%")
+            GoalCard("Correr 5km sem parar", progress = 0.75f, percent = "75%")
             Spacer(modifier = Modifier.height(12.dp))
-            GoalCard("100km em Outubro", 0.65f, "65%")
+            GoalCard("100km em Outubro", progress = 0.65f, percent = "65%")
         }
     }
 }
@@ -310,10 +423,10 @@ fun GoalCard(title: String, progress: Float, percent: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(title, fontWeight = FontWeight.Bold)
+            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
-                progress = progress,
+                progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
@@ -328,36 +441,159 @@ fun GoalCard(title: String, progress: Float, percent: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PrivacyCard(onClick: () -> Unit = {}) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp),
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Privacidade",
+                fontSize = 16.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+            )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TrainingPreferenciesCard(onClick: () -> Unit = {}) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp),
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Preferências de Treino",
+                fontSize = 16.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+            )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
 
-// ---------- Preview da tela completa ----------
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AccountSettingsCard(onClick: () -> Unit = {}) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(60.dp),
+        onClick = onClick,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp,
+            pressedElevation = 8.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Configurações da Conta",
+                fontSize = 16.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+            )
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Ir",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
+// ---------- Previews ----------
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfilePagePreview() {
     RunupSetupTheme {
-        ProfilePageView()
+        ProfilePageView(
+            userEmail = "user@test.com",
+            weeklyTotal = 25.0,
+            weeklyProgress = 18.5,
+            isLoading = false,
+            errorMessage = null
+        )
     }
 }
 
-// ---------- Preview do Header ----------
 @Preview(showBackground = true)
 @Composable
 fun ProfileHeaderPreview() {
     RunupSetupTheme {
-        ProfileHeader()
+        ProfileHeader(userEmail = "user@test.com")
     }
 }
 
-// ---------- Preview da Meta Semanal ----------
 @Preview(showBackground = true)
 @Composable
 fun WeeklyGoalCardPreview() {
     RunupSetupTheme {
-        WeeklyGoalCard()
+        WeeklyGoalCard(
+            weeklyTotal = 25.0,
+            weeklyProgress = 18.5,
+            isLoading = false,
+            errorMessage = null
+        )
     }
 }
 
-// ---------- Preview das Estatísticas da Semana ----------
 @Preview(showBackground = true)
 @Composable
 fun WeeklyStatsCardPreview() {
@@ -366,7 +602,6 @@ fun WeeklyStatsCardPreview() {
     }
 }
 
-// ---------- Preview dos Recordes Pessoais ----------
 @Preview(showBackground = true)
 @Composable
 fun PersonalRecordsCardPreview() {
@@ -374,137 +609,7 @@ fun PersonalRecordsCardPreview() {
         PersonalRecordsCard()
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PrivacyCard(onClick: () -> Unit = {}) {
 
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .fillMaxWidth()
-            .height(60.dp), // 🔥 aumenta o tamanho do card
-        onClick = onClick,
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                text = "Privacidade",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
-            )
-
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Ir",
-                tint = Color.Gray
-            )
-        }
-    }
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TrainingPreferenciesCard(onClick: () -> Unit = {}) {
-
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .fillMaxWidth()
-            .height(60.dp), // 🔥 aumenta o tamanho do card
-        onClick = onClick,
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                text = "Preferências de Treino",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
-            )
-
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Ir",
-                tint = Color.Gray
-            )
-        }
-    }
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AccountSettingsCard(onClick: () -> Unit = {}) {
-
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .fillMaxWidth()
-            .height(60.dp), // 🔥 aumenta o tamanho do card
-        onClick = onClick,
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp,
-            pressedElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(
-                text = "Configurações da Conta",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
-            )
-
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Ir",
-                tint = Color.Gray
-            )
-        }
-    }
-}
-
-
-
-
-// ---------- Preview do Card de Meta Individual ----------
 @Preview(showBackground = true)
 @Composable
 fun GoalCardPreview() {
@@ -513,7 +618,6 @@ fun GoalCardPreview() {
     }
 }
 
-// ---------- Preview do Card de Recorde Individual ----------
 @Preview(showBackground = true)
 @Composable
 fun RecordCardPreview() {
@@ -522,7 +626,6 @@ fun RecordCardPreview() {
     }
 }
 
-// ---------- Preview do MyGoalsCard ----------
 @Preview(showBackground = true)
 @Composable
 fun MyGoalsCardPreview() {
@@ -530,6 +633,7 @@ fun MyGoalsCardPreview() {
         MyGoalsCard()
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PrivacyCardPreview() {
