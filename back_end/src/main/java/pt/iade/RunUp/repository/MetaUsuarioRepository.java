@@ -10,4 +10,6 @@ public interface MetaUsuarioRepository extends JpaRepository<MetaUsuario, Intege
     List<MetaUsuario> findByUsuario_IdOrderByCorrida_DataDesc(Integer usuarioId);
 
     List<MetaUsuario> findByUsuario_Id(Integer usuarioId);
+
+    boolean existsByCorrida_Id(Integer corridaId);
 }

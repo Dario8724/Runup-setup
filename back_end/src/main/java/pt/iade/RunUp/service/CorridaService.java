@@ -28,14 +28,14 @@ public class CorridaService {
     private final MetaUsuarioRepository metaUsuarioRepository;
 
     public CorridaService(UsuarioRepository usuarioRepository,
-                          TipoRepository tipoRepository,
-                          RotaRepository rotaRepository,
-                          LocalRepository localRepository,
-                          LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
-                          CaracteristicaRepository caracteristicaRepository,
-                          CaracteristicaRotaRepository caracteristicaRotaRepository,
-                          CorridaRepository corridaRepository,
-                          MetaUsuarioRepository metaUsuarioRepository) {
+            TipoRepository tipoRepository,
+            RotaRepository rotaRepository,
+            LocalRepository localRepository,
+            LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
+            CaracteristicaRepository caracteristicaRepository,
+            CaracteristicaRotaRepository caracteristicaRotaRepository,
+            CorridaRepository corridaRepository,
+            MetaUsuarioRepository metaUsuarioRepository) {
         this.usuarioRepository = usuarioRepository;
         this.tipoRepository = tipoRepository;
         this.rotaRepository = rotaRepository;
@@ -111,13 +111,13 @@ public class CorridaService {
 
             if (request.getDistanceKm() != null && request.getDistanceKm() > 0) {
                 double pace = (request.getTempoSegundos() / 60.0) / request.getDistanceKm();
-                corrida.setRitmo(Math.round(pace * 100.0) / 100.0); 
+                corrida.setRitmo(Math.round(pace * 100.0) / 100.0);
             }
         }
 
         Integer kcal = request.getKcal();
         if (kcal == null && request.getDistanceKm() != null) {
-            kcal = (int) Math.round(request.getDistanceKm() * 60); 
+            kcal = (int) Math.round(request.getDistanceKm() * 60);
         }
         corrida.setKcal(kcal);
 
@@ -126,7 +126,7 @@ public class CorridaService {
         MetaUsuario mu = new MetaUsuario();
         mu.setUsuario(usuario);
         mu.setCorrida(corrida);
-        mu.setMetaId(null); 
+        mu.setMetaId(null);
         metaUsuarioRepository.save(mu);
 
         CorridaResponse response = new CorridaResponse();
@@ -147,8 +147,8 @@ public class CorridaService {
             }
         }
 
-        response.setPontos(request.getPontos());    
-        response.setFiltros(request.getFiltros());  
+        response.setPontos(request.getPontos());
+        response.setFiltros(request.getFiltros());
 
         return response;
     }
@@ -158,6 +158,21 @@ public class CorridaService {
         Corrida corrida = corridaRepository.findById(corridaId)
                 .orElseThrow(() -> new RuntimeException("Corrida não encontrada: " + corridaId));
 
+        if (!metaUsuarioRepository.existsByCorrida_Id(corridaId)) {
+
+            Integer userId = req.getUserId(); 
+
+            Usuario usuario = usuarioRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+            MetaUsuario mu = new MetaUsuario();
+            mu.setUsuario(usuario);
+            mu.setCorrida(corrida);
+            mu.setMetaId(null);
+
+            metaUsuarioRepository.save(mu);
+        }
+
         Double distKm = req.getDistanciaRealKm();
         Long durSeg = req.getDuracaoSegundos();
 
@@ -165,13 +180,10 @@ public class CorridaService {
         corrida.setTempo(LocalTime.ofSecondOfDay(durSeg));
         corrida.setKcal(req.getKcal());
 
-        // ritmo em min/km
         if (distKm != null && distKm > 0 && durSeg != null) {
             double paceMinPorKm = (durSeg / 60.0) / distKm;
             corrida.setRitmo(paceMinPorKm);
         }
-
-        // se tiveres algum campo de "status" (ex.: FINALIZADA), podes setar aqui
 
         corridaRepository.save(corrida);
     }
