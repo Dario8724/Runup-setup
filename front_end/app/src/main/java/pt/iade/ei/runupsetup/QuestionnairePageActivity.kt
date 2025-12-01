@@ -55,7 +55,7 @@ class QuestionnairePageActivity : ComponentActivity() {
                             nome = UserRegistrationState.nome,
                             email = UserRegistrationState.email,
                             senha = UserRegistrationState.senha,
-                            data_aniversario = UserRegistrationState.dataAniversario,
+                            dataDeNascimento = UserRegistrationState.dataAniversario,
                             sexo = UserRegistrationState.sexo,
                             peso = UserRegistrationState.peso,
                             altura = UserRegistrationState.altura,
@@ -64,7 +64,7 @@ class QuestionnairePageActivity : ComponentActivity() {
 
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
-                                val response = RetrofitClient.instance.cadastrarUsuario(dto)
+                                val response = RetrofitClient.instance.register(dto)
 
                                 if (response.isSuccessful) {
                                     withContext(Dispatchers.Main) {

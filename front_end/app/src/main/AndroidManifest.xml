@@ -25,16 +25,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔥 PARA TESTAR GERAR ROTA: APP INICIA DIRETO NOS FILTROS -->
+        <!-- 🔥 AGORA A TELA INICIAL É O LOGIN -->
         <activity
-            android:name=".RouteFiltersActivity"
+            android:name=".UserLoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.RunupSetup">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <!-- Histórico -->
@@ -49,19 +50,13 @@
             android:exported="false"
             android:theme="@style/Theme.RunupSetup" />
 
-        <!-- Login -->
-        <activity
-            android:name=".UserLoginActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- Tela inicial -->
+        <!-- Tela inicial pós-login -->
         <activity
             android:name=".InitialPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Corrida em tempo real (com rota gerada) -->
+        <!-- Corrida em tempo real -->
         <activity
             android:name=".ui.RunMapActivity"
             android:exported="false"
@@ -79,7 +74,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Registro -->
+        <!-- Registro – 3 telas -->
         <activity
             android:name=".RegisterPageActivity"
             android:exported="false"
@@ -95,6 +90,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Sucesso -->
         <activity
             android:name=".RegistrationSuccessActivity"
             android:exported="false"

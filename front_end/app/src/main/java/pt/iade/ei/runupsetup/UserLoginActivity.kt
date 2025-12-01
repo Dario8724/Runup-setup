@@ -52,7 +52,7 @@ class UserLoginActivity : ComponentActivity() {
                                 val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
                                 prefs.edit()
                                     .putString("logged_email", user.email)
-                                    .putLong("logged_id", user.id_usuario)
+                                    .putInt("logged_id", user.userId)
                                     .apply()
                             }
 

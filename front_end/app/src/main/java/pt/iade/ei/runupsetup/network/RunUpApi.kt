@@ -17,12 +17,12 @@ interface RunUpApi{
     @Headers("Content-Type: application/json")
 
 
-    @POST("/usuarios/cadastrar")
-    suspend fun cadastrarUsuario(
-        @Body usuario: UserRegisterDto
-    ): Response<Void>
+    @POST("api/auth/register")
+    suspend fun register(
+        @Body registerRequest: UserRegisterDto
+    ): Response<LoginResponseDto>
 
-    @POST("/usuarios/login")
+    @POST("api/auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequestDto
     ): Response<LoginResponseDto>
