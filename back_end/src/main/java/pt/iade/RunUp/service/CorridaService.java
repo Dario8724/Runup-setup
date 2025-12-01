@@ -7,6 +7,7 @@ import pt.iade.RunUp.model.dto.CreateCorridaRequest;
 import pt.iade.RunUp.model.dto.RoutePointDTO;
 import pt.iade.RunUp.model.entity.*;
 import pt.iade.RunUp.repository.*;
+import pt.iade.RunUp.model.dto.FinalizarCorridaRequest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -150,5 +151,28 @@ public class CorridaService {
         response.setFiltros(request.getFiltros());  
 
         return response;
+    }
+
+    @Transactional
+    public void finalizarCorrida(Integer corridaId, FinalizarCorridaRequest req) {
+        Corrida corrida = corridaRepository.findById(corridaId)
+                .orElseThrow(() -> new RuntimeException("Corrida não encontrada: " + corridaId));
+
+        Double distKm = req.getDistanciaRealKm();
+        Long durSeg = req.getDuracaoSegundos();
+
+        corrida.setDistancia(distKm);
+        corrida.setTempo(LocalTime.ofSecondOfDay(durSeg));
+        corrida.setKcal(req.getKcal());
+
+        // ritmo em min/km
+        if (distKm != null && distKm > 0 && durSeg != null) {
+            double paceMinPorKm = (durSeg / 60.0) / distKm;
+            corrida.setRitmo(paceMinPorKm);
+        }
+
+        // se tiveres algum campo de "status" (ex.: FINALIZADA), podes setar aqui
+
+        corridaRepository.save(corrida);
     }
 }

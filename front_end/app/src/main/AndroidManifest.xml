@@ -20,16 +20,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- Google Maps API -->
+        <!-- Chave da API do Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔥 PARA TESTES: APP ABRE DIRETO NO HISTÓRICO -->
+        <!-- 🔥 PARA TESTAR GERAR ROTA: APP INICIA DIRETO NOS FILTROS -->
         <activity
-            android:name=".HistoryPageActivity"
+            android:name=".RouteFiltersActivity"
             android:exported="true"
-            android:label="Histórico"
             android:theme="@style/Theme.RunupSetup">
 
             <intent-filter>
@@ -38,7 +37,13 @@
             </intent-filter>
         </activity>
 
-        <!-- Detalhe do histórico -->
+        <!-- Histórico -->
+        <activity
+            android:name=".HistoryPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RunupSetup" />
+
+        <!-- Detalhe histórico -->
         <activity
             android:name=".HistoryDetailPageActivity"
             android:exported="false"
@@ -56,21 +61,9 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Filtros de rota -->
-        <activity
-            android:name=".RouteFiltersActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- Corrida em tempo real -->
+        <!-- Corrida em tempo real (com rota gerada) -->
         <activity
             android:name=".ui.RunMapActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- Geração de rota -->
-        <activity
-            android:name=".ui.RouteActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -108,4 +101,5 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
+
 </manifest>

@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.iade.RunUp.model.dto.CorridaResponse;
 import pt.iade.RunUp.model.dto.CreateCorridaRequest;
+import pt.iade.RunUp.model.dto.FinalizarCorridaRequest;
 import pt.iade.RunUp.service.CorridaService;
 
 @RestController
@@ -16,9 +17,12 @@ public class CorridaController {
         this.corridaService = corridaService;
     }
 
-    @PostMapping
-    public ResponseEntity<CorridaResponse> criarCorrida(@RequestBody CreateCorridaRequest request) {
-        CorridaResponse response = corridaService.criarCorrida(request);
-        return ResponseEntity.ok(response);
+    @PostMapping("/{id}/finalizar")
+    public ResponseEntity<Void> finalizarCorrida(
+        @PathVariable Integer id, 
+        @RequestBody FinalizarCorridaRequest body) {
+
+        corridaService.finalizarCorrida(id, body);
+        return ResponseEntity.ok().build();
     }
 }

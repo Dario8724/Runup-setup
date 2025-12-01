@@ -1,10 +1,10 @@
 package pt.iade.ei.runupsetup.network
 
-
-import pt.iade.ei.runupsetup.models.RouteRequest
-import pt.iade.ei.runupsetup.models.RouteResponse
 import pt.iade.ei.runupsetup.models.HistoryItemDto
 import pt.iade.ei.runupsetup.models.CorridaDetalheDto
+import pt.iade.ei.runupsetup.models.CorridaGeradaDto
+import pt.iade.ei.runupsetup.models.GenerateCorridaRequestDto
+import pt.iade.ei.runupsetup.models.FinalizarCorridaRequestDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -15,8 +15,7 @@ import retrofit2.Response
 
 interface RunUpApi{
     @Headers("Content-Type: application/json")
-    @POST("/api/routes/generate")
-    fun generateRoute(@Body request: RouteRequest): Call<RouteResponse>
+
 
     @POST("/usuarios/cadastrar")
     suspend fun cadastrarUsuario(
@@ -37,5 +36,16 @@ interface RunUpApi{
     suspend fun getCorridaDetalhe(
         @Path("corridaId") corridaId: Int
     ): Response<CorridaDetalheDto>
+
+    @POST("/api/corridas/gerar")
+    suspend fun gerarCorrida(
+        @Body request: GenerateCorridaRequestDto
+    ) : Response<CorridaGeradaDto>
+
+    @POST("api/corridas/{id}/finalizar")
+    suspend fun finalizarCorrida(
+        @Path("id") corridaId: Int,
+        @Body body: FinalizarCorridaRequestDto
+    ) : Response<Void>
 
 }
