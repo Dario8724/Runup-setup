@@ -8,6 +8,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/RegisterRequest.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/GenerateCorridaRequest.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/WeatherClient.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/GoalService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/CorridaGenerationController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/MetaUsuario.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/CaracteristicaRepository.java
@@ -20,6 +21,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/GoogleDirectionsClient.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaHistoricoItemDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/CaracteristicaRotaRepository.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/MetaRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaGeradaResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaDetalheResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Local.java
@@ -29,6 +31,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/LoginRequest.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/CaracteristicaRota.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/RunUpApplication.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Meta.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Tipo.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/LigacaoRotaLocalRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/AuthController.java
@@ -41,3 +44,5 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/FiltroRota.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/AuthService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/integration/GoogleElevationClient.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/GoalController.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/GoalDto.java
