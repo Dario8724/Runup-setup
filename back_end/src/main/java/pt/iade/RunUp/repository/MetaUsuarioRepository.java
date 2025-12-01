@@ -8,4 +8,6 @@ import java.util.List;
 public interface MetaUsuarioRepository extends JpaRepository<MetaUsuario, Integer> {
 
     List<MetaUsuario> findByUsuario_IdOrderByCorrida_DataDesc(Integer usuarioId);
+
+    List<MetaUsuario> findByUsuario_Id(Integer usuarioId);
 }

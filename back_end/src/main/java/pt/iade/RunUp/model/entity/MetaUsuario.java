@@ -19,7 +19,7 @@ public class MetaUsuario {
     @JoinColumn(name = "mu_corrida_id")
     private Corrida corrida;
 
-    // se quiseres ligar com a tabela "meta" depois, dá pra mudar
+    // ligação com a tabela "meta" através do ID
     @Column(name = "mu_meta_id")
     private Integer metaId;
 

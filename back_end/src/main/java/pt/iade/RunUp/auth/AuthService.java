@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pt.iade.RunUp.model.entity.Usuario;
 import pt.iade.RunUp.repository.UsuarioRepository;
+import pt.iade.RunUp.service.GoalService;
 
 import java.time.LocalDate;
 
@@ -12,9 +13,11 @@ public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final GoalService goalService;
 
-    public AuthService(UsuarioRepository usuarioRepository) {
+    public AuthService(UsuarioRepository usuarioRepository, GoalService goalService) {
         this.usuarioRepository = usuarioRepository;
+        this.goalService = goalService;
     }
 
     public LoginResponse register(RegisterRequest request) {
@@ -37,6 +40,8 @@ public class AuthService {
         u.setExperiencia(request.experiencia);
 
         Usuario saved = usuarioRepository.save(u);
+
+        goalService.createGoalsForUser(saved);
 
         return new LoginResponse(saved.getId(), saved.getNome(), saved.getEmail());
     }
