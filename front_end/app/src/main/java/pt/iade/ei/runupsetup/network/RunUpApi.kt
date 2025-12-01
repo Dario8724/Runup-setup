@@ -48,4 +48,9 @@ interface RunUpApi{
         @Body body: FinalizarCorridaRequestDto
     ) : Response<Void>
 
+    @GET("/api/goals/{userId}")
+    suspend fun getGoals(
+        @Path("userId") userId: Long
+    ) : Response<List<GoalDto>>
+
 }
