@@ -103,7 +103,7 @@ fun PrivacyPageView(onBack: () -> Unit) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Coletamos informações que você nos fornece diretamente, como nome, e-mail, foto de perfil e dados de atividades físicas (distância, tempo, localização GPS, calorias e ritmo). Essas informações são necessárias para fornecer os serviços do aplicativo.",
+                        text = "Coletamos informações que você nos fornece diretamente, como nome, e-mail e dados de atividades físicas (distância, tempo, localização GPS, calorias e ritmo). Essas informações são necessárias para fornecer os serviços do aplicativo.",
                         fontSize = 15.sp
                     )
 
@@ -129,13 +129,6 @@ fun PrivacyPageView(onBack: () -> Unit) {
                         text = "Dados de localização são usados apenas quando você permite e para fornecer funcionalidades relacionadas ao treino e rotas.",
                         fontSize = 14.sp
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Se quiser ver mais detalhes ou exportar os seus dados, entre em contato via suporte.",
-                        fontSize = 14.sp
-                    )
-
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }

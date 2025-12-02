@@ -100,6 +100,14 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Privacidade -->
+        <activity
+            android:name=".PrivacyPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+
     </application>
 
 </manifest>

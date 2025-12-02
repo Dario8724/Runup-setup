@@ -28,10 +28,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.network.GoalDto
+import pt.iade.ei.runupsetup.network.PersonalRecordDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.network.UserStatsDto
+import pt.iade.ei.runupsetup.network.WeeklyStatsDto
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 class ProfilePageActivity : ComponentActivity() {
@@ -49,11 +53,13 @@ class ProfilePageActivity : ComponentActivity() {
             RunupSetupTheme {
 
                 // estados que vão ser carregados do backend
-                var weeklyTotal by remember { mutableStateOf<Double?>(null) }
-                var weeklyProgress by remember { mutableStateOf<Double?>(null) }
+                var weeklyGoal by remember { mutableStateOf<GoalDto?>(null) }
+                var monthlyGoal by remember { mutableStateOf<GoalDto?>(null) }
                 var errorMessage by remember { mutableStateOf<String?>(null) }
                 var isLoading by remember { mutableStateOf(true) }
                 var stats by remember { mutableStateOf<UserStatsDto?>(null) }
+                var weeklyStats by remember { mutableStateOf<WeeklyStatsDto?>(null) }
+                var personalRecord by remember { mutableStateOf<PersonalRecordDto?>(null) }
 
                 // carrega metas + stats do backend assim que a tela abrir
                 LaunchedEffect(loggedId) {
@@ -64,26 +70,44 @@ class ProfilePageActivity : ComponentActivity() {
                     }
 
                     try {
-                        // 1) Metas
+                        // 1) Metas (semanal e mensal)
                         val goalsResponse = RetrofitClient.instance.getGoals(loggedId)
                         if (goalsResponse.isSuccessful) {
                             val goals = goalsResponse.body().orEmpty()
-                            val weeklyGoal = goals.firstOrNull {
+
+                            weeklyGoal = goals.firstOrNull {
                                 it.nome.contains("semanal", ignoreCase = true)
                             }
-                            weeklyTotal = weeklyGoal?.total
-                            weeklyProgress = weeklyGoal?.progresso
+
+                            monthlyGoal = goals.firstOrNull {
+                                it.nome.contains("mensal", ignoreCase = true)
+                            }
                         } else {
                             errorMessage = "Erro ao carregar metas (${goalsResponse.code()})"
                         }
 
-                        // 2) Estatísticas do usuário
+                        // 2) Estatísticas gerais do usuário (totais)
                         val statsResponse = RetrofitClient.instance.getUserStats(loggedId)
                         if (statsResponse.isSuccessful) {
                             stats = statsResponse.body()
                         } else {
-                            // não bloqueia a tela, só registra o erro
                             println("Erro ao carregar stats (${statsResponse.code()})")
+                        }
+
+                        // 3) Estatísticas da semana (últimos 7 dias)
+                        val weeklyStatsResponse = RetrofitClient.instance.getWeeklyStats(loggedId)
+                        if (weeklyStatsResponse.isSuccessful) {
+                            weeklyStats = weeklyStatsResponse.body()
+                        } else {
+                            println("Erro ao carregar weekly stats (${weeklyStatsResponse.code()})")
+                        }
+
+                        // 4) Recorde pessoal (maior distância)
+                        val recordResponse = RetrofitClient.instance.getPersonalRecords(loggedId)
+                        if (recordResponse.isSuccessful) {
+                            personalRecord = recordResponse.body()
+                        } else {
+                            println("Erro ao carregar recorde pessoal (${recordResponse.code()})")
                         }
 
                     } catch (e: Exception) {
@@ -96,11 +120,13 @@ class ProfilePageActivity : ComponentActivity() {
                 ProfilePageView(
                     userEmail = loggedEmail,
                     userName = loggedName,
-                    weeklyTotal = weeklyTotal,
-                    weeklyProgress = weeklyProgress,
+                    weeklyGoal = weeklyGoal,
+                    monthlyGoal = monthlyGoal,
                     isLoading = isLoading,
                     errorMessage = errorMessage,
-                    stats = stats
+                    stats = stats,
+                    weeklyStats = weeklyStats,
+                    personalRecord = personalRecord
                 )
             }
         }
@@ -118,11 +144,13 @@ fun navigateTo(context: android.content.Context, destination: Class<*>) {
 fun ProfilePageView(
     userEmail: String? = null,
     userName: String? = null,
-    weeklyTotal: Double? = null,
-    weeklyProgress: Double? = null,
+    weeklyGoal: GoalDto? = null,
+    monthlyGoal: GoalDto? = null,
     isLoading: Boolean = false,
     errorMessage: String? = null,
-    stats: UserStatsDto? = null
+    stats: UserStatsDto? = null,
+    weeklyStats: WeeklyStatsDto? = null,
+    personalRecord: PersonalRecordDto? = null
 ) {
     val context = LocalContext.current
 
@@ -197,17 +225,28 @@ fun ProfilePageView(
             ProfileHeader(userEmail = userEmail, userName = userName, stats = stats)
             Spacer(modifier = Modifier.height(24.dp))
             WeeklyGoalCard(
-                weeklyTotal = weeklyTotal,
-                weeklyProgress = weeklyProgress,
+                weeklyGoal = weeklyGoal,
                 isLoading = isLoading,
                 errorMessage = errorMessage
             )
             Spacer(modifier = Modifier.height(20.dp))
-            WeeklyStatsCard()
+            WeeklyStatsCard(weeklyStats)
             Spacer(modifier = Modifier.height(20.dp))
-            PersonalRecordsCard()
+            PersonalRecordsCard(personalRecord)
             Spacer(modifier = Modifier.height(20.dp))
-            MyGoalsCard()
+            MyGoalsCard(
+                weeklyGoal = weeklyGoal,
+                monthlyGoal = monthlyGoal,
+                isLoading = isLoading
+            )
+            PrivacyCard(
+                onClick = {
+                    val intent = Intent(context, PrivacyPageActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
+            TrainingPreferenciesCard ()
+            AccountSettingsCard ()
         }
     }
 }
@@ -298,8 +337,7 @@ fun StatCard(value: String, label: String) {
 
 @Composable
 fun WeeklyGoalCard(
-    weeklyTotal: Double?,
-    weeklyProgress: Double?,
+    weeklyGoal: GoalDto?,
     isLoading: Boolean,
     errorMessage: String?
 ) {
@@ -339,9 +377,9 @@ fun WeeklyGoalCard(
                     )
                 }
 
-                weeklyTotal != null && weeklyProgress != null -> {
-                    val current = weeklyProgress.coerceAtLeast(0.0)
-                    val total = weeklyTotal.coerceAtLeast(0.0)
+                weeklyGoal != null -> {
+                    val current = weeklyGoal.progresso.coerceAtLeast(0.0)
+                    val total = weeklyGoal.total.coerceAtLeast(0.0)
                     val progress = if (total > 0) (current / total).toFloat() else 0f
                     val restante = (total - current).coerceAtLeast(0.0)
 
@@ -378,19 +416,37 @@ fun WeeklyGoalCard(
 }
 
 @Composable
-fun WeeklyStatsCard() {
+fun WeeklyStatsCard(weeklyStats: WeeklyStatsDto?) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Estatísticas da Semana", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+            Text("Estatísticas da Semana", fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
-            StatRow("Distância Total", "18.5 km", "Últimos 7 dias")
-            Spacer(modifier = Modifier.height(10.dp))
-            StatRow("Calorias Queimadas", "1,240 kcal", "Últimos 7 dias")
-            Spacer(modifier = Modifier.height(10.dp))
-            StatRow("Tempo Total", "2h 45min", "Últimos 7 dias")
+
+            if (weeklyStats == null) {
+                Text(
+                    "Sem dados dos últimos 7 dias.",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            } else {
+                val distText = String.format("%.1f km", weeklyStats.distanciaTotalKm)
+                val kcalText = "${weeklyStats.caloriasTotais} kcal"
+
+                val horas = weeklyStats.tempoTotalSegundos / 3600
+                val minutos = (weeklyStats.tempoTotalSegundos % 3600) / 60
+                val tempoText = "${horas}h ${minutos}min"
+
+                StatRow("Distância Total", distText, "Últimos 7 dias")
+                Spacer(modifier = Modifier.height(10.dp))
+
+                StatRow("Calorias Queimadas", kcalText, "Últimos 7 dias")
+                Spacer(modifier = Modifier.height(10.dp))
+
+                StatRow("Tempo Total", tempoText, "Últimos 7 dias")
+            }
         }
     }
 }
@@ -411,7 +467,7 @@ fun StatRow(title: String, value: String, subtitle: String) {
 }
 
 @Composable
-fun PersonalRecordsCard() {
+fun PersonalRecordsCard(personalRecord: PersonalRecordDto?) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp)
@@ -422,20 +478,51 @@ fun PersonalRecordsCard() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Recordes Pessoais", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 16.sp)
+                Text(
+                    "Recordes Pessoais",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
                 Icon(
                     painter = painterResource(R.drawable.yellow_trophy),
                     contentDescription = "Ícone de troféu",
                     tint = Color.Unspecified
                 )
             }
+
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF7E6)),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                RecordCard("Maior Distância", "12.3 km", Color(0xFFFFF7E6))
-                RecordCard("Melhor Ritmo", "6:38 min/km", Color(0xFFF3F1FF))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Maior Distância", fontSize = 14.sp)
+
+                    Spacer(Modifier.height(4.dp))
+
+                    val distancia = personalRecord?.maiorDistanciaKm ?: 0.0
+                    Text(
+                        text = String.format("%.1f km", distancia),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    personalRecord?.dataCorrida?.let { dataStr ->
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = "Em $dataStr",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
             }
         }
     }
@@ -463,26 +550,70 @@ fun RecordCard(title: String, value: String, bgColor: Color) {
 }
 
 @Composable
-fun MyGoalsCard() {
+fun MyGoalsCard(
+    weeklyGoal: GoalDto?,
+    monthlyGoal: GoalDto?,
+    isLoading: Boolean
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Minhas Metas", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 16.sp)
-                Text("+ Nova", color = Color(0xFF7CCE6B), fontWeight = androidx.compose.ui.text.font.FontWeight.Medium)
-            }
+
+            Text("Minhas Metas", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+
             Spacer(modifier = Modifier.height(16.dp))
-            GoalCard("Correr 5km sem parar", progress = 0.75f, percent = "75%")
-            Spacer(modifier = Modifier.height(12.dp))
-            GoalCard("100km em Outubro", progress = 0.65f, percent = "65%")
+
+            if (isLoading) {
+                Text("Carregando metas...", color = Color.Gray)
+                return@Column
+            }
+
+            // Meta semanal
+            weeklyGoal?.let {
+                GoalItem(title = "Meta Semanal", meta = it)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            // Meta mensal
+            monthlyGoal?.let {
+                GoalItem(title = "Meta Mensal", meta = it)
+            }
+
+            if (weeklyGoal == null && monthlyGoal == null) {
+                Text("Nenhuma meta encontrada.", color = Color.Gray)
+            }
         }
+    }
+}
+
+@Composable
+fun GoalItem(title: String, meta: GoalDto) {
+    val current = meta.progresso
+    val total = meta.total
+    val progress = if (total > 0) (current / total).toFloat() else 0f
+
+    Column {
+        Text(title, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(4.dp))
+        Text("${"%.1f".format(current)} / ${"%.1f".format(total)} km", fontSize = 14.sp)
+        Spacer(Modifier.height(8.dp))
+
+        LinearProgressIndicator(
+        progress = { progress },
+        modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+        color = Color(0xFF7CCE6B),
+        trackColor = Color.LightGray,
+        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+        )
+
+        Spacer(Modifier.height(4.dp))
+        Text("${(progress * 100).toInt()}%", fontSize = 12.sp, color = Color.Gray)
     }
 }
 
@@ -630,99 +761,3 @@ fun AccountSettingsCard(onClick: () -> Unit = {}) {
 }
 
 // ---------- Previews ----------
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ProfilePagePreview() {
-    RunupSetupTheme {
-        ProfilePageView(
-            userEmail = "user@test.com",
-            userName = "Rafael Costa",
-            weeklyTotal = 25.0,
-            weeklyProgress = 18.5,
-            isLoading = false,
-            errorMessage = null,
-            stats = UserStatsDto(
-                totalCorridas = 23,
-                totalKm = 112.0,
-                totalTempoSegundos = 18 * 3600L
-            )
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ProfileHeaderPreview() {
-    RunupSetupTheme {
-        ProfileHeader(
-            userName = "Rafael Costa",
-            userEmail = "user@test.com",
-            stats = UserStatsDto(
-                totalCorridas = 23,
-                totalKm = 112.0,
-                totalTempoSegundos = 18 * 3600L
-            )
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun WeeklyGoalCardPreview() {
-    RunupSetupTheme {
-        WeeklyGoalCard(
-            weeklyTotal = 25.0,
-            weeklyProgress = 18.5,
-            isLoading = false,
-            errorMessage = null
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun WeeklyStatsCardPreview() {
-    RunupSetupTheme {
-        WeeklyStatsCard()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PersonalRecordsCardPreview() {
-    RunupSetupTheme {
-        PersonalRecordsCard()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GoalCardPreview() {
-    RunupSetupTheme {
-        GoalCard(title = "Correr 5km sem parar", progress = 0.75f, percent = "75%")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecordCardPreview() {
-    RunupSetupTheme {
-        RecordCard(title = "Maior Distância", value = "12.3 km", bgColor = Color(0xFFFFF7E6))
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MyGoalsCardPreview() {
-    RunupSetupTheme {
-        MyGoalsCard()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PrivacyCardPreview() {
-    RunupSetupTheme {
-        PrivacyCard()
-    }
-}

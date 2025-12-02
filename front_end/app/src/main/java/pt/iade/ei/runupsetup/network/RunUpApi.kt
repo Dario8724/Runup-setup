@@ -57,4 +57,14 @@ interface RunUpApi{
     suspend fun getUserStats(
         @Path("id") id: Long
     ) : Response<UserStatsDto>
+
+    @GET("/api/usuario/{id}/weekly-stats")
+    suspend fun getWeeklyStats(
+        @Path("id") id: Long
+    ) : Response<WeeklyStatsDto>
+
+    @GET("/api/usuario/{id}/records/distance")
+    suspend fun getPersonalRecords(
+        @Path("id") id: Long
+    ) : Response<PersonalRecordDto>
 }
