@@ -53,4 +53,8 @@ interface RunUpApi{
         @Path("userId") userId: Long
     ) : Response<List<GoalDto>>
 
+    @GET("/api/usuario{id}/stats")
+    suspend fun getUserStats(
+        @Path("id") id: Long
+    ) : Response<UserStatsDto>
 }

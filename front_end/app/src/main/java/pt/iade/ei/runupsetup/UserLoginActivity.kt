@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import pt.iade.ei.runupsetup.network.LoginRequestDto
+import pt.iade.ei.runupsetup.network.LoginResponseDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
+
 
 class UserLoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +49,17 @@ class UserLoginActivity : ComponentActivity() {
 
                             Toast.makeText(this@UserLoginActivity, "Bem-vindo, ${user.nome}", Toast.LENGTH_SHORT).show()
 
+                            val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+                            prefs.edit()
+                                .putString("logged_email", user.email)
+                                .putString("logged_name", user.nome)
+                                .putLong("logged_id", user.userId.toLong())
+                                .apply()
+
                             // Lembrar usuário
                             if (remember) {
-                                val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
                                 prefs.edit()
-                                    .putString("logged_email", user.email)
-                                    .putInt("logged_id", user.userId)
+                                    .putBoolean("remember_me", true)
                                     .apply()
                             }
 

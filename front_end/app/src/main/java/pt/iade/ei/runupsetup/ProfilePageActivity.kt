@@ -26,10 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.network.RetrofitClient
+import pt.iade.ei.runupsetup.network.UserStatsDto
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 class ProfilePageActivity : ComponentActivity() {
@@ -40,17 +42,20 @@ class ProfilePageActivity : ComponentActivity() {
         // pega usuário logado
         val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
         val loggedEmail = prefs.getString("logged_email", null)
+        val loggedName = prefs.getString("logged_name", null)
         val loggedId = prefs.getLong("logged_id", -1L)
 
         setContent {
             RunupSetupTheme {
+
                 // estados que vão ser carregados do backend
                 var weeklyTotal by remember { mutableStateOf<Double?>(null) }
                 var weeklyProgress by remember { mutableStateOf<Double?>(null) }
                 var errorMessage by remember { mutableStateOf<String?>(null) }
                 var isLoading by remember { mutableStateOf(true) }
+                var stats by remember { mutableStateOf<UserStatsDto?>(null) }
 
-                // carrega metas do backend assim que a tela abrir
+                // carrega metas + stats do backend assim que a tela abrir
                 LaunchedEffect(loggedId) {
                     if (loggedId <= 0L) {
                         isLoading = false
@@ -59,18 +64,28 @@ class ProfilePageActivity : ComponentActivity() {
                     }
 
                     try {
-                        val response = RetrofitClient.instance.getGoals(loggedId)
-                        if (response.isSuccessful) {
-                            val goals = response.body().orEmpty()
+                        // 1) Metas
+                        val goalsResponse = RetrofitClient.instance.getGoals(loggedId)
+                        if (goalsResponse.isSuccessful) {
+                            val goals = goalsResponse.body().orEmpty()
                             val weeklyGoal = goals.firstOrNull {
                                 it.nome.contains("semanal", ignoreCase = true)
                             }
-
                             weeklyTotal = weeklyGoal?.total
                             weeklyProgress = weeklyGoal?.progresso
                         } else {
-                            errorMessage = "Erro ao carregar metas (${response.code()})"
+                            errorMessage = "Erro ao carregar metas (${goalsResponse.code()})"
                         }
+
+                        // 2) Estatísticas do usuário
+                        val statsResponse = RetrofitClient.instance.getUserStats(loggedId)
+                        if (statsResponse.isSuccessful) {
+                            stats = statsResponse.body()
+                        } else {
+                            // não bloqueia a tela, só registra o erro
+                            println("Erro ao carregar stats (${statsResponse.code()})")
+                        }
+
                     } catch (e: Exception) {
                         errorMessage = "Falha ao conectar ao servidor."
                     } finally {
@@ -80,10 +95,12 @@ class ProfilePageActivity : ComponentActivity() {
 
                 ProfilePageView(
                     userEmail = loggedEmail,
+                    userName = loggedName,
                     weeklyTotal = weeklyTotal,
                     weeklyProgress = weeklyProgress,
                     isLoading = isLoading,
-                    errorMessage = errorMessage
+                    errorMessage = errorMessage,
+                    stats = stats
                 )
             }
         }
@@ -100,10 +117,12 @@ fun navigateTo(context: android.content.Context, destination: Class<*>) {
 @Composable
 fun ProfilePageView(
     userEmail: String? = null,
+    userName: String? = null,
     weeklyTotal: Double? = null,
     weeklyProgress: Double? = null,
     isLoading: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    stats: UserStatsDto? = null
 ) {
     val context = LocalContext.current
 
@@ -111,7 +130,24 @@ fun ProfilePageView(
         topBar = {
             TopAppBar(
                 title = { Text("Perfil", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B)),
+                actions = {
+                    TextButton(
+                        onClick = {
+                            val prefs = context.getSharedPreferences("runup_prefs", android.content.Context.MODE_PRIVATE)
+                            prefs.edit()
+                                .remove("logged_email")
+                                .remove("logged_id")
+                                .apply()
+
+                            val intent = Intent(context, UserLoginActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            context.startActivity(intent)
+                        }
+                    ) {
+                        Text("Logout", color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+                }
             )
         },
         bottomBar = {
@@ -158,7 +194,7 @@ fun ProfilePageView(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileHeader(userEmail = userEmail)
+            ProfileHeader(userEmail = userEmail, userName = userName, stats = stats)
             Spacer(modifier = Modifier.height(24.dp))
             WeeklyGoalCard(
                 weeklyTotal = weeklyTotal,
@@ -177,8 +213,36 @@ fun ProfilePageView(
 }
 
 // ---------------------------- COMPONENTS ----------------------------
+fun getInitials(name: String?): String {
+    if (name.isNullOrBlank()) return "--"
+
+    val clean = name.substringBefore("@")
+
+    val parts = clean.trim().split(" ")
+
+    return when{
+        parts.size == 2 ->
+            (parts[0].take(1) + parts[1].take(1)).uppercase()
+
+        clean.length >= 2 ->
+            clean.take(2).uppercase()
+
+        else -> "--"
+    }
+}
+
 @Composable
-fun ProfileHeader(userEmail: String?) {
+fun ProfileHeader(
+    userName: String?,
+    userEmail: String?,
+    stats: UserStatsDto?
+) {
+    val initials = getInitials(userName)
+
+    val totalCorridas = stats?.totalCorridas ?: 0
+    val totalKm = stats?.totalKm ?: 0.0
+    val totalHoras = ((stats?.totalTempoSegundos ?: 0L) / 3600)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -187,6 +251,8 @@ fun ProfileHeader(userEmail: String?) {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+            // círculo com iniciais
             Box(
                 modifier = Modifier
                     .size(70.dp)
@@ -194,23 +260,29 @@ fun ProfileHeader(userEmail: String?) {
                     .background(Color(0xFFB4E0A2)),
                 contentAlignment = Alignment.Center
             ) {
-                Text("RC", fontSize = 22.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White)
+                Text(text = initials, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
+
             Spacer(modifier = Modifier.height(8.dp))
+
+            // email ou nome
             Text(
-                text = userEmail ?: "Usuário",
+                text = userName ?: userEmail ?: "Usuário",
                 color = Color.White,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
+
             Spacer(modifier = Modifier.height(20.dp))
+
+            // estatísticas reais
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                StatCard("23", "Corridas")
-                StatCard("112", "km Total")
-                StatCard("18h", "Tempo")
+                StatCard(totalCorridas.toString(), "Corridas")
+                StatCard(totalKm.toInt().toString(), "km Total")
+                StatCard("${totalHoras}h", "Tempo")
             }
         }
     }
@@ -241,7 +313,6 @@ fun WeeklyGoalCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("Meta Semanal", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
-                Text("Editar", color = Color(0xFF7CCE6B), fontWeight = androidx.compose.ui.text.font.FontWeight.Medium)
             }
             Text("Distância a percorrer", fontSize = 14.sp, color = Color.Gray)
             Spacer(modifier = Modifier.height(12.dp))
@@ -565,10 +636,16 @@ fun ProfilePagePreview() {
     RunupSetupTheme {
         ProfilePageView(
             userEmail = "user@test.com",
+            userName = "Rafael Costa",
             weeklyTotal = 25.0,
             weeklyProgress = 18.5,
             isLoading = false,
-            errorMessage = null
+            errorMessage = null,
+            stats = UserStatsDto(
+                totalCorridas = 23,
+                totalKm = 112.0,
+                totalTempoSegundos = 18 * 3600L
+            )
         )
     }
 }
@@ -577,7 +654,15 @@ fun ProfilePagePreview() {
 @Composable
 fun ProfileHeaderPreview() {
     RunupSetupTheme {
-        ProfileHeader(userEmail = "user@test.com")
+        ProfileHeader(
+            userName = "Rafael Costa",
+            userEmail = "user@test.com",
+            stats = UserStatsDto(
+                totalCorridas = 23,
+                totalKm = 112.0,
+                totalTempoSegundos = 18 * 3600L
+            )
+        )
     }
 }
 
