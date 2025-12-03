@@ -13,9 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -27,8 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.network.GoalDto
@@ -158,7 +153,7 @@ fun ProfilePageView(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Perfil", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White) },
+                title = { Text("Perfil", fontWeight = FontWeight.Bold, color = Color.White) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B)),
                 actions = {
                     TextButton(
@@ -264,7 +259,12 @@ fun ProfilePageView(
                     context.startActivity(intent)
                 }
             )
-            TrainingPreferenciesCard ()
+            TrainingPreferenciesCard (
+                onClick = {
+                    val intent = Intent(context, TrainingPreferencesActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
             AccountSettingsCard ()
         }
     }
@@ -349,7 +349,7 @@ fun ProfileHeader(
 @Composable
 fun StatCard(value: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 18.sp, color = Color.White)
+        Text(value, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(label, fontSize = 12.sp, color = Color.White)
     }
 }
@@ -369,7 +369,7 @@ fun WeeklyGoalCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Meta Semanal", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                Text("Meta Semanal", fontWeight = FontWeight.Bold)
             }
             Text("Distância a percorrer", fontSize = 14.sp, color = Color.Gray)
             Spacer(modifier = Modifier.height(12.dp))
@@ -404,7 +404,7 @@ fun WeeklyGoalCard(
 
                     Text(
                         text = String.format("%.1f / %.1f km", current, total),
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -478,10 +478,10 @@ fun StatRow(title: String, value: String, subtitle: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+            Text(title, fontWeight = FontWeight.SemiBold)
             Text(subtitle, fontSize = 12.sp, color = Color.Gray)
         }
-        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+        Text(value, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -563,7 +563,7 @@ fun RecordCard(title: String, value: String, bgColor: Color) {
         ) {
             Text(title, fontSize = 14.sp)
             Spacer(Modifier.height(4.dp))
-            Text(value, fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -644,7 +644,7 @@ fun GoalCard(title: String, progress: Float, percent: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+            Text(title, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
                 progress = { progress },
@@ -690,7 +690,7 @@ fun PrivacyCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Privacidade",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -729,7 +729,7 @@ fun TrainingPreferenciesCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Preferências de Treino",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -768,7 +768,7 @@ fun AccountSettingsCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Configurações da Conta",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

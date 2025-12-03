@@ -112,6 +112,13 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Mudar metas -->
+        <activity
+            android:name=".TrainingPreferencesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
 
 
 

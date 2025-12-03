@@ -67,4 +67,10 @@ interface RunUpApi{
     suspend fun getPersonalRecords(
         @Path("id") id: Long
     ) : Response<PersonalRecordDto>
+
+    @PUT("/api/goals/users/{userId}")
+    suspend fun updateGoals(
+        @Path("userId") userId: Long,
+        @Body body: UpdateGoalsRequestDto
+    ): Response<Void>
 }
