@@ -110,32 +110,25 @@ fun HistoryPageView(userId: Int) {
                     )
                     BottomBarItem(
                         onclick = {
-                            context.startActivity(
-                                Intent(context, ComunityPageActivity::class.java)
-                            )
-                        },
+                        val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                            },
                         icon = R.drawable.comunity_icon,
-                        label = "Comunidade"
-                    )
-                    BottomBarItem(
-                        onclick = {
-                            context.startActivity(
-                                Intent(context, HistoryPageActivity::class.java)
-                            )
-                        },
-                        icon = R.drawable.outline_history_24,
-                        label = "Histórico"
-                    )
-                    BottomBarItem(
-                        onclick = {
-                            context.startActivity(
-                                Intent(context, ProfilePageActivity::class.java)
-                            )
-                        },
-                        icon = R.drawable.outline_account_circle_24,
-                        label = "Perfil"
-                    )
-                }
+                        label = "Comunidade")
+            BottomBarItem(
+            onclick = {
+            val intent = Intent(context, HistoryPage::class.java)
+             context.startActivity(intent)},
+            icon = R.drawable.outline_history_24,
+            label = "Histórico"
+        )
+            BottomBarItem(
+            onclick = {
+            val intent = Intent(context, ProfilePageActivity::class.java)
+             context.startActivity(intent)},
+            icon = R.drawable.outline_account_circle_24,
+            label = "Perfil"
+        )       }
             }
         }
     ) { innerPadding ->

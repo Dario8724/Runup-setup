@@ -115,127 +115,40 @@ fun ComunityActivityView() {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
-                        onClick = {
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, RoutePageActivity::class.java)
                             context.startActivity(intent)
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.Home,
-                                contentDescription ="Botão para a página inicial",
-                                tint = Color.Black,
-                            )
-                            Text(
-                                text = "Início",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Black
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                painter = painterResource(R.drawable.outline_map_24),
-                                contentDescription = "Botão para a página de rotas",
-                            )
-                            Text(
-                                text = "Rotas",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, ComunityPageActivity::class.java)
                             context.startActivity(intent)
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor =Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.comunity_icon),
-                                contentDescription = "Botão para a página de comunidade",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Comunidade",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
-                            //val intent = Intent(context, HistoryPage::class.java)
-                            //context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_history_24),
-                                contentDescription = "Botão para a página de histórico",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Histórico",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade")
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, HistoryPage::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.AccountCircle,
-                                contentDescription = " Botão para a página de perfil",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Perfil",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )
                 }
             }
         }
@@ -245,10 +158,13 @@ fun ComunityActivityView() {
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-
-            Text(
-                text = "Conecte-se com outros corredores"
-            )
+            Row(
+                modifier = Modifier.padding(start = 8.dp)
+            ){
+                Text(
+                    text = "Conecte-se com outros corredores"
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

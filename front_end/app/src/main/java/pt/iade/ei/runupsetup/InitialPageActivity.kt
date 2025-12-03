@@ -15,28 +15,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Label
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,13 +43,12 @@ import pt.iade.ei.runupsetup.models.HistoryItemModel
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 import android.content.Intent
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.channels.ticker
-import pt.iade.ei.runupsetup.RouteFiltersActivity
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 
 
 class InitialPageActivity : ComponentActivity() {
@@ -90,7 +75,6 @@ fun InitialPageView() {
         minimumPace = "5'30\"/km",
         tipoLabel = "caminhada"
     )
-    // most of the content is not needed
     Scaffold(
         topBar = {
             TopAppBar(
@@ -111,127 +95,40 @@ fun InitialPageView() {
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Button(
-                        onClick = {
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, InitialPageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.Home,
-                                contentDescription ="Botão para a página inicial",
-                                tint = Color.Black,
-                            )
-                            Text(
-                                text = "Início",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Black
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                painter = painterResource(R.drawable.outline_map_24),
-                                contentDescription = "Botão para a página de rotas",
-                            )
-                            Text(
-                                text = "Rotas",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, RoutePageActivity::class.java)
+                                    context.startActivity(intent)
+                             },
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, ComunityPageActivity::class.java)
                             context.startActivity(intent)
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor =Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.comunity_icon),
-                                contentDescription = "Botão para a página de comunidade",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Comunidade",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
-                            //val intent = Intent(context, HistoryPage::class.java)
-                            //context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.outline_history_24),
-                                contentDescription = "Botão para a página de histórico",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Histórico",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                    Button(
-                        onClick = {
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade")
+                    BottomBarItem(
+                        onclick = {val intent = Intent(context, HistoryPage::class.java)
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7CCE6B),
-                            contentColor = Color.Unspecified
-                        )
-                    ) {
-                        Column (
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(
-                                Icons.Outlined.AccountCircle,
-                                contentDescription = " Botão para a página de perfil",
-                                tint = Color.Black
-                            )
-                            Text(
-                                text = "Perfil",
-                                fontSize = 7.5.sp,
-                                color = Color.Black
-                            )
-                        }
-                    }
+                            context.startActivity(intent)},
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )
                 }
             }
         },
@@ -258,7 +155,7 @@ fun InitialPageView() {
                     pressedElevation = 12.dp
                 )
             ){
-                Column {
+                Column (modifier = Modifier.padding(16.dp)){
                     Row {
                         Text(
                             text = "Resumo de hoje",
@@ -306,213 +203,67 @@ fun InitialPageView() {
                     }
                 }
             }
-            Text(
+            Row (modifier = Modifier.padding(start = 8.dp)){
+                Text(
                 text = "Atalhos rápidos",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
-            )
+            ) }
+            // adicionar paddin
+
             Column {
-
-                Card (
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    onClick = {},
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp,
-                        pressedElevation = 12.dp
+                    ShortCutCard(
+                        icon = R.drawable.outline_map_24,
+                        title = "Explorar rotas",
+                        subtitle = "Descubra novos caminhos"
                     )
-                ){
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp )
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.outline_map_24),
-                            contentDescription = "Icone do mapa"
-                        )
-                        Column {
-                            Text(
-                                text = "Explorar rotas"
-                            )
-                            Text(
-                                text = "Acompanhe seu progresso "
-                            )
-                        }
-                        // seta para proseguir
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "seta para proseguir",
-                            tint = Color.Black
-                        ) }
-                }
-                // card for goals
-                Card(
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    onClick = {},
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp,
-                        pressedElevation = 12.dp
-                    )
+                ShortCutCard(
+                    icon = R.drawable.outline_circle_circle_24,
+                    title = "Metas pessoais",
+                    subtitle = "Acompanhe seu progresso "
                 )
-                {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp )
-                    ){
-                        Icon(
-                            painter = painterResource(R.drawable.outline_circle_circle_24),
-                            contentDescription = "Botão para a página de metas"
-                        )
-                        Column {
-                            Text(
-                                text = "Metas pessoais",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = "Acompanhe seu progresso"
-                            )
-                        }
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "seta para proseguir",
-                            tint = Color.Black
-                        )
-                    }
-                }
-                Card (
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    onClick = {},
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp,
-                        pressedElevation = 12.dp
-                    )
+                ShortCutCard(
+                    icon = R.drawable.outline_history_24,
+                    title = "Histórico",
+                    subtitle = "Veja as suas atividades"
                 )
-                {
-                    Row (
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.outline_history_24),
-                            contentDescription = "Botão para a página de históricos"
-                        )
-                        Column {
-                            Text(
-                                text = "Histórico",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = "Veja as suas atividades"
-                            )
-                        }
-                        // seta para proseguir
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "seta para proseguir",
-                            tint = Color.Black
-                        )
-                    }
-                }
-                Card (
-                    modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    onClick = {},
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp,
-                        pressedElevation = 12.dp
-                    )
-                )
-                {
-                    Row (
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.outline_history_24),
-                            contentDescription = "Botão para a página de históricos"
-                        )
-                        Column {
-                            Text(
-                                text = "Histórico",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = "Veja as suas atividades"
-                            )
-                        }
-                        // seta para proseguir
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = "seta para proseguir",
-                            tint = Color.Black
-                        )
-                    }
-                }
-
                 // probable card for conquests
-                /*
-                Card (
-                    modifier
-                ){
-                }
-                 */
+                ShortCutCard(
+                    icon = R.drawable.outline_map_24,
+                    title = "Explorar rotas",
+                    subtitle = "Acompanhe seu progresso "
+                )
             }
         }
-
     }
 }
-// function for this page's header
 @Composable
 fun InitialPageHeader(){
     Box{
-
+            // todo : add color filter to match the green
         Image(
             painter = painterResource(R.drawable.corredor_ao_por_do_sol),
             contentDescription = "Imagem de um corredor ao pôr do sol",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),
-        )
+                .height(250.dp),)
         Column(
             modifier = Modifier
                 .align (Alignment.TopStart)
-                .padding(start = 20.dp, top = 40.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
             Text(
                 text = "Olá, Corredor",
                 fontWeight = FontWeight.Black,
-                fontSize = 25.sp
+                fontSize = 25.sp,
+                color = Color.White
             )
             Text(
                 text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
                 fontWeight = FontWeight.Black,
-                fontSize = 25.sp
+                fontSize = 25.sp,
+                color = Color.White
             )
         }
         Column(
@@ -521,46 +272,95 @@ fun InitialPageHeader(){
                 .fillMaxWidth()
                 .padding(vertical = 15.dp)
                 .align (Alignment.BottomEnd)
-                .padding(start = 20.dp, top = 40.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
-            // Botão de iniciar
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    val intent = Intent(context, RouteFiltersActivity::class.java)
-                    context.startActivity(intent)
-                },
-                modifier = Modifier.height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF7CCE6B),
-                    contentColor = Color.Unspecified
-                )
-            ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Start button"
-                    )
-                    Text(
-                        text = "Start",
-                        modifier = Modifier.padding(start = 5.dp)
-                    )
-                }
-            }
+            StartButton()
         }
     }
 }
-// todo : implement a card for dayle summaries of activities
-// fix the padding and optimize the code
-// create a composable for the bottom app bar in the components and just call the function in every activity
-// make the code reusable
+// Botão de iniciar
+@Composable
+fun StartButton(){
+    val context = LocalContext.current
+    Button(
+        onClick = {
+            val intent = Intent(context, RouteFiltersActivity::class.java)
+           context.startActivity(intent)
+        },
+        modifier = Modifier.height(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF7CCE6B),
+            contentColor = Color.Unspecified
+        )
+    ) {
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = "Start button"
+            )
+            Text(
+                text = "Start",
+                modifier = Modifier.padding(start = 5.dp)
+            )
+        }
+    }
+}
+@Composable
+fun ShortCutCard(
+    @DrawableRes icon : Int,
+    title : String,
+    subtitle : String,
+    onclick : () -> Unit = {}
+){
+    Card (
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth(),
+        onClick = {},
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp,
+            pressedElevation = 12.dp
+        )
+    ){
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 8.dp )
+        ) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = "",
+                tint = Color.Black
+            )
+            Column {
+                Text(
+                    text = title,
+                    fontWeight = FontWeight.Black
+                )
+                Text(
+                    text = subtitle
+                )
+            }
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "seta para proseguir",
+                tint = Color.Black
+            )
+        }
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
        InitialPageView()
-          //InitialPageHeader()
     }
 }

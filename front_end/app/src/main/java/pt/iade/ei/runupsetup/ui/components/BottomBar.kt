@@ -1,14 +1,17 @@
 package pt.iade.ei.runupsetup.ui.components
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,9 +27,20 @@ fun BottomBarItem(
     onclick : () -> Unit = {}
 ){
     Button(onClick = {},
+        // botão selecionado
+        /*
+        colors = ButtonDefaults.colors(
+            selectedIconColor = Color.DarkGray,
+            unselectedIconColor = Color.White,
+            unselectedTextColor = Color.Black,
+            selectedTextColor = Color.Black,
+            indicatorColor = Color.Green
+        )
+        */
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.Unspecified,
-            containerColor = Color(0xF3EDF7)
+            containerColor = Color(0xF3EDF7),
+
         )
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally){
@@ -47,6 +61,8 @@ fun BottomBarItem(
 fun BottomBar(
 ) {
     BottomAppBar(
+        modifier = Modifier.shadow(elevation = 1.dp, spotColor = Color(0xFF000000)),
+        //modifier = Modifier.border(1.dp, color = Color()),
         containerColor = Color(0xF3EDF7),
     ) {
         Row (
