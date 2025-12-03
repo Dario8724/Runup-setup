@@ -87,4 +87,9 @@ interface RunUpApi {
     suspend fun deleteUser(
         @Path("id") id: Long
     ): Response<Void>
+
+    @GET("/api/usuario/{id}/today-summary")
+    suspend fun getTodaySummary(
+        @Path("id") id: Long
+    ): Response<TodaySummaryDto>
 }

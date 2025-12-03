@@ -20,6 +20,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/MetaRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaDetalheResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/UpdateUserProfileRequest.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/TodaySummaryDto.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Local.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/UpdateGoalsRequest.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/RoutePointDTO.java

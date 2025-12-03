@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pt.iade.RunUp.model.dto.PersonalRecordDto;
 import pt.iade.RunUp.model.dto.UserStatsDto;
 import pt.iade.RunUp.model.dto.WeeklyStatsDto;
+import pt.iade.RunUp.model.dto.TodaySummaryDto;
 import pt.iade.RunUp.model.entity.Corrida;
 import pt.iade.RunUp.model.entity.MetaUsuario;
 import pt.iade.RunUp.repository.MetaUsuarioRepository;
@@ -138,4 +139,56 @@ public class UsuarioService {
 
     return dto;
   }
-}
+
+  @Transactional(readOnly = true)
+  public TodaySummaryDto getTodaySummary(Integer userId) {
+    usuarioRepository
+      .findById(userId)
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+    LocalDate hoje = LocalDate.now();
+
+    var metas = metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(
+      userId
+    );
+
+    double totalKm = 0.0;
+    int totalKcal = 0;
+    long totalSegundos = 0L;
+
+    for (MetaUsuario mu : metas) {
+      Corrida c = mu.getCorrida();
+      if (c == null) continue;
+
+      LocalDate data = c.getData();
+      if (data == null) continue;
+
+      // 👇 só conta corridas de HOJE
+      if (!data.isEqual(hoje)) continue;
+
+      if (c.getDistancia() != null) {
+        totalKm += c.getDistancia();
+      }
+      if (c.getKcal() != null) {
+        totalKcal += c.getKcal();
+      }
+      if (c.getTempo() != null) {
+        totalSegundos += c.getTempo().toSecondOfDay();
+      }
+    }
+
+    TodaySummaryDto dto = new TodaySummaryDto();
+    dto.setDistanciaTotalKm(totalKm);
+    dto.setCaloriasTotais(totalKcal);
+    dto.setTempoTotalSegundos(totalSegundos);
+
+    double paceMedio = 0.0;
+    if (totalKm > 0 && totalSegundos > 0) {
+      // segundos por km
+      paceMedio = (double) totalSegundos / totalKm;
+    }
+    dto.setPaceMedioSegundosPorKm(paceMedio);
+
+    return dto;
+  }
+}   

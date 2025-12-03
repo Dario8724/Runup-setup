@@ -4,6 +4,7 @@ pt/iade/RunUp/controller/UserProfileController.class
 pt/iade/RunUp/model/dto/WeeklyStatsDto.class
 pt/iade/RunUp/model/dto/UserProfileDto.class
 pt/iade/RunUp/integration/GooglePlacesClient.class
+pt/iade/RunUp/model/dto/TodaySummaryDto.class
 pt/iade/RunUp/integration/WeatherClient.class
 pt/iade/RunUp/util/PolylineDecoder.class
 pt/iade/RunUp/model/dto/UpdateGoalsRequest.class
