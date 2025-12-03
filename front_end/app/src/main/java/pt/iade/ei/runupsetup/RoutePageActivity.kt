@@ -315,30 +315,3 @@ fun RoutePagePreview() {
 // for language , themes and settings
 // read documentations of menus
 // the following code is an example of a dropdownmenu
-/*
-@Composable
-fun MinimalDropdownMenu() {
-    var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Option 1") },
-                onClick = { /* Do something... */ }
-            )
-            DropdownMenuItem(
-                text = { Text("Option 2") },
-                onClick = { /* Do something... */ }
-            )
-        }
-    }
-}
- */

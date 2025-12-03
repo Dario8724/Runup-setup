@@ -208,10 +208,9 @@ fun InitialPageView() {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
             ) }
-            // adicionar paddin
-
             Column {
                     ShortCutCard(
+                        // add onclick
                         icon = R.drawable.outline_map_24,
                         title = "Explorar rotas",
                         subtitle = "Descubra novos caminhos"
@@ -252,6 +251,7 @@ fun InitialPageHeader(){
                 .align (Alignment.TopStart)
                 .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
+            // review later 
             Text(
                 text = "Olá, Corredor",
                 fontWeight = FontWeight.Black,
@@ -277,7 +277,6 @@ fun InitialPageHeader(){
         }
     }
 }
-// Botão de iniciar
 @Composable
 fun StartButton(){
     val context = LocalContext.current
