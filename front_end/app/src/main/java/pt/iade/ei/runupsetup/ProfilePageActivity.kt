@@ -13,9 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
@@ -27,8 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.network.GoalDto
@@ -36,6 +31,7 @@ import pt.iade.ei.runupsetup.network.PersonalRecordDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.network.UserStatsDto
 import pt.iade.ei.runupsetup.network.WeeklyStatsDto
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 class ProfilePageActivity : ComponentActivity() {
@@ -157,7 +153,7 @@ fun ProfilePageView(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Perfil", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, color = Color.White) },
+                title = { Text("Perfil", fontWeight = FontWeight.Bold, color = Color.White) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF7CCE6B)),
                 actions = {
                     TextButton(
@@ -179,37 +175,55 @@ fun ProfilePageView(
             )
         },
         bottomBar = {
-            NavigationBar(containerColor = Color.White) {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Outlined.Home, contentDescription = "Início") },
-                    label = { Text("Início") },
-                    selected = false,
-                    onClick = { navigateTo(context, InitialPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.outline_map_24), contentDescription = "Rotas") },
-                    label = { Text("Rotas") },
-                    selected = false,
-                    onClick = { /* Navegação Rotas */ }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.comunity_icon), contentDescription = "Comunidade") },
-                    label = { Text("Comunidade") },
-                    selected = false,
-                    onClick = { navigateTo(context, ComunityPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.outline_history_24), contentDescription = "Histórico") },
-                    label = { Text("Histórico") },
-                    selected = false,
-                    onClick = { navigateTo(context, HistoryPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Outlined.AccountCircle, contentDescription = "Perfil") },
-                    label = { Text("Perfil") },
-                    selected = true,
-                    onClick = { /* Já está na página de perfil */ }
-                )
+            BottomAppBar(
+                containerColor = Color.White
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, RoutePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, HistoryPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )
+                }
             }
         }
     ) { innerPadding ->
@@ -245,7 +259,12 @@ fun ProfilePageView(
                     context.startActivity(intent)
                 }
             )
-            TrainingPreferenciesCard ()
+            TrainingPreferenciesCard (
+                onClick = {
+                    val intent = Intent(context, TrainingPreferencesActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
             AccountSettingsCard ()
         }
     }
@@ -330,7 +349,7 @@ fun ProfileHeader(
 @Composable
 fun StatCard(value: String, label: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 18.sp, color = Color.White)
+        Text(value, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(label, fontSize = 12.sp, color = Color.White)
     }
 }
@@ -350,7 +369,7 @@ fun WeeklyGoalCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Meta Semanal", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                Text("Meta Semanal", fontWeight = FontWeight.Bold)
             }
             Text("Distância a percorrer", fontSize = 14.sp, color = Color.Gray)
             Spacer(modifier = Modifier.height(12.dp))
@@ -385,7 +404,7 @@ fun WeeklyGoalCard(
 
                     Text(
                         text = String.format("%.1f / %.1f km", current, total),
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -459,10 +478,10 @@ fun StatRow(title: String, value: String, subtitle: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+            Text(title, fontWeight = FontWeight.SemiBold)
             Text(subtitle, fontSize = 12.sp, color = Color.Gray)
         }
-        Text(value, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+        Text(value, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -544,7 +563,7 @@ fun RecordCard(title: String, value: String, bgColor: Color) {
         ) {
             Text(title, fontSize = 14.sp)
             Spacer(Modifier.height(4.dp))
-            Text(value, fontSize = 20.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -625,7 +644,7 @@ fun GoalCard(title: String, progress: Float, percent: String) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+            Text(title, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
                 progress = { progress },
@@ -671,7 +690,7 @@ fun PrivacyCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Privacidade",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -710,7 +729,7 @@ fun TrainingPreferenciesCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Preferências de Treino",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -749,7 +768,7 @@ fun AccountSettingsCard(onClick: () -> Unit = {}) {
             Text(
                 text = "Configurações da Conta",
                 fontSize = 16.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

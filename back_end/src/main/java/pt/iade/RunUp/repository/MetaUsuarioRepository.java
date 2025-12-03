@@ -11,5 +11,7 @@ public interface MetaUsuarioRepository extends JpaRepository<MetaUsuario, Intege
 
     List<MetaUsuario> findByUsuario_Id(Integer usuarioId);
 
+    List<MetaUsuario> findByUsuario_IdAndMetaIdIsNotNull(Integer usuarioId);
+
     boolean existsByCorrida_Id(Integer corridaId);
 }

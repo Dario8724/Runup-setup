@@ -1,38 +1,33 @@
 package pt.iade.ei.runupsetup
 
-
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -40,55 +35,84 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.models.HistoryItemModel
-import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
-import java.util.Calendar
-import android.content.Intent
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
+import pt.iade.ei.runupsetup.network.TodaySummaryDto
 import pt.iade.ei.runupsetup.ui.components.BottomBarItem
-import kotlinx.coroutines.channels.ticker
-import pt.iade.ei.runupsetup.RouteFiltersActivity
-
+import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
+import pt.iade.ei.runupsetup.network.RetrofitClient
+import java.text.SimpleDateFormat
+import java.util.*
 
 class InitialPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+        val loggedId = prefs.getLong("logged_id", -1L)
+
         setContent {
             RunupSetupTheme {
-                InitialPageView()
+                InitialPageView(loggedId = loggedId)
             }
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InitialPageView() {
-    val item = HistoryItemModel(
-        corridaId = 2,
-        title = "Corrida de Segunda",
-        date = Calendar.getInstance(),
-        distance = "5 km",
-        duration = "00:30:45",
-        calories = "250 kcal",
-        minimumPace = "5'30\"/km",
-        tipoLabel = "caminhada"
-    )
+fun InitialPageView(loggedId: Long) {
+    val context = LocalContext.current
+
+    var todaySummary by remember { mutableStateOf<TodaySummaryDto?>(null) }
+    var isLoadingSummary by remember { mutableStateOf(true) }
+    var summaryError by remember { mutableStateOf<String?>(null) }
+
+    // texto da data em pt-PT
+    val dateText = remember {
+        val locale = Locale("pt", "PT")
+        val formatter = SimpleDateFormat("EEEE, d 'de' MMMM", locale)
+        formatter.format(Date()).replaceFirstChar { it.uppercase() }
+    }
+
+    // 🔹 Buscar resumo de hoje ao backend
+    LaunchedEffect(loggedId) {
+        if (loggedId <= 0L) {
+            isLoadingSummary = false
+            summaryError = "Usuário não logado."
+            return@LaunchedEffect
+        }
+
+        try {
+            val resp = RetrofitClient.instance.getTodaySummary(loggedId)
+            if (resp.isSuccessful) {
+                todaySummary = resp.body()
+            } else {
+                summaryError = "Erro ao carregar resumo (${resp.code()})"
+            }
+        } catch (e: Exception) {
+            summaryError = "Falha ao conectar ao servidor."
+        } finally {
+            isLoadingSummary = false
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
-                    containerColor = Color(0xFF7CCE6B),
+                    containerColor = Color(0xFF7CCE6B)
                 ),
-                title = {}
+                title = {
+                    Text(
+                        text = dateText,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
             )
-        }
-        ,
+        },
         bottomBar = {
-            val context = LocalContext.current
             BottomAppBar(
                 containerColor = Color.White,
             ) {
@@ -100,14 +124,16 @@ fun InitialPageView() {
                     BottomBarItem(
                         onclick = {
                             val intent = Intent(context, InitialPageActivity::class.java)
-                            context.startActivity(intent)},
+                            context.startActivity(intent)
+                        },
                         icon = R.drawable.outline_home_24,
                         label = "Início"
                     )
                     BottomBarItem(
-                        onclick = {val intent = Intent(context, RoutePageActivity::class.java)
-                                    context.startActivity(intent)
-                             },
+                        onclick = {
+                            val intent = Intent(context, RoutePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         icon = R.drawable.outline_map_24,
                         label = "Rotas"
                     )
@@ -117,17 +143,21 @@ fun InitialPageView() {
                             context.startActivity(intent)
                         },
                         icon = R.drawable.comunity_icon,
-                        label = "Comunidade")
+                        label = "Comunidade"
+                    )
                     BottomBarItem(
-                        onclick = {val intent = Intent(context, HistoryPage::class.java)
-                            context.startActivity(intent)},
+                        onclick = {
+                            val intent = Intent(context, HistoryPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
                         icon = R.drawable.outline_history_24,
                         label = "Histórico"
                     )
                     BottomBarItem(
                         onclick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)
-                            context.startActivity(intent)},
+                            context.startActivity(intent)
+                        },
                         icon = R.drawable.outline_account_circle_24,
                         label = "Perfil"
                     )
@@ -141,117 +171,84 @@ fun InitialPageView() {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            // function containing the header
             InitialPageHeader()
-            Card (
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            ){
-                Column (modifier = Modifier.padding(16.dp)){
-                    Row {
-                        Text(
-                            text = "Resumo de hoje",
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily.SansSerif
-                        )
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(all = 8.dp )
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Pace médio",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.minimumPace)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Tempo",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.duration)
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = "Distância",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(
-                                text = item.distance
-                            )
-                        }
-                        Column(horizontalAlignment = Alignment.CenterHorizontally){
-                            Text(
-                                text = "Calorias",
-                                fontWeight = FontWeight.Black
-                            )
-                            Text(text = item.calories)
-                        }
-                    }
-                }
-            }
-            Row (modifier = Modifier.padding(start = 8.dp)){
+
+            TodaySummaryCard(
+                summary = todaySummary,
+                isLoading = isLoadingSummary,
+                errorMessage = summaryError
+            )
+
+            Row(modifier = Modifier.padding(start = 8.dp)) {
                 Text(
-                text = "Atalhos rápidos",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Black
-            ) }
+                    text = "Atalhos rápidos",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Black
+                )
+            }
+
             Column {
-                    ShortCutCard(
-                        // add onclick
-                        icon = R.drawable.outline_map_24,
-                        title = "Explorar rotas",
-                        subtitle = "Descubra novos caminhos"
-                    )
+                ShortCutCard(
+                    icon = R.drawable.outline_map_24,
+                    title = "Explorar rotas",
+                    subtitle = "Descubra novos caminhos"
+                ) {
+                    val intent = Intent(context, RoutePageActivity::class.java)
+                    context.startActivity(intent)
+                }
                 ShortCutCard(
                     icon = R.drawable.outline_circle_circle_24,
                     title = "Metas pessoais",
-                    subtitle = "Acompanhe seu progresso "
-                )
+                    subtitle = "Acompanhe seu progresso"
+                ) {
+                    val intent = Intent(context, ProfilePageActivity::class.java)
+                    context.startActivity(intent)
+                }
                 ShortCutCard(
                     icon = R.drawable.outline_history_24,
                     title = "Histórico",
                     subtitle = "Veja as suas atividades"
-                )
-                // probable card for conquests
-                ShortCutCard(
-                    icon = R.drawable.outline_map_24,
-                    title = "Explorar rotas",
-                    subtitle = "Acompanhe seu progresso "
-                )
+                ) {
+                    val intent = Intent(context, HistoryPageActivity::class.java)
+                    context.startActivity(intent)
+                }
             }
         }
     }
 }
+
 @Composable
-fun InitialPageHeader(){
-    Box{
-            // todo : add color filter to match the green
+fun InitialPageHeader() {
+    Box {
+        // Imagem de fundo
         Image(
             painter = painterResource(R.drawable.corredor_ao_por_do_sol),
             contentDescription = "Imagem de um corredor ao pôr do sol",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp),)
+                .height(250.dp),
+        )
+
+        // 🔹 Overlay verde com gradiente para melhorar visibilidade do texto
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xCC7CCE6B), // mais forte em cima
+                            Color(0x807CCE6B),
+                            Color.Transparent      // some em baixo
+                        )
+                    )
+                )
+        )
+
+        // Texto em cima da imagem
         Column(
             modifier = Modifier
-                .align (Alignment.TopStart)
+                .align(Alignment.TopStart)
                 .padding(start = 20.dp, end = 20.dp, top = 40.dp)
         ) {
             // review later 
@@ -264,29 +261,32 @@ fun InitialPageHeader(){
             Text(
                 text = "Comece a se mover e alcance hoje mesmo suas metas de corrida!",
                 fontWeight = FontWeight.Black,
-                fontSize = 25.sp,
+                fontSize = 20.sp,
                 color = Color.White
             )
         }
+
+        // Botão Start em baixo
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp)
-                .align (Alignment.BottomEnd)
-                .padding(start = 20.dp, end = 20.dp, top = 40.dp)
+                .align(Alignment.BottomCenter)
         ) {
             StartButton()
         }
     }
 }
+
+// Botão de iniciar
 @Composable
-fun StartButton(){
+fun StartButton() {
     val context = LocalContext.current
     Button(
         onClick = {
             val intent = Intent(context, RouteFiltersActivity::class.java)
-           context.startActivity(intent)
+            context.startActivity(intent)
         },
         modifier = Modifier.height(50.dp),
         colors = ButtonDefaults.buttonColors(
@@ -294,7 +294,7 @@ fun StartButton(){
             contentColor = Color.Unspecified
         )
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -308,18 +308,17 @@ fun StartButton(){
         }
     }
 }
+
 @Composable
-fun ShortCutCard(
-    @DrawableRes icon : Int,
-    title : String,
-    subtitle : String,
-    onclick : () -> Unit = {}
-){
-    Card (
+fun TodaySummaryCard(
+    summary: TodaySummaryDto?,
+    isLoading: Boolean,
+    errorMessage: String?
+) {
+    Card(
         modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 8.dp)
             .fillMaxWidth(),
-        onClick = {},
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -328,20 +327,126 @@ fun ShortCutCard(
             defaultElevation = 10.dp,
             pressedElevation = 12.dp
         )
-    ){
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = "Resumo de hoje",
+                fontSize = 25.sp,
+                fontFamily = FontFamily.SansSerif
+            )
+            Spacer(Modifier.height(8.dp))
+
+            when {
+                isLoading -> {
+                    Text("Carregando resumo...", color = Color.Gray)
+                    Spacer(Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(6.dp),
+                        color = Color(0xFF7CCE6B),
+                        trackColor = Color.LightGray
+                    )
+                }
+
+                errorMessage != null -> {
+                    Text(errorMessage, color = Color(0xFFB00020), fontSize = 14.sp)
+                }
+
+                summary != null -> {
+                    val paceStr = formatPace(summary.paceMedioSegundosPorKm)
+
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Pace médio", fontWeight = FontWeight.Black)
+                            Text(paceStr)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Tempo", fontWeight = FontWeight.Black)
+                            Text(formatTime(summary.tempoTotalSegundos))
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Distância", fontWeight = FontWeight.Black)
+                            Text(String.format("%.1f km", summary.distanciaTotalKm))
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text("Calorias", fontWeight = FontWeight.Black)
+                            Text("${summary.caloriasTotais} kcal")
+                        }
+                    }
+                }
+
+                else -> {
+                    Text(
+                        "Ainda não há corridas hoje. Vamos começar? 🏃‍♂️",
+                        color = Color.Gray,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+// Helpers para formatar
+private fun formatTime(totalSeconds: Long): String {
+    val h = totalSeconds / 3600
+    val m = (totalSeconds % 3600) / 60
+    val s = totalSeconds % 60
+    return if (h > 0) "%02d:%02d:%02d".format(h, m, s)
+    else "%02d:%02d".format(m, s)
+}
+
+private fun formatPace(paceSecondsPerKm: Double): String {
+    if (paceSecondsPerKm <= 0) return "--"
+    val total = paceSecondsPerKm.toInt()
+    val min = total / 60
+    val sec = total % 60
+    return "%d'%02d\"/km".format(min, sec)
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ShortCutCard(
+    @DrawableRes icon: Int,
+    title: String,
+    subtitle: String,
+    onclick: () -> Unit = {}
+) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .fillMaxWidth(),
+        onClick = onclick, // 🔹 usa o callback passado
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp,
+            pressedElevation = 12.dp
+        )
+    ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = 8.dp )
+                .padding(all = 8.dp)
         ) {
             Icon(
                 painter = painterResource(icon),
                 contentDescription = "",
                 tint = Color.Black
             )
-            Column {
+            Column(
+                modifier = Modifier.weight(1f).padding(start = 8.dp)
+            ) {
                 Text(
                     text = title,
                     fontWeight = FontWeight.Black
@@ -352,16 +457,17 @@ fun ShortCutCard(
             }
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "seta para proseguir",
+                contentDescription = "seta para prosseguir",
                 tint = Color.Black
             )
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun InitialPagePreview() {
     RunupSetupTheme {
-       InitialPageView()
+        InitialPageView(loggedId = 1L)
     }
 }

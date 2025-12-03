@@ -1,7 +1,9 @@
 package pt.iade.RunUp.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pt.iade.RunUp.model.dto.GoalDto;
+import pt.iade.RunUp.model.dto.UpdateGoalsRequest;
 import pt.iade.RunUp.model.entity.Corrida;
 import pt.iade.RunUp.model.entity.Meta;
 import pt.iade.RunUp.model.entity.MetaUsuario;
@@ -29,7 +31,6 @@ public class GoalService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    // 🔹 chamado no register() – cria meta semanal e mensal
     public void createGoalsForUser(Usuario usuario) {
 
         String experiencia = Optional.ofNullable(usuario.getExperiencia())
@@ -42,10 +43,10 @@ public class GoalService {
         if (experiencia.contains("iniciante")) {
             kmPorTreino = 3.0;
             treinosPorSemana = 3;
-        } else if (experiencia.contains("intermedi")) { // "Intermediário"
+        } else if (experiencia.contains("intermedi")) { 
             kmPorTreino = 6.0;
             treinosPorSemana = 4;
-        } else { // avançado e outros
+        } else { 
             kmPorTreino = 10.0;
             treinosPorSemana = 5;
         }
@@ -78,21 +79,17 @@ public class GoalService {
         metaUsuarioRepository.save(muMes);
     }
 
-    // 🔹 usado pelo GoalController – devolve metas + progresso
     public List<GoalDto> getGoalsForUser(Integer userId) {
 
         if (!usuarioRepository.existsById(userId)) {
             throw new RuntimeException("Usuário não encontrado");
         }
 
-        // metas associadas ao usuário (semanal + mensal)
         List<MetaUsuario> metasUsuario = metaUsuarioRepository.findByUsuario_Id(userId);
 
-        // corridas associadas ao usuário via mu (as que já existem hoje)
         List<MetaUsuario> muComCorrida =
                 metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(userId);
 
-        // extrair corridas únicas
         Map<Integer, Corrida> corridasPorId = new HashMap<>();
         for (MetaUsuario mu : muComCorrida) {
             Corrida corrida = mu.getCorrida();
@@ -107,7 +104,6 @@ public class GoalService {
         LocalDate semanaAtras = hoje.minusDays(7);
         LocalDate primeiroDiaMes = hoje.withDayOfMonth(1);
 
-        // calcular progresso geral
         double progressoSemanal = corridas.stream()
                 .filter(c -> {
                     LocalDate data = c.getData();
@@ -147,5 +143,78 @@ public class GoalService {
         }
 
         return goals;
+    }
+
+    @Transactional
+    public void updateGoalsForUser(Integer userId, UpdateGoalsRequest request) {
+
+        Usuario usuario = usuarioRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // todos os links de META (não de corrida) desse usuário
+        List<MetaUsuario> links = metaUsuarioRepository
+                .findByUsuario_IdAndMetaIdIsNotNull(userId);
+
+        Meta metaSemanal = null;
+        Meta metaMensal = null;
+
+        // descobre quais metas são semanal / mensal
+        for (MetaUsuario mu : links) {
+            Integer metaId = mu.getMetaId();
+            if (metaId == null) continue;
+
+            Meta meta = metaRepository.findById(metaId).orElse(null);
+            if (meta == null) continue;
+
+            String nome = meta.getNome() != null ? meta.getNome() : "";
+
+            if (nome.equalsIgnoreCase("Meta Semanal")) {
+                metaSemanal = meta;
+            } else if (nome.equalsIgnoreCase("Meta Mensal")) {
+                metaMensal = meta;
+            }
+        }
+
+        // ----- atualizar / criar Meta Semanal -----
+        if (request.getMetaSemanalKm() != null) {
+
+            if (metaSemanal == null) {
+                Meta nova = new Meta();
+                nova.setNome("Meta Semanal");
+                nova.setDistancia(request.getMetaSemanalKm());
+                nova = metaRepository.save(nova);
+
+                MetaUsuario mu = new MetaUsuario();
+                mu.setUsuario(usuario);
+                mu.setMetaId(nova.getId());
+                mu.setCorrida(null); // link só com meta
+                metaUsuarioRepository.save(mu);
+
+            } else {
+                metaSemanal.setDistancia(request.getMetaSemanalKm());
+                metaRepository.save(metaSemanal);
+            }
+        }
+
+        // ----- atualizar / criar Meta Mensal -----
+        if (request.getMetaMensalKm() != null) {
+
+            if (metaMensal == null) {
+                Meta nova = new Meta();
+                nova.setNome("Meta Mensal");
+                nova.setDistancia(request.getMetaMensalKm());
+                nova = metaRepository.save(nova);
+
+                MetaUsuario mu = new MetaUsuario();
+                mu.setUsuario(usuario);
+                mu.setMetaId(nova.getId());
+                mu.setCorrida(null);
+                metaUsuarioRepository.save(mu);
+
+            } else {
+                metaMensal.setDistancia(request.getMetaMensalKm());
+                metaRepository.save(metaMensal);
+            }
+        }
     }
 }

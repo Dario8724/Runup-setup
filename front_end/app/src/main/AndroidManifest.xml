@@ -106,7 +106,23 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Gerar Rotas -->
+        <activity
+            android:name=".RouteFiltersActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Mudar metas -->
+        <activity
+            android:name=".TrainingPreferencesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Tela Rotas Predefinidas -->
+        <activity
+            android:name=".RoutePageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
 
