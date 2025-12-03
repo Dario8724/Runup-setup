@@ -118,10 +118,11 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-
-
-
-
+        <!-- Tela Rotas Predefinidas -->
+        <activity
+            android:name=".RoutePageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
 
