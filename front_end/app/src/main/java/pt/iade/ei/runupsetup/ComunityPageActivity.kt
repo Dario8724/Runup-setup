@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.channels.ticker
 import pt.iade.ei.runupsetup.models.HistoryItemModel
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import java.util.Calendar
 
 class ComunityPageActivity : ComponentActivity() {
@@ -137,7 +138,7 @@ fun ComunityActivityView() {
                         icon = R.drawable.comunity_icon,
                         label = "Comunidade")
                     BottomBarItem(
-                        onclick = {val intent = Intent(context, HistoryPage::class.java)
+                        onclick = {val intent = Intent(context, HistoryPageActivity::class.java)
                             context.startActivity(intent)},
                         icon = R.drawable.outline_history_24,
                         label = "Histórico"

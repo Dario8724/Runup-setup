@@ -117,7 +117,7 @@ fun RoutePageView() {
                         icon = R.drawable.comunity_icon,
                         label = "Comunidade")
                     BottomBarItem(
-                        onclick = {val intent = Intent(context, HistoryPage::class.java)
+                        onclick = {val intent = Intent(context, HistoryPageActivity::class.java)
                             context.startActivity(intent)},
                         icon = R.drawable.outline_history_24,
                         label = "Histórico"

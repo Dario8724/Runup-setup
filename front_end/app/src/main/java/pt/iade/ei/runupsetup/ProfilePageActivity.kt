@@ -36,6 +36,7 @@ import pt.iade.ei.runupsetup.network.PersonalRecordDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.network.UserStatsDto
 import pt.iade.ei.runupsetup.network.WeeklyStatsDto
+import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 
 class ProfilePageActivity : ComponentActivity() {
@@ -179,37 +180,55 @@ fun ProfilePageView(
             )
         },
         bottomBar = {
-            NavigationBar(containerColor = Color.White) {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Outlined.Home, contentDescription = "Início") },
-                    label = { Text("Início") },
-                    selected = false,
-                    onClick = { navigateTo(context, InitialPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.outline_map_24), contentDescription = "Rotas") },
-                    label = { Text("Rotas") },
-                    selected = false,
-                    onClick = { /* Navegação Rotas */ }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.comunity_icon), contentDescription = "Comunidade") },
-                    label = { Text("Comunidade") },
-                    selected = false,
-                    onClick = { navigateTo(context, ComunityPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(painterResource(R.drawable.outline_history_24), contentDescription = "Histórico") },
-                    label = { Text("Histórico") },
-                    selected = false,
-                    onClick = { navigateTo(context, HistoryPageActivity::class.java) }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Outlined.AccountCircle, contentDescription = "Perfil") },
-                    label = { Text("Perfil") },
-                    selected = true,
-                    onClick = { /* Já está na página de perfil */ }
-                )
+            BottomAppBar(
+                containerColor = Color.White
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, InitialPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_home_24,
+                        label = "Início"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, RoutePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_map_24,
+                        label = "Rotas"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ComunityPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.comunity_icon,
+                        label = "Comunidade"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, HistoryPageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_history_24,
+                        label = "Histórico"
+                    )
+                    BottomBarItem(
+                        onclick = {
+                            val intent = Intent(context, ProfilePageActivity::class.java)
+                            context.startActivity(intent)
+                        },
+                        icon = R.drawable.outline_account_circle_24,
+                        label = "Perfil"
+                    )
+                }
             }
         }
     ) { innerPadding ->

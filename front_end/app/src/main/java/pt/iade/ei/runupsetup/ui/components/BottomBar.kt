@@ -1,4 +1,5 @@
 package pt.iade.ei.runupsetup.ui.components
+
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -22,11 +23,12 @@ import pt.iade.ei.runupsetup.R
 
 @Composable
 fun BottomBarItem(
-    @DrawableRes icon : Int,
-    label : String,
-    onclick : () -> Unit = {}
-){
-    Button(onClick = {},
+    @DrawableRes icon: Int,
+    label: String,
+    onclick: () -> Unit = {}
+) {
+    Button(
+        onClick = onclick,
         // botão selecionado
         /*
         colors = ButtonDefaults.colors(
@@ -41,12 +43,14 @@ fun BottomBarItem(
             contentColor = Color.Unspecified,
             containerColor = Color(0xF3EDF7),
 
-        )
+            )
     ) {
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
-             Icon( painter = painterResource(icon),
-                 contentDescription = label,
-                 tint = Color.Black)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = label,
+                tint = Color.Black
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = label,
@@ -56,6 +60,7 @@ fun BottomBarItem(
         }
     }
 }
+
 // testing the
 @Composable
 fun BottomBar(
@@ -65,36 +70,37 @@ fun BottomBar(
         //modifier = Modifier.border(1.dp, color = Color()),
         containerColor = Color(0xF3EDF7),
     ) {
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically){
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             BottomBarItem(
-            onclick = {},
-            icon = R.drawable.outline_home_24,
-            label = "Início"
-        )
+                onclick = {},
+                icon = R.drawable.outline_home_24,
+                label = "Início"
+            )
             BottomBarItem(
-            onclick = {},
-            icon = R.drawable.outline_map_24,
-            label = "Rotas"
-        )
+                onclick = {},
+                icon = R.drawable.outline_map_24,
+                label = "Rotas"
+            )
             BottomBarItem(
-            onclick = {},
-            icon = R.drawable.comunity_icon,
-            label = "Comunidade"
-        )
+                onclick = {},
+                icon = R.drawable.comunity_icon,
+                label = "Comunidade"
+            )
             BottomBarItem(
-            onclick = {},
-            icon = R.drawable.outline_history_24,
-            label = "Histórico"
-        )
+                onclick = {},
+                icon = R.drawable.outline_history_24,
+                label = "Histórico"
+            )
             BottomBarItem(
-            onclick = {},
-            icon = R.drawable.outline_account_circle_24,
-            label = "Perfil"
-        )
-    }
+                onclick = {},
+                icon = R.drawable.outline_account_circle_24,
+                label = "Perfil"
+            )
+        }
     }
 }
 
