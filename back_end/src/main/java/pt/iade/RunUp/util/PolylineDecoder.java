@@ -7,11 +7,15 @@ public class PolylineDecoder {
 
     public static List<double[]> decode(String encoded) {
         List<double[]> poly = new ArrayList<>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
+        int index = 0;
+        int len = encoded.length();
+        int lat = 0;
+        int lng = 0;
 
         while (index < len) {
-            int b, shift = 0, result = 0;
+            int b;
+            int shift = 0;
+            int result = 0;
             do {
                 b = encoded.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
@@ -36,5 +40,9 @@ public class PolylineDecoder {
         }
 
         return poly;
+    }
+
+    private PolylineDecoder() {
+        // util
     }
 }

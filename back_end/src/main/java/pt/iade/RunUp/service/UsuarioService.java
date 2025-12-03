@@ -1,53 +1,141 @@
 package pt.iade.RunUp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import pt.iade.RunUp.model.Usuario;
-import pt.iade.RunUp.model.dto.UsuarioDTO;
+import org.springframework.transaction.annotation.Transactional;
+import pt.iade.RunUp.model.dto.PersonalRecordDto;
+import pt.iade.RunUp.model.dto.UserStatsDto;
+import pt.iade.RunUp.model.dto.WeeklyStatsDto;
+import pt.iade.RunUp.model.entity.Corrida;
+import pt.iade.RunUp.model.entity.MetaUsuario;
+import pt.iade.RunUp.repository.MetaUsuarioRepository;
 import pt.iade.RunUp.repository.UsuarioRepository;
-import pt.iade.RunUp.model.dto.LoginResponseDTO;
-import pt.iade.RunUp.model.dto.LoginRequestDTO;
 
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+  private final UsuarioRepository usuarioRepository;
+  private final MetaUsuarioRepository metaUsuarioRepository;
 
-    public Usuario criarUsuario(UsuarioDTO dto) {
+  public UsuarioService(
+    UsuarioRepository usuarioRepository,
+    MetaUsuarioRepository metaUsuarioRepository
+  ) {
+    this.usuarioRepository = usuarioRepository;
+    this.metaUsuarioRepository = metaUsuarioRepository;
+  }
 
-        if (usuarioRepository.existsByEmail(dto.email)) {
-            throw new RuntimeException("Email já cadastrado");
-        }
+  @Transactional(readOnly = true)
+  public UserStatsDto getUserStats(Integer userId) {
+    usuarioRepository
+      .findById(userId)
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Usuario u = new Usuario();
-        u.setNome(dto.nome);
-        u.setEmail(dto.email);
-        u.setSenha(dto.senha);
-        u.setData_aniversario(dto.data_aniversario);
-        u.setSexo(dto.sexo);
-        u.setPeso(dto.peso);
-        u.setAltura(dto.altura);
-        u.setExperiencia(dto.experiencia);
+    List<MetaUsuario> metas =
+      metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(userId);
 
-        return usuarioRepository.save(u);
+    long totalCorridas = 0L;
+    double totalKm = 0.0;
+    long totalSegundos = 0L;
+
+    for (MetaUsuario mu : metas) {
+      Corrida c = mu.getCorrida();
+      if (c == null) continue;
+
+      totalCorridas++;
+
+      if (c.getDistancia() != null) {
+        totalKm += c.getDistancia();
+      }
+      if (c.getTempo() != null) {
+        totalSegundos += c.getTempo().toSecondOfDay();
+      }
     }
 
-    public LoginResponseDTO login(String email, String senha) {
-        Usuario u = usuarioRepository.findByEmail(email);
+    UserStatsDto dto = new UserStatsDto();
+    dto.setTotalCorridas(totalCorridas);
+    dto.setTotalKm(totalKm);
+    dto.setTotalTempoSegundos(totalSegundos);
 
-        if (u == null) {
-            throw new RuntimeException("Usuário não encontrado");
-        }
+    return dto;
+  }
 
-        if (!u.getSenha().equals(senha)) {
-            throw new RuntimeException("Senha incorreta");
-        }
+  @Transactional(readOnly = true)
+  public WeeklyStatsDto getWeeklyStats(Integer userId) {
+    usuarioRepository
+      .findById(userId)
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        return new LoginResponseDTO(
-            u.getId_usuario(),
-            u.getNome(),
-            u.getEmail()
-        );
+    LocalDate limite = LocalDate.now().minusDays(7);
+
+    var metas = metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(
+      userId
+    );
+
+    double totalKm = 0.0;
+    int totalKcal = 0;
+    long totalSegundos = 0L;
+
+    for (MetaUsuario mu : metas) {
+      Corrida c = mu.getCorrida();
+      if (c == null) continue;
+
+      LocalDate data = c.getData();
+      if (data == null) continue;
+
+      if (data.isBefore(limite)) break;
+
+      if (c.getDistancia() != null) {
+        totalKm += c.getDistancia();
+      }
+      if (c.getKcal() != null) {
+        totalKcal += c.getKcal();
+      }
+      if (c.getTempo() != null) {
+        totalSegundos += c.getTempo().toSecondOfDay();
+      }
     }
+
+    WeeklyStatsDto dto = new WeeklyStatsDto();
+    dto.setDistanciaTotalKm(totalKm);
+    dto.setCaloriasTotais(totalKcal);
+    dto.setTempoTotalSegundos(totalSegundos);
+    return dto;
+  }
+
+  @Transactional(readOnly = true)
+  public PersonalRecordDto getMaiorDistancia(Integer userId) {
+    usuarioRepository
+      .findById(userId)
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+    var metas = metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(
+      userId
+    );
+
+    Corrida melhor = null;
+
+    for (MetaUsuario mu : metas) {
+      Corrida c = mu.getCorrida();
+      if (c == null || c.getDistancia() == null) continue;
+
+      if (melhor == null || c.getDistancia() > melhor.getDistancia()) {
+        melhor = c;
+      }
+    }
+
+    PersonalRecordDto dto = new PersonalRecordDto();
+    if (melhor != null) {
+      dto.setMaiorDistanciaKm(melhor.getDistancia());
+      dto.setDataCorrida(melhor.getData());
+      dto.setCorridaId(melhor.getId());
+    } else {
+      dto.setMaiorDistanciaKm(0.0);
+      dto.setDataCorrida(null);
+      dto.setCorridaId(null);
+    }
+
+    return dto;
+  }
 }

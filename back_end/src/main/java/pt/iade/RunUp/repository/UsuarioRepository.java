@@ -1,9 +1,11 @@
 package pt.iade.RunUp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pt.iade.RunUp.model.Usuario;
+import pt.iade.RunUp.model.entity.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+import java.util.Optional;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     boolean existsByEmail(String email);
-    Usuario findByEmail(String email);
+    Optional<Usuario> findByEmail(String email);
 }

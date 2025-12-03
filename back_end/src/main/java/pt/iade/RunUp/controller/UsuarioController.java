@@ -1,28 +1,33 @@
 package pt.iade.RunUp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pt.iade.RunUp.model.Usuario;
-import pt.iade.RunUp.model.dto.UsuarioDTO;
+import pt.iade.RunUp.model.dto.UserStatsDto;
 import pt.iade.RunUp.service.UsuarioService;
-import pt.iade.RunUp.model.dto.LoginResponseDTO;
-import pt.iade.RunUp.model.dto.LoginRequestDTO;
+import pt.iade.RunUp.model.dto.WeeklyStatsDto;
+import pt.iade.RunUp.model.dto.PersonalRecordDto;
 
 @RestController
-@RequestMapping("/usuarios")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/usuario")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    @PostMapping("/cadastrar")
-    public Usuario cadastrar(@RequestBody UsuarioDTO dto) {
-        return usuarioService.criarUsuario(dto);
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @PostMapping("/login")
-    public LoginResponseDTO login(@RequestBody LoginRequestDTO request) {
-        return usuarioService.login(request.email, request.senha);
+    @GetMapping("/{id}/stats")
+    public UserStatsDto getUserStats(@PathVariable Integer id) {
+        return usuarioService.getUserStats(id);
+    }
+
+    @GetMapping("/{id}/weekly-stats")
+    public WeeklyStatsDto getWeeklyStats(@PathVariable Integer id) {
+        return usuarioService.getWeeklyStats(id);
+    }
+
+    @GetMapping("/{id}/records/distance")
+    public PersonalRecordDto getMaiorDistancia(@PathVariable Integer id) {
+        return usuarioService.getMaiorDistancia(id);
     }
 }

@@ -20,104 +20,94 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- 🔹 Chave da API do Google Maps -->
+        <!-- Chave da API do Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔹 Tela inicial (Login) -->
         <activity
             android:name=".LoginPageActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <!-- 🔹 Tela principal do login -->
         <activity
             android:name=".UserLoginActivity"
             android:exported="false"
-            android:label="Página Login do Usuario"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Histórico -->
+        <activity
+            android:name=".HistoryPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RunupSetup" />
 
-        <!-- 🔹 Tela principal após login -->
+        <!-- Detalhe histórico -->
+        <activity
+            android:name=".HistoryDetailPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RunupSetup" />
+
+        <!-- Tela inicial pós-login -->
         <activity
             android:name=".InitialPageActivity"
             android:exported="false"
-            android:label="Página Inicial"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <!-- 🔹 Tela de filtros de rota -->
-        <activity
-            android:name=".RouteFiltersActivity"
-            android:exported="false"
-            android:label="Filtros de Rota"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de corrida -->
+        <!-- Corrida em tempo real -->
         <activity
             android:name=".ui.RunMapActivity"
             android:exported="false"
-            android:label="Corrida em Tempo Real"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de geração de rota -->
-        <activity
-            android:name=".ui.RouteActivity"
-            android:exported="false"
-            android:label="Gerar Rota"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- 🔹 Tela de perfil -->
+        <!-- Perfil -->
         <activity
             android:name=".ProfilePageActivity"
             android:exported="false"
-            android:label="Perfil"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de histórico -->
-        <activity
-            android:name=".HistoryPage"
-            android:exported="false"
-            android:label="Histórico"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <!-- 🔹 Tela de Comunidade -->
+        <!-- Comunidade -->
         <activity
             android:name=".ComunityPageActivity"
             android:exported="false"
-            android:label="Comunidade"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Telas de Registro -->
+        <!-- Registro – 3 telas -->
         <activity
             android:name=".RegisterPageActivity"
             android:exported="false"
-            android:label="Criar Conta"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".QuestionnaireGenderActivity"
             android:exported="false"
-            android:label="Gênero"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".QuestionnairePageActivity"
             android:exported="false"
-            android:label="Questionário"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+        <!-- Sucesso -->
         <activity
             android:name=".RegistrationSuccessActivity"
             android:exported="false"
-            android:label="Sucesso"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Privacidade -->
+        <activity
+            android:name=".PrivacyPageActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
 
+
     </application>
+
 </manifest>

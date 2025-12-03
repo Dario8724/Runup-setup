@@ -2,6 +2,8 @@ package pt.iade.ei.runupsetup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -11,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,8 +23,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.models.RouteRequest
-import pt.iade.ei.runupsetup.ui.RouteActivity
+import kotlinx.coroutines.launch
+import pt.iade.ei.runupsetup.models.GenerateCorridaRequestDto
+import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.ui.RunMapActivity
 
 class RouteFiltersActivity : ComponentActivity() {
@@ -30,17 +34,6 @@ class RouteFiltersActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 RouteFiltersScreen(
-                    onGenerateRoute = { routeRequest ->
-                        val intent = Intent(this, RouteActivity::class.java)
-                        intent.putExtra("nome", routeRequest.nome)
-                        intent.putExtra("distance", routeRequest.desiredDistanceKm)
-                        intent.putExtra("trees", routeRequest.preferTrees)
-                        intent.putExtra("beach", routeRequest.nearBeach)
-                        intent.putExtra("park", routeRequest.nearPark)
-                        intent.putExtra("sunny", routeRequest.sunnyRoute)
-                        intent.putExtra("tipo", routeRequest.tipo)
-                        startActivity(intent)
-                    },
                     onBack = { finish() }
                 )
             }
@@ -51,9 +44,11 @@ class RouteFiltersActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteFiltersScreen(
-    onGenerateRoute: (RouteRequest) -> Unit,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     var nome by remember { mutableStateOf(TextFieldValue("")) }
     var tipo by remember { mutableStateOf("corrida") }
     var selectedDistance by remember { mutableStateOf("5 km") }
@@ -66,7 +61,6 @@ fun RouteFiltersScreen(
 
     val distances = listOf("2 km", "5 km", "10 km")
 
-    // Paleta de cores
     val backgroundColor = Color(0xFFFAF7F2)
     val greenLight = Color(0xFFB8E986)
     val greenMain = Color(0xFF6ECB63)
@@ -179,36 +173,81 @@ fun RouteFiltersScreen(
             Button(
                 onClick = {
                     val nomeLimpo = nome.text.trim()
-                    if (nomeLimpo.isEmpty()) return@Button
+                    if (nomeLimpo.isEmpty()) {
+                        Toast.makeText(context, "Dá um nome à rota 😊", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
 
-                    val tipoNormalizado = tipo.lowercase()
+                    val tipoNormalizado =
+                        if (tipo.lowercase() == "caminhada") "CAMINHADA" else "CORRIDA"
                     val distanceValue = selectedDistance.replace(" km", "").toDouble()
 
-                    // Localização base do emulador
+                    // Localização base
                     val originLat = 38.781810
                     val originLng = -9.102510
 
-                    // Ajuste proporcional de destino conforme a distância
-                    val fator = distanceValue / 2.0
-                    val destLat = originLat + 0.009 * fator
-                    val destLng = originLng + 0.009 * fator
+                    // filtros
+                    val filtros = mutableListOf<String>()
+                    if (nearPark) filtros.add("PERTO_PARQUE")
+                    if (nearBeach) filtros.add("PERTO_PRAIA")
+                    if (sunnyRoute) filtros.add("ENSOLARADA")
+                    // avoidHills por enquanto não usamos no back
 
-                    val routeRequest = RouteRequest(
-                        nome = nomeLimpo,
-                        originLat = originLat,
-                        originLng = originLng,
-                        destLat = destLat,
-                        destLng = destLng,
-                        desiredDistanceKm = distanceValue,
-                        preferTrees = preferTrees,
-                        nearBeach = nearBeach,
-                        nearPark = nearPark,
-                        sunnyRoute = sunnyRoute,
-                        avoidHills = avoidHills,
-                        tipo = tipoNormalizado
+                    val req = GenerateCorridaRequestDto(
+                        userId = 1,
+                        routeName = nomeLimpo,
+                        tipoAtividade = tipoNormalizado,
+                        startLatitude = originLat,
+                        startLongitude = originLng,
+                        distanceKm = distanceValue,
+                        filtros = if (filtros.isEmpty()) null else filtros
                     )
 
-                    onGenerateRoute(routeRequest)
+                    Log.d("RouteFilters", "➡️ Enviando request: $req")
+                    Toast.makeText(context, "A gerar rota...", Toast.LENGTH_SHORT).show()
+
+                    scope.launch {
+                        try {
+                            val resp = RetrofitClient.instance.gerarCorrida(req)
+                            Log.d("RouteFilters", "⬅️ Resposta HTTP: ${resp.code()}")
+
+                            if (resp.isSuccessful) {
+                                val corrida = resp.body()
+                                Log.d("RouteFilters", "corpo = $corrida")
+
+                                if (corrida != null) {
+                                    Toast.makeText(
+                                        context,
+                                        "Rota gerada com sucesso!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    val intent = Intent(context, RunMapActivity::class.java)
+                                    intent.putExtra("corridaGerada", corrida)
+                                    context.startActivity(intent)
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Resposta vazia do servidor",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Erro ao gerar rota: ${resp.code()}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            Log.e("RouteFilters", "❌ Falha ao chamar gerarCorrida", e)
+                            Toast.makeText(
+                                context,
+                                "Falha na ligação: ${e.localizedMessage}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -241,6 +280,6 @@ fun FilterCheck(label: String, checked: Boolean, onCheckedChange: (Boolean) -> U
 @Composable
 fun RouteFiltersScreenPreview() {
     MaterialTheme {
-        RouteFiltersScreen(onGenerateRoute = {}, onBack = {})
+        RouteFiltersScreen(onBack = {})
     }
 }

@@ -39,7 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.models.HistoryItemModel1
+import pt.iade.ei.runupsetup.models.HistoryItemModel
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 import android.content.Intent
@@ -49,6 +49,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import pt.iade.ei.runupsetup.ui.components.BottomBarItem
+import kotlinx.coroutines.channels.ticker
+import pt.iade.ei.runupsetup.RouteFiltersActivity
 
 
 class InitialPageActivity : ComponentActivity() {
@@ -65,14 +67,15 @@ class InitialPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InitialPageView() {
-    val item = HistoryItemModel1(
+    val item = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "5 km",
         duration = "00:30:45",
         calories = "250 kcal",
         minimumPace = "5'30\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "caminhada"
     )
     Scaffold(
         topBar = {

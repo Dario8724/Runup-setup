@@ -54,8 +54,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+<<<<<<< HEAD
 import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.components.BottomBarItem
+import kotlinx.coroutines.channels.ticker
+import pt.iade.ei.runupsetup.models.HistoryItemModel
 import java.util.Calendar
 
 class ComunityPageActivity : ComponentActivity() {
@@ -70,23 +73,25 @@ class ComunityPageActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComunityActivityView() {
-    val item1 = HistoryItemModel1(
+    val item1 = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida de Segunda",
         date = Calendar.getInstance(),
         distance = "8.5 km",
         duration = "00:30:45",
         calories = "250 kcal",
         minimumPace = "5'30\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "corrida"
     )
-    val item2 = HistoryItemModel1(
+    val item2 = HistoryItemModel(
+        corridaId = 2,
         title = "Corrida aleatória",
         date = Calendar.getInstance(),
         distance = "12.3 km",
         duration = "1:45:20",
         calories = "250 kcal",
         minimumPace = "8'33\"/km",
-        minimap = R.drawable.map_image
+        tipoLabel = "corrida"
     )
     Scaffold(
         topBar = {
@@ -142,6 +147,53 @@ fun ComunityActivityView() {
                     )
                     BottomBarItem(
                         onclick = {
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor =Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
+                    ) {
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.comunity_icon),
+                                contentDescription = "Botão para a página de comunidade",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Comunidade",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                    Button(
+                        onClick = {
+                            //val intent = Intent(context, HistoryPage::class.java)
+                            //context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF7CCE6B),
+                            contentColor = Color.Unspecified
+                        )
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.outline_history_24),
+                                contentDescription = "Botão para a página de histórico",
+                                tint = Color.Black
+                            )
+                            Text(
+                                text = "Histórico",
+                                fontSize = 7.5.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                    Button(
+                        onClick = {
                             val intent = Intent(context, ProfilePageActivity::class.java)
                             context.startActivity(intent)},
                         icon = R.drawable.outline_account_circle_24,

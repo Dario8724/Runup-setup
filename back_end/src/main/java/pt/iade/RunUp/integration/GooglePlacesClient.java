@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -20,36 +21,53 @@ public class GooglePlacesClient {
 
     /**
      * Busca localizações próximas usando Nearby Search.
-     * keyword: "beach" ou "park" ou qualquer outro (vai mapear para um "type" razoável).
+     *
+     * @param lat           latitude de origem
+     * @param lng           longitude de origem
+     * @param radius        raio em metros (ex: 1500, 5000)
+     * @param keywordOrType palavra-chave amigável ("park", "praia", "beach",
+     *                      "parque", "tourist_attraction")
      */
-    public Map<String, Object> searchPlaces(double lat, double lng, String keyword) {
+    public Map<String, Object> searchNearby(double lat, double lng, int radius, String keywordOrType) {
         String type;
-        if (keyword == null) keyword = "";
-        if (keyword.equalsIgnoreCase("beach")) {
-            // beach não tem um type exato, usa "natural_feature" como proxy
-            type = "natural_feature";
-        } else if (keyword.equalsIgnoreCase("park")) {
+
+        if (keywordOrType == null) {
+            keywordOrType = "";
+        }
+
+        String k = keywordOrType.toLowerCase(Locale.ROOT);
+
+        if (k.equals("park") || k.equals("parque")) {
             type = "park";
+        } else if (k.equals("praia") || k.equals("beach")) {
+            // não existe "beach" como type, usamos algo próximo
+            type = "natural_feature"; // ou "tourist_attraction", se preferires
+        } else if (k.equals("tourist_attraction")) {
+            type = "tourist_attraction";
         } else {
             type = "point_of_interest";
         }
 
         try {
-            URI uri = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/place/nearbysearch/json")
-                    .queryParam("location", String.format("%f,%f", lat, lng))
-                    .queryParam("radius", 1500)         // 1.5 km radius — pode ajustar
+            URI uri = UriComponentsBuilder
+                    .fromHttpUrl("https://maps.googleapis.com/maps/api/place/nearbysearch/json")
+                    .queryParam("location", String.format(Locale.US, "%f,%f", lat, lng))
+                    .queryParam("radius", radius)
                     .queryParam("type", type)
                     .queryParam("key", apiKey)
-                    .build()
-                    .encode()   // importante para caracteres especiais
+                    .build(true) // não mexer em encoding
                     .toUri();
 
-            logger.fine("Calling Places API: " + uri.toString());
+            logger.fine("Calling Places API: " + uri);
             Map<String, Object> resp = restTemplate.getForObject(uri, Map.class);
             return resp;
         } catch (Exception e) {
             logger.severe("Erro na chamada Google Places: " + e.getMessage());
             return null;
         }
+    }
+
+    public Map<String, Object> searchPlaces(double lat, double lng, String keyword) {
+        return searchNearby(lat, lng, 1500, keyword);
     }
 }
