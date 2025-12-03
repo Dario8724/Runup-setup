@@ -4,6 +4,7 @@ pt/iade/RunUp/model/dto/WeeklyStatsDto.class
 pt/iade/RunUp/integration/GooglePlacesClient.class
 pt/iade/RunUp/integration/WeatherClient.class
 pt/iade/RunUp/util/PolylineDecoder.class
+pt/iade/RunUp/model/dto/UpdateGoalsRequest.class
 pt/iade/RunUp/controller/UsuarioController.class
 pt/iade/RunUp/repository/LocalRepository.class
 pt/iade/RunUp/service/UsuarioService.class
