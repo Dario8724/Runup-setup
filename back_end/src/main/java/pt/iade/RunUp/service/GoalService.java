@@ -85,7 +85,7 @@ public class GoalService {
             throw new RuntimeException("Usuário não encontrado");
         }
 
-        List<MetaUsuario> metasUsuario = metaUsuarioRepository.findByUsuario_Id(userId);
+        List<MetaUsuario> metasUsuario = metaUsuarioRepository.findByUsuario_IdAndMetaIdIsNotNull(userId);
 
         List<MetaUsuario> muComCorrida =
                 metaUsuarioRepository.findByUsuario_IdOrderByCorrida_DataDesc(userId);
