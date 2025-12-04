@@ -6,6 +6,7 @@ import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,7 +47,9 @@ class HistoryPageActivity : ComponentActivity() {
 
         setContent {
             RunupSetupTheme {
-                HistoryPageView(userId = 1) // por enquanto user fixo
+                val prefs = getSharedPreferences("runup_prefs", MODE_PRIVATE)
+                val loggedId = prefs.getLong("logged_id", -1L)
+                HistoryPageView(userId = loggedId.toInt())
             }
         }
     }
@@ -84,7 +88,22 @@ fun HistoryPageView(userId: Int) {
                     containerColor = Color(0xFF7CCE6B),
                     titleContentColor = Color.White
                 ),
-                title = { Text(text = "Histórico") }
+                title = {
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Histórico",
+                            fontWeight = FontWeight.Black,
+                            color = Color.White
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = "Suas atividades recentes",
+                            color = Color.White.copy(alpha = 0.9f),
+                        )
+                    }
+                }
             )
         },
         bottomBar = {
@@ -149,16 +168,6 @@ private fun HistoryPageContent(
     errorMessage: String?
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-
-        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
-            Text(
-                text = "Histórico",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Black
-            )
-            Spacer(Modifier.height(2.dp))
-            Text(text = "Suas atividades recentes")
-        }
 
         HistoryStatsCard(items)
 
@@ -299,7 +308,7 @@ fun HistoryItemCard(item: HistoryItemModel) {
                 }
 
                 Text(
-                    text = DateFormat.format("dd MMM yyyy · HH:mm", item.date).toString(),
+                    text = DateFormat.format("dd MMM yyyy", item.date).toString(),
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
@@ -323,71 +332,50 @@ fun HistoryItemCard(item: HistoryItemModel) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.DirectionsRun,
-                            contentDescription = null,
-                            tint = Color(0xFF7CCE6B),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        Text("Distância", fontSize = 12.sp, color = Color.Gray)
-                    }
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Outlined.AccessTime,
-                            contentDescription = null,
-                            tint = Color(0xFF7CCE6B),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        Text("Duração", fontSize = 12.sp, color = Color.Gray)
-                    }
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Outlined.Speed,
-                            contentDescription = null,
-                            tint = Color(0xFF7CCE6B),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        Text("Ritmo", fontSize = 12.sp, color = Color.Gray)
-                    }
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Outlined.LocalFireDepartment,
-                            contentDescription = null,
-                            tint = Color(0xFF7CCE6B),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        Text("Calorias", fontSize = 12.sp, color = Color.Gray)
-                    }
-                }
-            }
-
-            Spacer(Modifier.height(4.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(item.distance, fontWeight = FontWeight.SemiBold)
-                Text(item.duration, fontWeight = FontWeight.SemiBold)
-                Text(item.minimumPace, fontWeight = FontWeight.SemiBold)
-                Text(item.calories, fontWeight = FontWeight.SemiBold)
+                MetricColumn(
+                    icon = Icons.AutoMirrored.Outlined.DirectionsRun,
+                    label = "Distância",
+                    value = item.distance
+                )
+                MetricColumn(
+                    icon = Icons.Outlined.AccessTime,
+                    label = "Duração",
+                    value = item.duration
+                )
+                MetricColumn(
+                    icon = Icons.Outlined.Speed,
+                    label = "Ritmo",
+                    value = item.minimumPace
+                )
+                MetricColumn(
+                    icon = Icons.Outlined.LocalFireDepartment,
+                    label = "Calorias",
+                    value = item.calories
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun MetricColumn(
+    icon: ImageVector,
+    label: String,
+    value: String
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color(0xFF7CCE6B),
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(Modifier.width(4.dp))
+            Text(label, fontSize = 12.sp, color = Color.Gray)
+        }
+        Spacer(Modifier.height(4.dp))
+        Text(value, fontWeight = FontWeight.SemiBold)
     }
 }
 
@@ -415,9 +403,11 @@ fun HistoryItemDto.toUiModel(): HistoryItemModel {
         else -> "Corrida"
     }
 
+    val safetTitle = (routeName ?: "").ifBlank { "Corrida" }
+
     return HistoryItemModel(
         corridaId = corridaId,
-        title = routeName,
+        title = safetTitle,
         date = cal,
         distance = String.format(Locale.getDefault(), "%.1f km", distanciaKm),
         duration = durationStr,

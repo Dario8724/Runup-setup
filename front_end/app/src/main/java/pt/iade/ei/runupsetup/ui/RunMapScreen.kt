@@ -2,6 +2,7 @@ package pt.iade.ei.runupsetup.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
@@ -346,13 +347,14 @@ fun RunMapScreen(
                             showSummary = true
 
                             val corridaId = corridaGerada?.corridaId
-                            val userId = corridaGerada?.userId
+                            val prefs = context.getSharedPreferences("runup_prefs", Context.MODE_PRIVATE)
+                            val userId = prefs.getLong("logged_id", -1L)
 
                             if (!alreadySent && corridaId != null && userId != null) {
                                 alreadySent = true
                                 val distKm = distanceMeters / 1000.0
                                 val req = FinalizarCorridaRequestDto(
-                                    userId = userId,
+                                    userId = userId.toInt(),
                                     distanciaRealKm = distKm,
                                     duracaoSegundos = duration.toLong(),
                                     kcal = calories
