@@ -18,10 +18,17 @@ public class Rota {
     @Column(name = "rota_elevacao")
     private Double elevacao;
 
+    @Column(name = "rota_distancia_km")
+    private Double distanciaKm;
+
+    @Column(name = "rota_predefinida")
+    private Boolean predefinida = false;
+
+    @Column(name = "rota_cidade")
+    private String cidade;
+
     @OneToMany(mappedBy = "rota", cascade = CascadeType.ALL)
     private List<LigacaoRotaLocal> locais;
-
-    // GETTERS E SETTERS
 
     public Integer getId() {
         return id;
@@ -45,6 +52,30 @@ public class Rota {
 
     public void setElevacao(Double elevacao) {
         this.elevacao = elevacao;
+    }
+
+    public Double getDistanciaKm() { 
+        return distanciaKm; 
+    }
+
+    public void setDistanciaKm(Double distanciaKm) { 
+        this.distanciaKm = distanciaKm; 
+    }
+
+    public Boolean getPredefinida() { 
+        return predefinida; 
+    }
+
+    public void setPredefinida(Boolean predefinida) { 
+        this.predefinida = predefinida; 
+    }
+
+    public String getCidade() { 
+        return cidade; 
+    }
+
+    public void setCidade(String cidade) { 
+        this.cidade = cidade; 
     }
 
     public List<LigacaoRotaLocal> getLocais() {
