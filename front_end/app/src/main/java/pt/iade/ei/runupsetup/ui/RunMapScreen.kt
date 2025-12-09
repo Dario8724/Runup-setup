@@ -212,7 +212,7 @@ fun RunMapScreen(
                     cameraPositionState = cameraPositionState,
                     properties = MapProperties(
                         isMyLocationEnabled = hasLocationPermission,
-                        mapType = MapType.TERRAIN
+                        mapType = MapType.NORMAL
                     ),
                     uiSettings = MapUiSettings(zoomControlsEnabled = false)
                 ) {
@@ -241,17 +241,6 @@ fun RunMapScreen(
                             color = Color(0xFF007AFF),
                             width = 12f,
                             geodesic = true
-                        )
-                    }
-
-                    // Marcador do usuário
-                    userLocation?.let { pos ->
-                        Marker(
-                            state = MarkerState(position = pos),
-                            title = "Você está aqui",
-                            icon = BitmapDescriptorFactory.defaultMarker(
-                                BitmapDescriptorFactory.HUE_AZURE
-                            )
                         )
                     }
                 }
