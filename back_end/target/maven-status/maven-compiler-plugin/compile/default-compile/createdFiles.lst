@@ -2,6 +2,7 @@ pt/iade/RunUp/model/dto/UserStatsDto.class
 pt/iade/RunUp/model/dto/FinalizarCorridaRequest.class
 pt/iade/RunUp/controller/UserProfileController.class
 pt/iade/RunUp/model/dto/WeeklyStatsDto.class
+pt/iade/RunUp/service/PredefinedRoutePointsProvider.class
 pt/iade/RunUp/model/dto/UserProfileDto.class
 pt/iade/RunUp/integration/GooglePlacesClient.class
 pt/iade/RunUp/model/dto/TodaySummaryDto.class

@@ -5,6 +5,7 @@ import pt.iade.ei.runupsetup.models.CorridaDetalheDto
 import pt.iade.ei.runupsetup.models.CorridaGeradaDto
 import pt.iade.ei.runupsetup.models.GenerateCorridaRequestDto
 import pt.iade.ei.runupsetup.models.FinalizarCorridaRequestDto
+import pt.iade.ei.runupsetup.models.PredefinedRouteDto
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -92,4 +93,14 @@ interface RunUpApi {
     suspend fun getTodaySummary(
         @Path("id") id: Long
     ): Response<TodaySummaryDto>
+
+    @GET("/api/rotas/predefinidas")
+    suspend fun getPredefinedRoutes(): Response<List<PredefinedRouteDto>>
+
+    @POST("/api/rotas/predefinidas/{rotaId}/iniciar")
+    suspend fun startPredefinedRoute(
+        @Path("rotaId") rotaId: Int,
+        @Query("userId") userId: Long,
+        @Query("tipo") tipo: String
+    ): Response<CorridaGeradaDto>
 }

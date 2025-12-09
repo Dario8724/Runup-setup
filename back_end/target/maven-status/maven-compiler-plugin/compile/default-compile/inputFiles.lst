@@ -30,6 +30,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/AuthController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/UserProfileService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Rota.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/PredefinedRouteService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/auth/AuthService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/GoalController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/TipoRepository.java
@@ -41,6 +42,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaHistoricoItemDTO.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/UserProfileController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaGeradaResponse.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/PredefinedRouteDto.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/CorridaController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/UsuarioController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/CaracteristicaRota.java
@@ -49,6 +51,7 @@
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/repository/LigacaoRotaLocalRepository.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/dto/CorridaResponse.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Usuario.java
+/Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/controller/PredefinedRouteController.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/service/CorridaGenerationService.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Corrida.java
 /Users/gabrielrezende/Runup-setup/back_end/src/main/java/pt/iade/RunUp/model/entity/Caracteristica.java

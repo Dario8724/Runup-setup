@@ -11,10 +11,9 @@ import java.util.List;
 @Service
 public class PredefinedRouteService {
 
-    // ajusta estes IDs se na tua BD forem outros
-    private static final int ID_BELEM_4K = 1;
-    private static final int ID_LISBOA_21K_RIO = 2;
-    private static final int ID_LISBOA_21K_CENTRO = 3;
+    private static final int ID_BELEM_4K = 37;
+    private static final int ID_LISBOA_21K_RIO = 38;
+    private static final int ID_LISBOA_21K_CENTRO = 39;
 
     private final RotaRepository rotaRepository;
 

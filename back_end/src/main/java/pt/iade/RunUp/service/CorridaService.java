@@ -25,17 +25,20 @@ public class CorridaService {
   private final CaracteristicaRotaRepository caracteristicaRotaRepository;
   private final CorridaRepository corridaRepository;
   private final MetaUsuarioRepository metaUsuarioRepository;
+  private final PredefinedRoutePointsProvider predefinedRoutePointsProvider;
 
   public CorridaService(
-      UsuarioRepository usuarioRepository,
-      TipoRepository tipoRepository,
-      RotaRepository rotaRepository,
-      LocalRepository localRepository,
-      LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
-      CaracteristicaRepository caracteristicaRepository,
-      CaracteristicaRotaRepository caracteristicaRotaRepository,
-      CorridaRepository corridaRepository,
-      MetaUsuarioRepository metaUsuarioRepository) {
+    UsuarioRepository usuarioRepository,
+    TipoRepository tipoRepository,
+    RotaRepository rotaRepository,
+    LocalRepository localRepository,
+    LigacaoRotaLocalRepository ligacaoRotaLocalRepository,
+    CaracteristicaRepository caracteristicaRepository,
+    CaracteristicaRotaRepository caracteristicaRotaRepository,
+    CorridaRepository corridaRepository,
+    MetaUsuarioRepository metaUsuarioRepository,
+    PredefinedRoutePointsProvider predefinedRoutePointsProvider
+  ) {
     this.usuarioRepository = usuarioRepository;
     this.tipoRepository = tipoRepository;
     this.rotaRepository = rotaRepository;
@@ -45,17 +48,20 @@ public class CorridaService {
     this.caracteristicaRotaRepository = caracteristicaRotaRepository;
     this.corridaRepository = corridaRepository;
     this.metaUsuarioRepository = metaUsuarioRepository;
+    this.predefinedRoutePointsProvider = predefinedRoutePointsProvider;
   }
 
   @Transactional
   public CorridaResponse criarCorrida(CreateCorridaRequest request) {
     Usuario usuario = usuarioRepository
-        .findById(request.getUserId())
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+      .findById(request.getUserId())
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
     Tipo tipo = tipoRepository
-        .findFirstByNome(request.getTipoNome())
-        .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + request.getTipoNome()));
+      .findFirstByNome(request.getTipoNome())
+      .orElseThrow(() ->
+        new RuntimeException("Tipo não encontrado: " + request.getTipoNome())
+      );
 
     Rota rota = new Rota();
     rota.setNome(request.getRouteName());
@@ -86,12 +92,12 @@ public class CorridaService {
     if (request.getFiltros() != null) {
       for (String filtro : request.getFiltros()) {
         Caracteristica caract = caracteristicaRepository
-            .findByTipo(filtro)
-            .orElseGet(() -> {
-              Caracteristica nova = new Caracteristica();
-              nova.setTipo(filtro);
-              return caracteristicaRepository.save(nova);
-            });
+          .findByTipo(filtro)
+          .orElseGet(() -> {
+            Caracteristica nova = new Caracteristica();
+            nova.setTipo(filtro);
+            return caracteristicaRepository.save(nova);
+          });
 
         CaracteristicaRota cr = new CaracteristicaRota();
         cr.setRota(rota);
@@ -111,7 +117,8 @@ public class CorridaService {
       corrida.setTempo(tempo);
 
       if (request.getDistanceKm() != null && request.getDistanceKm() > 0) {
-        double pace = (request.getTempoSegundos() / 60.0) / request.getDistanceKm();
+        double pace =
+          (request.getTempoSegundos() / 60.0) / request.getDistanceKm();
         corrida.setRitmo(Math.round(pace * 100.0) / 100.0);
       }
     }
@@ -151,8 +158,10 @@ public class CorridaService {
   @Transactional
   public void finalizarCorrida(Integer corridaId, FinalizarCorridaRequest req) {
     Corrida corrida = corridaRepository
-        .findById(corridaId)
-        .orElseThrow(() -> new RuntimeException("Corrida não encontrada: " + corridaId));
+      .findById(corridaId)
+      .orElseThrow(() ->
+        new RuntimeException("Corrida não encontrada: " + corridaId)
+      );
 
     if (req.getUserId() == null) {
       throw new RuntimeException("UserId é obrigatório para finalizar corrida");
@@ -161,17 +170,19 @@ public class CorridaService {
     Integer userId = req.getUserId();
 
     Usuario usuario = usuarioRepository
-        .findById(userId)
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
+      .findById(userId)
+      .orElseThrow(() ->
+        new RuntimeException("Usuário não encontrado: " + userId)
+      );
 
     // 🔥 SEMPRE garantir que o MetaUsuario fica com o user certo
     MetaUsuario mu = metaUsuarioRepository
-        .findFirstByCorrida_Id(corridaId)
-        .orElseGet(() -> {
-          MetaUsuario novo = new MetaUsuario();
-          novo.setCorrida(corrida);
-          return novo;
-        });
+      .findFirstByCorrida_Id(corridaId)
+      .orElseGet(() -> {
+        MetaUsuario novo = new MetaUsuario();
+        novo.setCorrida(corrida);
+        return novo;
+      });
 
     mu.setUsuario(usuario);
     mu.setMetaId(null);
@@ -197,43 +208,49 @@ public class CorridaService {
   }
 
   @Transactional
-  public CorridaResponse criarCorridaPredefinida(
-      Integer rotaId,
-      Integer userId,
-      String tipoNome) {
-    Usuario usuario = usuarioRepository
-        .findById(userId)
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
+    public CorridaResponse criarCorridaPredefinida(Integer rotaId,
+                                                   Integer userId,
+                                                   String tipoNome) {
 
-    Tipo tipo = tipoRepository
-        .findFirstByNome(tipoNome)
-        .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + tipoNome));
+        Usuario usuario = usuarioRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
 
-    Rota rota = rotaRepository
-        .findById(rotaId)
-        .orElseThrow(() -> new RuntimeException("Rota não encontrada: " + rotaId));
+        Rota rota = rotaRepository.findById(rotaId)
+                .orElseThrow(() -> new RuntimeException("Rota não encontrada: " + rotaId));
 
-    Corrida corrida = new Corrida();
-    corrida.setData(LocalDate.now());
-    corrida.setTipo(tipo);
-    corrida.setRota(rota);
-    // distancia, tempo, kcal e ritmo serão preenchidos em finalizarCorrida
-    corrida = corridaRepository.save(corrida);
+        Tipo tipo = tipoRepository.findFirstByNome(tipoNome)
+                .orElseThrow(() -> new RuntimeException("Tipo não encontrado: " + tipoNome));
 
-    // NÃO criamos MetaUsuario aqui, porque o teu finalizarCorrida
-    // já garante que existe MetaUsuario com o user correto.
+        // 1) cria Corrida “vazia” (distância real e tempo vêm do app depois)
+        Corrida corrida = new Corrida();
+        corrida.setData(java.time.LocalDate.now());
+        corrida.setTipo(tipo);
+        corrida.setRota(rota);
+        corrida = corridaRepository.save(corrida);
 
-    CorridaResponse response = new CorridaResponse();
-    response.setCorridaId(corrida.getId());
-    response.setUserId(usuario.getId());
-    response.setRouteName(rota.getNome());
-    response.setTipoNome(tipo.getNome());
-    response.setData(corrida.getData());
-    response.setElevacaoTotal(rota.getElevacao());
-    // distanceKm e tempoSegundos ficam null no início
-    response.setPontos(null);
-    response.setFiltros(null);
+        // 2) garante que a corrida está associada ao utilizador certo
+        MetaUsuario mu = new MetaUsuario();
+        mu.setUsuario(usuario);
+        mu.setCorrida(corrida);
+        mu.setMetaId(null);
+        metaUsuarioRepository.save(mu);
 
-    return response;
-  }
+        // 3) buscar os pontos predefinidos (polylines) em memória
+        var pontos = predefinedRoutePointsProvider.getPointsForRota(rotaId);
+
+        // 4) montar resposta no mesmo formato usado pelo gerarCorrida
+        CorridaResponse response = new CorridaResponse();
+        response.setCorridaId(corrida.getId());
+        response.setUserId(usuario.getId());
+        response.setRouteName(rota.getNome());
+        response.setTipoNome(tipo.getNome());
+        response.setDistanceKm(null); // pode ficar null; app mede real
+        response.setData(corrida.getData());
+        response.setElevacaoTotal(rota.getElevacao());
+        response.setKcal(null);
+        response.setPontos(pontos);
+        response.setFiltros(null);
+
+        return response;
+    }
 }
