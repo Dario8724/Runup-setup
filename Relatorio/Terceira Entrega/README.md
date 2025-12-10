@@ -124,74 +124,8 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
     •	Objetivo: Tornar a app atraente para o amigo e motivá-lo a começar com metas realistas.
 
 ---
-![Persona1](../../Imagens/Persona1.png)
-
----
-![Persona2](../../Imagens/Persona2.png)
-
----
 ## Diagrama de classes
 
-classDiagram
-
-    %% =======================
-    %% ENTIDADES
-    %% =======================
-    class Usuario {
-        +Long id
-        +String nome
-        +String email
-        +String senha
-        +LocalDateTime dataCriacao
-    }
-    class Meta {
-        +Long id
-        +String descricao
-        +LocalDate dataInicio
-        +LocalDate dataFim
-        +Usuario usuario
-    }
-    class Corrida {
-        +Long id
-        +String nome
-        +Double originLat
-        +Double originLng
-        +Double destLat
-        +Double destLng
-        +Double desiredDistanceKm
-        +Boolean preferTrees
-        +Boolean nearBeach
-        +Boolean nearPark
-        +Boolean sunnyRoute
-        +Boolean avoidHills
-        +String tipo
-        +Usuario usuario
-    }
-    class Postagem {
-        +Long id
-        +String titulo
-        +String conteudo
-        +LocalDateTime dataPostagem
-        +Usuario usuario
-    }
-    %% =======================
-    %% SERVIÇOS E CONTROLADORES
-    %% =======================
-    class RouteService {
-        +Route generateRoute(RouteRequest request)
-        +List<Route> getSavedRoutes(Usuario usuario)
-    }
-    class RouteController {
-        +ResponseEntity<Route> generateRoute(RouteRequest request)
-    }
-    %% =======================
-    %% RELAÇÕES
-    %% =======================
-    Usuario "1" --> "*" Meta : possui >
-    Usuario "1" --> "*" Corrida : realiza >
-    Usuario "1" --> "*" Postagem : cria >
-    RouteController --> RouteService : usa >
-    RouteService --> Corrida : gera >
 ---
 ## Documentação REST
 A seguir é apresentada a documentação da principal rota disponível na API RunUp.
@@ -278,55 +212,11 @@ Notas adicionais:
 ---
 ## Dicionário de Dados
 
-**Entidade: Usuario**
-| Atributo     | Tipo de Dado | Descrição                   | Restrições                |
-| ------------ | ------------ | --------------------------- | ------------------------- |
-| id_usuario   | INT          | Identificador único         | PK, Auto Increment        |
-| nome         | VARCHAR(100) | Nome completo               | NOT NULL                  |
-| email        | VARCHAR(100) | Email do usuário (único)    | NOT NULL, UNIQUE          |
-| senha        | VARCHAR(255) | Senha criptografada         | NOT NULL                  |
-| data_criacao | DATETIME     | Data de criação do registro | DEFAULT CURRENT_TIMESTAMP |
-
-**Entidade: Meta**
-| Atributo    | Tipo de Dado | Descrição                   | Restrições               |
-| ----------- | ------------ | --------------------------- | ------------------------ |
-| id_meta     | INT          | Identificador único da meta | PK, Auto Increment       |
-| descricao   | VARCHAR(255) | Descrição da meta           | NOT NULL                 |
-| data_inicio | DATE         | Data de início da meta      | —                        |
-| data_fim    | DATE         | Data limite da meta         | —                        |
-| id_usuario  | INT          | Usuário responsável         | FK → Usuário(id_usuario) |
-
-**Entidade: Corrida**
-| Atributo     | Tipo de Dado | Descrição                      | Restrições               |
-| ------------ | ------------ | ------------------------------ | ------------------------ |
-| id_corrida   | INT          | Identificador único da corrida | PK, Auto Increment       |
-| data_corrida | DATE         | Data da corrida                | NOT NULL                 |
-| distancia    | FLOAT        | Distância percorrida (km)      | NOT NULL                 |
-| tempo        | TIME         | Duração da corrida             | —                        |
-| id_usuario   | INT          | Usuário que realizou a corrida | FK → Usuário(id_usuario) |
-
-
-**Endidade: Postagem**
-| Atributo      | Tipo de Dado | Descrição                 | Restrições                |
-| ------------- | ------------ | ------------------------- | ------------------------- |
-| id_postagem   | INT          | Identificador da postagem | PK, Auto Increment        |
-| titulo        | VARCHAR(100) | Título da postagem        | NOT NULL                  |
-| conteudo      | TEXT         | Conteúdo da postagem      | NOT NULL                  |
-| data_postagem | DATETIME     | Data/hora da publicação   | DEFAULT CURRENT_TIMESTAMP |
-| id_usuario    | INT          | Autor da postagem         | FK → Usuário(id_usuario)  |
-
-**Entidade: UC(Relaçao Usuario-Corrida)**
-| Atributo   | Tipo de Dado | Descrição                | Restrições               |
-| ---------- | ------------ | ------------------------ | ------------------------ |
-| id_usuario | INT          | Identificador do usuário | FK → Usuário(id_usuario) |
-| id_corrida | INT          | Identificador da corrida | FK → Corrida(id_corrida) |
-
 ---
 ## Estrutura dos Dados 
-![Estrutura de Dados](../../Imagens/Estruturadedados.png)
 
 ---
-## Descrição da Solução a Implementar
+## Descrição da Solução Implementada
 
 - Aplicação mobile gratuita com **geolocalização e registo em tempo real**  
 - Criação de rotas personalizadas (distância, áreas verdes, praias, sol, etc.)  
@@ -335,24 +225,30 @@ Notas adicionais:
 - Base de dados (SQLite/MySQL) para registo de atividades
 
 **Desenvolvimento da Base de Dados**
-A modelagem da base de dados foi projetada para suportar as principais funcionalidades descritas no primeiro relatório: registo de utilizadores, armazenamento de atividades (corridas e caminhadas), definição de metas e interações na comunidade.
+A modelagem da base de dados foi projetada para suportar as principais funcionalidades: registo de utilizadores, armazenamento de atividades (corridas e caminhadas), definição de metas, postagem em comunidades e rotas predefinidas populares.
 A base foi estruturada seguindo o modelo relacional, utilizando MySQL (em ambiente de desenvolvimento via SQL Workbench).
 
 **Tabelas Principais**
+- Meta
+- MU (Meta - Usuário)
 - Usuário
 - Corrida
+- Tipo
+- Postagem
 - Rota
-- Meta
-- UC (UsuárioCorrida)
+- CR (Características - Rota)
+- LR (Local - Rota)
+- Local
 
 O relacionamento entre as tabelas foi definido da seguinte forma:
- Um utilizador pode ter várias atividades, metas e publicações.
- Cada atividade pode estar associada a uma rota.
+Um usuário pode ter varias metas (semanais e mensasis), o mesmo pode ter varias corridas. Uma corrida tem varias postagens, mas um tipo tem de exércicio tem varias corridas. Já uma rota tem varias corridas e nessa rota tem varias características.
+A mesma rota passa por varios locais.
 
 Implementação:
 A base foi criada e testada com comandos SQL para inserção, atualização e consulta dos dados.
 
 **Modelagem do Sistema**
+<-- Arrumar aqui
 A estrutura do sistema foi baseada nos princípios da Programação Orientada a Objetos (POO).
 As principais classes identificadas foram:
 •	Classe Utilizador – armazena informações do perfil e preferências.
@@ -361,12 +257,13 @@ As principais classes identificadas foram:
 •	Classe Meta – controla objetivos definidos pelos utilizadores.
 •	Classe Comunidade – gerencia as interações e postagens.
 O diagrama de classes (em formato UML) representa essas entidades e seus relacionamentos, garantindo coerência entre o modelo lógico e o físico da base de dados.
+-- >
 
 **Desenvolvimento no Android studio**
 O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.
 A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.
 Telas desenvolvidas:
-• Tela de login.
+• Tela de Login.
 • Tela de Registro.
 • Tela Inicial.
 • Tela de Gerar Rotas.
@@ -374,17 +271,10 @@ Telas desenvolvidas:
 • Tela de Histórico de Corrida.
 • Tela de Comunidade.
 • Tela de Perfil.
-
-**Testes e Validações**
-Foram realizados testes iniciais de: 
-• Navegações entre telas.
-• Inserção e leitura de dados.
-• Simulação de rotas no mapa.
-
-**Próximas Etapas**
-• Implementação de feed de comunidade.
-• Melhorias no layout.
-• Implementação de notificações e sistemas de metas.
+• Tela de Rotas Predefinidas.
+• Tela de Política de Privacidade.
+• Tela de Configuração de Metas.
+• Tela de Configuração de Conta.
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
@@ -403,34 +293,29 @@ Foram realizados testes iniciais de:
 
 ---
 
-## Planeamento e Calendarização
+## Planeamento e Gráfico de Gantt
 
-- Mockups e interface (Figma)  
-- Desenvolvimento da base de dados (SQL Workbench)  
-- Desenvolvimento front-end (Android Studio)  
-- Integração com APIs (Google Maps SDK)  
-- Testes e validação  
-- Criação de poster e vídeo promocional  
+Planeamento da terceira entrega: 
 
----
+Relatorio:
+(https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e)
 
-## Mockup da Aplicação
+Apresentação:
+(https://sharing.clickup.com/90151732973/l/h/6-901516850928-1/c54a09d56a62cbe)
 
+FrontEnd: 
+(https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30)
 
-![Mockup do aplicativo](../../Imagens/Mockup_RunUp.png)
-
-
-# Mockup Interativo
-
-[Ver mockup completo no Figma](https://www.figma.com/make/trREFBKUoFakKsm9PVs8au/RunUp-Mobile-App-Mockups?node-id=0-1&t=bzRYL2e4k7qEW83n-1)
+BackEnd:
+(https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a)
 
 ---
 
 ## Conclusão
-
+<-- Arrumar aqui
 Nesta segunda fase, o grupo consolidou a estrutura técnica do projeto RunUp, criando a base de dados, modelando as entidades e iniciando o desenvolvimento da aplicação no Android Studio.
 Com a junção do backend e das telas principais, o projeto começa a ganhar forma prática e aproxima-se da sua proposta inicial: uma aplicação acessível, funcional e motivadora para corredores e caminhantes.
-
+-- >
 ---
 
 ## Poster 
