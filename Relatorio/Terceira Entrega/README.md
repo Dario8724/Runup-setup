@@ -2,8 +2,8 @@
 
 **Licenciatura em Engenharia Informática | LEIF02 | 24-25**  
 **UC:** Projeto de Desenvolvimento Móvel  
-**Docente:** Pedro Miguel Gomes Silva Rosa
-**Link Repósitorio** https://github.com/Dario8724/RunUp
+**Docente:** Pedro Miguel Gomes Silva Rosa  
+**Link Repósitorio** https://github.com/Dario8724/RunUp  
 **Grupo 2** **Turma D02**
 
 **Autores:**
@@ -46,11 +46,12 @@ Com estas funcionalidades, o projeto pretende proporcionar uma plataforma intuit
 
 **Tabela de Tarefas**
 
-|  Atividades   | Gabriel Rezende | Dário Bandanhe | Francisco Zolana| Edimisilson Tudo |
+| Atividades | Gabriel Rezende | Dário Bandanhe | Francisco Zolana | Edimisilson Tudo |
+| ------------- | ------------- | ------------- | ------------- |  ------------- |
 | Base de Dados | 70% | 10% | 10% | 10% |
 | Back End      | 45% | 5% | 35% | 5% |
 | Front End     | 20% | 65% | 5% | 10% |
-| Relatorios/Apresentações/Video| 31,67% | 31,67% | 5% | 31,67% |
+| Relatorios/Apresentações/Video| 25% | 25% | 25% | 25% |
 
 **Funcionalidades:**
 - Criação de rotas personalizadas (filtros: km, elevação, parques, praia, sol, etc.)
@@ -166,22 +167,22 @@ A base foi criada e testada com comandos SQL para inserção, atualização e co
 **Modelagem do Sistema**
 
 
-**Desenvolvimento no Android studio**
-O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.
-A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.
-Telas desenvolvidas:
-• Tela de Login.
-• Tela de Registro.
-• Tela Inicial.
-• Tela de Gerar Rotas.
-• Tela de Corrida.
-• Tela de Histórico de Corrida.
-• Tela de Comunidade.
-• Tela de Perfil.
-• Tela de Rotas Predefinidas.
-• Tela de Política de Privacidade.
-• Tela de Configuração de Metas.
-• Tela de Configuração de Conta.
+**Desenvolvimento no Android studio:**
+O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.  
+A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.  
+Telas desenvolvidas:  
+- Tela de Login.
+- Tela de Registro.
+- Tela Inicial.
+- Tela de Gerar Rotas.
+- Tela de Corrida.
+- Tela de Histórico de Corrida.
+- Tela de Comunidade.
+- Tela de Perfil.
+- Tela de Rotas Predefinidas.
+- Tela de Política de Privacidade.
+- Tela de Configuração de Metas.
+- Tela de Configuração de Conta.
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
@@ -223,7 +224,35 @@ Telas desenvolvidas:
 ---
 ## Planeamento e Gráfico de Gantt
 
-Planeamento da terceira entrega: 
+**Planeamento da Primeira Entrega:**  
+
+Relatório:
+https://sharing.clickup.com/90151732973/l/h/6-901516154823-1/55fb7423f59fccd
+
+Apresentação:
+https://sharing.clickup.com/90151732973/l/h/6-901516845483-1/0371406d01dd78d
+
+Mockup do App:
+https://sharing.clickup.com/90151732973/l/h/6-901516846221-1/4175765f3ea36a3
+
+**Planeamento da Segunda Entrega:** 
+
+Relatório:
+https://sharing.clickup.com/90151732973/l/h/6-901516849086-1/8e6cda7d33cf1e9
+
+Apresentação:
+https://sharing.clickup.com/90151732973/l/h/6-901516849098-1/93044a1a73ebd3d
+
+Base de Dados:
+https://sharing.clickup.com/90151732973/l/h/6-901516849110-1/a8afde9611b2ab9
+
+Front End:
+https://sharing.clickup.com/90151732973/l/h/6-901516849113-1/f871e9413fe18ee
+
+Back End:
+https://sharing.clickup.com/90151732973/l/h/6-901516849116-1/1b56a8c8c3f830f
+
+**Planeamento da Terceira Entrega:** 
 
 Relatorio:
 https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e
@@ -237,6 +266,9 @@ https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30
 BackEnd:
 https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a
 
+Base de Dados:
+https://sharing.clickup.com/90151732973/l/h/6-901517767055-1/e2b904408bf59e5
+
 ---
 
 ## Conclusão
@@ -249,7 +281,7 @@ O Runup manteve como objetivo central a primeira proposta do projeto, só deixam
 
 ## Poster 
 
-[Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
+![Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
 
 ---
 ## Bibliografia
