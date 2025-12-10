@@ -312,10 +312,11 @@ BackEnd:
 ---
 
 ## Conclusão
-<-- Arrumar aqui
-Nesta segunda fase, o grupo consolidou a estrutura técnica do projeto RunUp, criando a base de dados, modelando as entidades e iniciando o desenvolvimento da aplicação no Android Studio.
-Com a junção do backend e das telas principais, o projeto começa a ganhar forma prática e aproxima-se da sua proposta inicial: uma aplicação acessível, funcional e motivadora para corredores e caminhantes.
--- >
+
+Nesta última fase de desenvolvimento do RunUp, o projeto teve um grande imprevisto onde tivemos de fazer a alteração total da base de dados e com isso causou grandes problemas com as ligações com o backend e com frontend gerando mudanças em todo o projeto. Porém essa mudança demonstrou avanços significativos na estrutura técnica quanto à consolidação do conceito inicial. A implementação da nova base de dados, a mudança do backend devido a nova base de dados e os ajustes no frontend permitiram transformar o projeto mais robusto e mais profissional. A integração entre a nova base de dados e frontend marcou um ponto importante, pois estabeleceu o fluxo real de dados e aprimorou a coleta e armazenamento de dados da aplicação.
+Durante essa última etapa, o grupo enfrentou desafios relacionados a colaboração do desenvolvimento do projeto de outros participantes, os mesmos não solicitaram auxílio às dificuldades enfrentadas nas tarefas a si e também não informaram sobre os estados das tarefas, causando assim muitos atrasos no cronograma e sobrecarregando outros integrantes que tiveram de fazer as tarefas que não foi designada a eles. Devido a esse imprevisto não conseguimos trazer uma parte de comunidade para nosso projeto, onde a ideia inicial era criar apenas um feed onde os usuário iriam compartilhar suas rotas, mas após a segunda entrega decidimos mudar para uma ideia mais robusta onde as postagens iriam ter uma parte de interação com outros usuário e também criamos um feed de desafios da comunidade ou opções de desafios criados por outros usuários.
+O Runup manteve como objetivo central a primeira proposta do projeto, só deixamos mais robustos as funcionalidades como: as metas pessoais de cada usuário, rotas populares predefinidas e histórico de corridas.
+
 ---
 
 ## Poster 
