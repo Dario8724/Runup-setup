@@ -44,6 +44,15 @@ A aplicação permite gerar rotas dinâmicas com base em filtros definidos pelo 
 O app também conta com um histórico completo de atividades, permitindo ao utilizador consultar treinos anteriores, comparar desempenhos e acompanhar a sua evolução ao longo do tempo. Para além disso, integra uma funcionalidade que apresenta rotas populares pela cidade de Lisboa, ajudando os corredores a descobrir percursos conhecidos e adequados à prática desportiva.
 Com estas funcionalidades, o projeto pretende proporcionar uma plataforma intuitiva, acessível e motivadora, capaz de apoiar o utilizador em cada etapa da sua jornada desportiva.
 
+**Tabela de Tarefas**
+
+|  Atividades   | Gabriel Rezende | Dário Bandanhe | Francisco Zolana| Edimisilson Tudo |
+| ------------- | --------------- | -------------- | --------------- | ---------------- |
+| Base de Dados | ---70%--------- | ---10%-------- | ----10%-------- | ---10%---------- |
+| Back End      | ---45%--------- | ---5%--------- | ---35%--------- | ---5%----------- |
+| Front End     | ---20%--------- | ---65%-------- | ---5%---------- | ---10%---------- |
+| Relatorios/Apresentações/Video| ---31,67%------- | ---31,67%------- |----5%-------| ---31,67%-------- |
+
 **Funcionalidades:**
 - Criação de rotas personalizadas (filtros: km, elevação, parques, praia, sol, etc.)
 - Histórico de corridas/caminhadas
@@ -83,7 +92,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 
 ---
 
-## Uma Versão Preliminar de Três Guiões
+## Versão Casos de Utilização
 
 1. **Novo usuário (23 anos, sedentário,estudante universitário, nunca correu antes, quer melhorar saúde):**
    
@@ -106,7 +115,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
         o	Usa o filtro avançado para criar rotas longas (10–15 km) com paisagens variadas. 
         o	Testa a funcionalidade “criar sua própria rota” para um treino específico.
         o	Define metas de performance (tempo/km). 
-        o	Interage na comunidade postando resultados e vendo desafios semanais.
+        o	Utiliza as rotas populares da comunidade.
    
     •	Objetivo: Avaliar se a app oferece mais personalização e motivação que os concorrentes.
    
@@ -122,98 +131,6 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
         o	Agenda uma meta conjunta de corrida leve no fim de semana.
    
     •	Objetivo: Tornar a app atraente para o amigo e motivá-lo a começar com metas realistas.
-
----
-## Diagrama de classes
-
----
-## Documentação REST
-A seguir é apresentada a documentação da principal rota disponível na API RunUp.
-
-Requisição
-URL base:
-http://localhost:8080/api/routes/generate
-
-Método HTTP:
-POST
-
-Cabeçalhos (Headers):
-Content-Type: application/json
-Accept: application/json
-
-Corpo (Body JSON):
-{
-  "nome": "Corrida na Foz",
-  "originLat": 41.1540,
-  "originLng": -8.6535,
-  "destLat": 41.1501,
-  "destLng": -8.6800,
-  "desiredDistanceKm": 5,
-  "preferTrees": true,
-  "nearBeach": true,
-  "nearPark": true,
-  "sunnyRoute": true,
-  "avoidHills": false,
-  "tipo": "corrida"
-}
-
-Resposta de sucesso (200 OK)
-
-Descrição:
-Retorna uma rota gerada com base nas preferências enviadas.
-
-Exemplo de resposta:
-
-{
-  "routeName": "Corrida na Foz",
-  "totalDistanceKm": 5.1,
-  "estimatedTimeMin": 32,
-  "startPoint": {
-    "lat": 41.1540,
-    "lng": -8.6535
-  },
-  "endPoint": {
-    "lat": 41.1501,
-    "lng": -8.6800
-  },
-  "path": [
-    { "lat": 41.1535, "lng": -8.6550 },
-    { "lat": 41.1520, "lng": -8.6620 },
-    { "lat": 41.1510, "lng": -8.6700 }
-  ],
-  "preferences": {
-    "preferTrees": true,
-    "nearBeach": true,
-    "nearPark": true,
-    "sunnyRoute": true,
-    "avoidHills": false
-  }
-}
-
-Respostas de erro: 
-
-| Código                      | Tipo              | Descrição                                             |
-| --------------------------- | ----------------- | ----------------------------------------------------- |
-| 400 Bad Request           | Erro de validação | Dados incompletos ou inválidos no corpo da requisição |
-| 500 Internal Server Error | Erro no servidor  | Falha ao gerar a rota ou erro inesperado              |
-
-Notas adicionais:
-
-• Este endpoint utiliza um serviço interno (RouteService) para calcular o percurso e retornar um conjunto de coordenadas e informações resumidas.
-
-• Futuramente, pretende-se adicionar:
-
-   • POST /api/routes/save → para guardar rotas no histórico do utilizador
-
-   • GET /api/routes → para listar rotas já geradas
-
-   • DELETE /api/routes/{id} → para remover rotas salvas
-
----
-## Dicionário de Dados
-
----
-## Estrutura dos Dados 
 
 ---
 ## Descrição da Solução Implementada
@@ -248,16 +165,7 @@ Implementação:
 A base foi criada e testada com comandos SQL para inserção, atualização e consulta dos dados.
 
 **Modelagem do Sistema**
-<-- Arrumar aqui
-A estrutura do sistema foi baseada nos princípios da Programação Orientada a Objetos (POO).
-As principais classes identificadas foram:
-•	Classe Utilizador – armazena informações do perfil e preferências.
-•	Classe Atividade – contém dados de cada corrida/caminhada.
-•	Classe Rota – representa os trajetos personalizados criados ou sugeridos.
-•	Classe Meta – controla objetivos definidos pelos utilizadores.
-•	Classe Comunidade – gerencia as interações e postagens.
-O diagrama de classes (em formato UML) representa essas entidades e seus relacionamentos, garantindo coerência entre o modelo lógico e o físico da base de dados.
--- >
+
 
 **Desenvolvimento no Android studio**
 O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.
@@ -292,7 +200,26 @@ Telas desenvolvidas:
 - Versionamento: GitHub / ClickUp  
 
 ---
+## Arquitetura da Solução
 
+---
+## Diagrama de classes
+
+[Diagrama de classes](../../Imagens/Diagrama_de_Dados_Final.pdf)
+
+---
+## Documentação REST
+
+---
+## Dicionário de Dados
+
+---
+## Guia de Dados 
+
+---
+## Manual do Utilizador
+
+---
 ## Planeamento e Gráfico de Gantt
 
 Planeamento da terceira entrega: 
