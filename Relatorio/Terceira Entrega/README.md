@@ -2,8 +2,8 @@
 
 **Licenciatura em Engenharia Informática | LEIF02 | 24-25**  
 **UC:** Projeto de Desenvolvimento Móvel  
-**Docente:** Pedro Miguel Gomes Silva Rosa 
-**Link Repósitorio** https://github.com/Dario8724/RunUp 
+**Docente:** Pedro Miguel Gomes Silva Rosa
+**Link Repósitorio** https://github.com/Dario8724/RunUp
 **Grupo 2** **Turma D02**
 
 **Autores:**
@@ -47,11 +47,10 @@ Com estas funcionalidades, o projeto pretende proporcionar uma plataforma intuit
 **Tabela de Tarefas**
 
 |  Atividades   | Gabriel Rezende | Dário Bandanhe | Francisco Zolana| Edimisilson Tudo |
-| ------------- | --------------- | -------------- | --------------- | ---------------- |
-| Base de Dados | ---70%--------- | ---10%-------- | ----10%-------- | ---10%---------- |
-| Back End      | ---45%--------- | ---5%--------- | ---35%--------- | ---5%----------- |
-| Front End     | ---20%--------- | ---65%-------- | ---5%---------- | ---10%---------- |
-| Relatorios/Apresentações/Video| ---31,67%------- | ---31,67%------- |----5%-------| ---31,67%-------- |
+| Base de Dados | 70% | 10% | 10% | 10% |
+| Back End      | 45% | 5% | 35% | 5% |
+| Front End     | 20% | 65% | 5% | 10% |
+| Relatorios/Apresentações/Video| 31,67% | 31,67% | 5% | 31,67% |
 
 **Funcionalidades:**
 - Criação de rotas personalizadas (filtros: km, elevação, parques, praia, sol, etc.)
@@ -213,6 +212,8 @@ Telas desenvolvidas:
 ---
 ## Dicionário de Dados
 
+[Dicionário de Dados](../../Imagens/Dicionario_de_Dados_Final.pdf)
+
 ---
 ## Guia de Dados 
 
@@ -225,16 +226,16 @@ Telas desenvolvidas:
 Planeamento da terceira entrega: 
 
 Relatorio:
-(https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e)
+https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e
 
 Apresentação:
-(https://sharing.clickup.com/90151732973/l/h/6-901516850928-1/c54a09d56a62cbe)
+https://sharing.clickup.com/90151732973/l/h/6-901516850928-1/c54a09d56a62cbe
 
 FrontEnd: 
-(https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30)
+https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30
 
 BackEnd:
-(https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a)
+https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a
 
 ---
 
@@ -248,7 +249,7 @@ O Runup manteve como objetivo central a primeira proposta do projeto, só deixam
 
 ## Poster 
 
-[Poster do aplicativo](../../Imagens/Poster_RunUp.pdf)
+[Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
 
 ---
 ## Bibliografia
