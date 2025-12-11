@@ -265,7 +265,12 @@ fun ProfilePageView(
                     context.startActivity(intent)
                 }
             )
-            AccountSettingsCard ()
+            AccountSettingsCard (
+                onClick = {
+                    val intent = Intent(context, AccountSettingsActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
         }
     }
 }
