@@ -12,7 +12,7 @@
 - Edmilson Alberto Marcos Tudo – 20241542  
 - Francisco Rocha Zolana – 20240801  
 
-**Palavras Chave**
+**Palavras Chave:**  
 Corrida, Caminhada, RunUp, Saúde, Fitness
 
 ---
@@ -205,8 +205,6 @@ Telas desenvolvidas:
 ---
 ## Diagrama de classes
 
-[Diagrama de classes](../../Imagens/Diagrama_de_Dados_Final.pdf)
-
 ---
 ## Documentação REST
 
@@ -218,6 +216,8 @@ Telas desenvolvidas:
 ---
 ## Guia de Dados 
 
+[Guia de Dados](../../Imagens/Guia_de_dados.pdf)
+
 ---
 ## Manual do Utilizador
 
@@ -226,47 +226,47 @@ Telas desenvolvidas:
 
 **Planeamento da Primeira Entrega:**  
 
-Relatório:
+**Relatório:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516154823-1/55fb7423f59fccd
 
-Apresentação:
+**Apresentação:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516845483-1/0371406d01dd78d
 
-Mockup do App:
+**Mockup do App:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516846221-1/4175765f3ea36a3
 
 **Planeamento da Segunda Entrega:** 
 
-Relatório:
+**Relatório:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516849086-1/8e6cda7d33cf1e9
 
-Apresentação:
+**Apresentação:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516849098-1/93044a1a73ebd3d
 
-Base de Dados:
+**Base de Dados:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516849110-1/a8afde9611b2ab9
 
-Front End:
+**Front End:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516849113-1/f871e9413fe18ee
 
-Back End:
+**Back End:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516849116-1/1b56a8c8c3f830f
 
 **Planeamento da Terceira Entrega:** 
 
-Relatorio:
+**Relatorio:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e
 
-Apresentação:
+**Apresentação:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516850928-1/c54a09d56a62cbe
 
-FrontEnd: 
+**FrontEnd:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30
 
-BackEnd:
+**BackEnd:** 
 https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a
 
-Base de Dados:
+**Base de Dados:** 
 https://sharing.clickup.com/90151732973/l/h/6-901517767055-1/e2b904408bf59e5
 
 ---
