@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,9 +1,6 @@
 package pt.iade.ei.runupsetup.models
 
-import androidx.annotation.DrawableRes
-import androidx.constraintlayout.utils.widget.MotionLabel
 import java.util.Calendar
-import java.time.LocalDate
 
 data class HistoryItemModel(
     val corridaId: Int,

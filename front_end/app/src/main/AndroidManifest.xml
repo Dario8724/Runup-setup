@@ -26,7 +26,7 @@
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
         <activity
-            android:name=".LoginPageActivity"
+            android:name=".view.LoginPageActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -44,19 +44,19 @@
 
         <!-- Histórico -->
         <activity
-            android:name=".HistoryPageActivity"
+            android:name=".view.HistoryPageActivity"
             android:exported="false"
             android:theme="@style/Theme.RunupSetup" />
 
         <!-- Detalhe histórico -->
         <activity
-            android:name=".HistoryDetailPageActivity"
+            android:name=".view.HistoryDetailPageActivity"
             android:exported="false"
             android:theme="@style/Theme.RunupSetup" />
 
         <!-- Tela inicial pós-login -->
         <activity
-            android:name=".InitialPageActivity"
+            android:name=".view.InitialPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -68,47 +68,47 @@
 
         <!-- Perfil -->
         <activity
-            android:name=".ProfilePageActivity"
+            android:name=".view.ProfilePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Comunidade -->
         <activity
-            android:name=".ComunityPageActivity"
+            android:name=".view.ComunityPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Registro – 3 telas -->
         <activity
-            android:name=".RegisterPageActivity"
+            android:name=".view.RegisterPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name=".QuestionnaireGenderActivity"
+            android:name=".view.QuestionnaireGenderActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name=".QuestionnairePageActivity"
+            android:name=".view.QuestionnairePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Sucesso -->
         <activity
-            android:name=".RegistrationSuccessActivity"
+            android:name=".view.RegistrationSuccessActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Privacidade -->
         <activity
-            android:name=".PrivacyPageActivity"
+            android:name=".view.PrivacyPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Gerar Rotas -->
         <activity
-            android:name=".RouteFiltersActivity"
+            android:name=".view.RouteFiltersActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -120,13 +120,13 @@
 
         <!-- Tela Rotas Predefinidas -->
         <activity
-            android:name=".RoutePageActivity"
+            android:name=".view.RoutePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Tela configuração conta -->
         <activity
-            android:name=".AccountSettingsActivity"
+            android:name=".view.AccountSettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

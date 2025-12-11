@@ -1,11 +1,10 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -23,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import pt.iade.ei.runupsetup.network.LoginRequestDto
-import pt.iade.ei.runupsetup.network.LoginResponseDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 
 

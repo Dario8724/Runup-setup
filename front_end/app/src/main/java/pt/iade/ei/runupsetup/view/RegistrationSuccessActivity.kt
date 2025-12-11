@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -30,8 +30,6 @@ class RegistrationSuccessActivity : ComponentActivity() {
         setContent {
             RegistrationSuccessView(
                 onDone = {
-                    // Aqui você decide para onde vai depois do registro concluído.
-                    // Exemplo: Voltar para a tela inicial / login:
                     val intent = Intent(this, LoginPageActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

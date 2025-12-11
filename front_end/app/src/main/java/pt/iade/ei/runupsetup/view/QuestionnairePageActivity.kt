@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.annotation.SuppressLint
 import android.content.Intent

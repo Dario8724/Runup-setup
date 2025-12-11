@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pt.iade.ei.runupsetup.models.HistoryItemModel
+import pt.iade.ei.runupsetup.R
 import pt.iade.ei.runupsetup.network.TodaySummaryDto
 import pt.iade.ei.runupsetup.ui.components.BottomBarItem
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
@@ -67,14 +67,13 @@ fun InitialPageView(loggedId: Long) {
     var isLoadingSummary by remember { mutableStateOf(true) }
     var summaryError by remember { mutableStateOf<String?>(null) }
 
-    // texto da data em pt-PT
     val dateText = remember {
         val locale = Locale("pt", "PT")
         val formatter = SimpleDateFormat("EEEE, d 'de' MMMM", locale)
         formatter.format(Date()).replaceFirstChar { it.uppercase() }
     }
 
-    // 🔹 Buscar resumo de hoje ao backend
+    // Buscar resumo de hoje ao backend
     LaunchedEffect(loggedId) {
         if (loggedId <= 0L) {
             isLoadingSummary = false
@@ -230,7 +229,7 @@ fun InitialPageHeader() {
                 .height(250.dp),
         )
 
-        // 🔹 Overlay verde com gradiente para melhorar visibilidade do texto
+        // Overlay verde
         Box(
             modifier = Modifier
                 .matchParentSize()
@@ -393,7 +392,6 @@ fun TodaySummaryCard(
     }
 }
 
-// Helpers para formatar
 private fun formatTime(totalSeconds: Long): String {
     val h = totalSeconds / 3600
     val m = (totalSeconds % 3600) / 60
@@ -421,7 +419,7 @@ fun ShortCutCard(
         modifier = Modifier
             .padding(horizontal = 10.dp, vertical = 8.dp)
             .fillMaxWidth(),
-        onClick = onclick, // 🔹 usa o callback passado
+        onClick = onclick,
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White

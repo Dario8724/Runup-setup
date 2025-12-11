@@ -1,5 +1,6 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.R
 import pt.iade.ei.runupsetup.network.GoalDto
 import pt.iade.ei.runupsetup.network.PersonalRecordDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
@@ -67,7 +69,7 @@ class ProfilePageActivity : ComponentActivity() {
                     }
 
                     try {
-                        // 1) Metas (semanal e mensal)
+                        // Metas (semanal e mensal)
                         val goalsResponse = RetrofitClient.instance.getGoals(loggedId)
                         if (goalsResponse.isSuccessful) {
                             val goals = goalsResponse.body().orEmpty()
@@ -83,7 +85,7 @@ class ProfilePageActivity : ComponentActivity() {
                             errorMessage = "Erro ao carregar metas (${goalsResponse.code()})"
                         }
 
-                        // 2) Estatísticas gerais do usuário (totais)
+                        // Estatísticas gerais do usuário (totais)
                         val statsResponse = RetrofitClient.instance.getUserStats(loggedId)
                         if (statsResponse.isSuccessful) {
                             stats = statsResponse.body()
@@ -91,7 +93,7 @@ class ProfilePageActivity : ComponentActivity() {
                             println("Erro ao carregar stats (${statsResponse.code()})")
                         }
 
-                        // 3) Estatísticas da semana (últimos 7 dias)
+                        // Estatísticas da semana (últimos 7 dias)
                         val weeklyStatsResponse = RetrofitClient.instance.getWeeklyStats(loggedId)
                         if (weeklyStatsResponse.isSuccessful) {
                             weeklyStats = weeklyStatsResponse.body()
@@ -99,7 +101,7 @@ class ProfilePageActivity : ComponentActivity() {
                             println("Erro ao carregar weekly stats (${weeklyStatsResponse.code()})")
                         }
 
-                        // 4) Recorde pessoal (maior distância)
+                        // Recorde pessoal (maior distância)
                         val recordResponse = RetrofitClient.instance.getPersonalRecords(loggedId)
                         if (recordResponse.isSuccessful) {
                             personalRecord = recordResponse.body()
@@ -130,12 +132,10 @@ class ProfilePageActivity : ComponentActivity() {
     }
 }
 
-// ---------------------------- NAVIGATION ----------------------------
-fun navigateTo(context: android.content.Context, destination: Class<*>) {
+fun navigateTo(context: Context, destination: Class<*>) {
     context.startActivity(Intent(context, destination))
 }
 
-// ---------------------------- PROFILE PAGE ----------------------------
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePageView(
@@ -159,7 +159,7 @@ fun ProfilePageView(
                 actions = {
                     TextButton(
                         onClick = {
-                            val prefs = context.getSharedPreferences("runup_prefs", android.content.Context.MODE_PRIVATE)
+                            val prefs = context.getSharedPreferences("runup_prefs", Context.MODE_PRIVATE)
                             prefs.edit()
                                 .remove("logged_email")
                                 .remove("logged_id")
@@ -276,7 +276,6 @@ fun ProfilePageView(
     }
 }
 
-// ---------------------------- COMPONENTS ----------------------------
 fun getInitials(name: String?): String {
     if (name.isNullOrBlank()) return "--"
 
@@ -329,7 +328,6 @@ fun ProfileHeader(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // email ou nome
             Text(
                 text = userName ?: userEmail ?: "Usuário",
                 color = Color.White,
@@ -339,7 +337,7 @@ fun ProfileHeader(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // estatísticas reais
+            // estatísticas
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
@@ -794,7 +792,6 @@ fun ProfilePageViewPreview() {
         ProfilePageView(
             userName = "Gabriel Rezende",
             userEmail = "gabriel@example.com",
-            // Deixa tudo null pra não depender dos DTOs no preview
             weeklyGoal = null,
             monthlyGoal = null,
             isLoading = false,

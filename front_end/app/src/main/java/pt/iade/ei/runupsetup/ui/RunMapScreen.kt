@@ -112,21 +112,18 @@ fun RunMapScreen(
 
                 userLocation = newLatLng
 
-                // Só acumula distância se estiver correndo
                 if (isRunning && !isPaused) {
                     lastLocation?.let { prev ->
                         val delta = distanceBetween(prev, newLatLng)
-                        if (delta > 1) { // ignora ruído menor que 1m
+                        if (delta > 1) {
                             distanceMeters += delta
                             userPath = userPath + newLatLng
-                            // calorias bem simples: ~ 0.06 kcal por metro (≈ 60 kcal / km)
                             val distanceKm = distanceMeters / 1000.0
                             calories = (distanceKm * 60).toInt()
                         }
                     }
                     lastLocation = newLatLng
                 } else {
-                    // Se não estiver correndo, apenas posiciona a câmera a primeira vez
                     if (lastLocation == null) {
                         lastLocation = newLatLng
                         cameraPositionState.position =
@@ -201,7 +198,7 @@ fun RunMapScreen(
                 .background(Color(0xFFFAF7F2))
         ) {
 
-            // 🗺️ MAPA
+            // MAPA
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -216,7 +213,7 @@ fun RunMapScreen(
                     ),
                     uiSettings = MapUiSettings(zoomControlsEnabled = false)
                 ) {
-                    // Rota sugerida (verde)
+                    // Rota (verde)
                     if (routePoints.isNotEmpty()) {
                         Polyline(
                             points = routePoints,
@@ -289,7 +286,6 @@ fun RunMapScreen(
                     Button(
                         onClick = {
                             if (!isRunning) {
-                                // reset se quiser sempre começar do zero
                                 duration = 0
                                 distanceMeters = 0.0
                                 calories = 0
@@ -380,8 +376,6 @@ fun RunMapScreen(
         }
     }
 }
-
-// --- COMPONENTES AUXILIARES ---
 
 @Composable
 fun StatBox(label: String, value: String) {

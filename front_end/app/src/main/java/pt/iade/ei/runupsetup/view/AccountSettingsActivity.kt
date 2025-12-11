@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.app.Activity
 import android.content.Context.MODE_PRIVATE
@@ -20,7 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -177,7 +176,7 @@ fun AccountSettingsScreen(loggedId: Long) {
                     LabeledTextField(
                         label = "Email",
                         value = email,
-                        onValueChange = { /* email geralmente não se edita aqui */ },
+                        onValueChange = { },
                         enabled = false
                     )
 
@@ -327,11 +326,9 @@ fun AccountSettingsScreen(loggedId: Long) {
                             if (resp.isSuccessful) {
                                 val updated = resp.body()
 
-                                // usa o que veio do backend se existir, senão usa os campos locais
                                 val newName = nome
                                 val newEmail = email
 
-                                // 🔥 atualiza as SharedPreferences usando o context
                                 val prefs = context.getSharedPreferences("runup_prefs", MODE_PRIVATE)
                                 prefs.edit()
                                     .putString("logged_name", newName)
@@ -340,7 +337,6 @@ fun AccountSettingsScreen(loggedId: Long) {
 
                                 Toast.makeText(context, "Alterações guardadas!", Toast.LENGTH_SHORT).show()
 
-                                // 🔥 volta para o perfil; o onResume() lá vai recarregar tudo
                                 activity?.finish()
                             } else {
                                 Toast.makeText(
@@ -387,7 +383,7 @@ fun AccountSettingsScreen(loggedId: Long) {
             OutlinedButton(
                 onClick = {
                     // logout
-                    val prefs = context.getSharedPreferences("runup_prefs", Activity.MODE_PRIVATE)
+                    val prefs = context.getSharedPreferences("runup_prefs", MODE_PRIVATE)
                     prefs.edit()
                         .remove("logged_email")
                         .remove("logged_id")
@@ -481,7 +477,7 @@ fun AccountSettingsScreen(loggedId: Long) {
                                     // limpa sessão
                                     val prefs = context.getSharedPreferences(
                                         "runup_prefs",
-                                        Activity.MODE_PRIVATE
+                                        MODE_PRIVATE
                                     )
                                     prefs.edit().clear().apply()
 
@@ -526,8 +522,6 @@ fun AccountSettingsScreen(loggedId: Long) {
         )
     }
 }
-
-// ---------- Helpers & componentes reutilizáveis ----------
 
 @Composable
 private fun LabeledTextField(

@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.app.Activity
 import android.content.Intent
@@ -52,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -305,7 +306,7 @@ fun GoalPreferenceCard(
                             cursorColor = Color(0xFF6ECB63)
                         ),
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                            keyboardType = KeyboardType.Number
                         )
                     )
                 }

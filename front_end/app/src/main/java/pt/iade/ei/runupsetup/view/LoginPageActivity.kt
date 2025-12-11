@@ -1,10 +1,11 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.R
 
 
 class LoginPageActivity : ComponentActivity() {
@@ -41,7 +43,7 @@ class LoginPageActivity : ComponentActivity() {
         val savedEmail = prefs.getString("logged_email", null)
 
         if (savedEmail != null) {
-            // Usuário logado → vai direto para a ProfilePageActivity
+            // Usuário logado, vai direto para a ProfilePageActivity
             val intent = Intent(this, InitialPageActivity::class.java)
             startActivity(intent)
             finish()
@@ -78,7 +80,7 @@ fun LoginView(){
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             //Logo central
-            androidx.compose.foundation.Image(
+            Image(
                 painter = painterResource(id = R.drawable.logo_runup),
                 contentDescription = "Logo RunUp",
                 modifier = Modifier

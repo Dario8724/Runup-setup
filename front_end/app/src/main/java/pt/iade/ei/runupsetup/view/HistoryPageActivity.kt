@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.runupsetup.R
 import pt.iade.ei.runupsetup.models.HistoryItemDto
 import pt.iade.ei.runupsetup.models.HistoryItemModel
 import pt.iade.ei.runupsetup.network.RetrofitClient
@@ -213,7 +213,6 @@ private fun HistoryPageContent(
     }
 }
 
-/** Card verde com totais */
 @Composable
 fun HistoryStatsCard(items: List<HistoryItemModel>) {
     val totalAtividades = items.size
@@ -225,7 +224,7 @@ fun HistoryStatsCard(items: List<HistoryItemModel>) {
     }
 
     val totalMinutos = items.sumOf { item ->
-        // duration vem em "HH:MM"
+
         val parts = item.duration.split(":")
         val h = parts.getOrNull(0)?.toIntOrNull() ?: 0
         val m = parts.getOrNull(1)?.toIntOrNull() ?: 0
@@ -269,7 +268,6 @@ fun HistoryStatsCard(items: List<HistoryItemModel>) {
     }
 }
 
-/** Card de cada item da lista */
 @Composable
 fun HistoryItemCard(item: HistoryItemModel) {
     val context = LocalContext.current
@@ -379,8 +377,6 @@ private fun MetricColumn(
     }
 }
 
-
-/** Converte DTO da API em modelo da UI */
 fun HistoryItemDto.toUiModel(): HistoryItemModel {
     val cal = Calendar.getInstance()
     try {
@@ -390,7 +386,6 @@ fun HistoryItemDto.toUiModel(): HistoryItemModel {
     } catch (_: Exception) {
     }
 
-    // duração só horas e minutos
     val hours = duracaoSegundos / 3600
     val minutes = (duracaoSegundos % 3600) / 60
     val durationStr = String.format("%02d:%02d", hours, minutes)
@@ -417,7 +412,6 @@ fun HistoryItemDto.toUiModel(): HistoryItemModel {
     )
 }
 
-/** Preview só da tela de histórico */
 @Preview(showBackground = true)
 @Composable
 fun HistoryPagePreview() {

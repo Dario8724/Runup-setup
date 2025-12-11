@@ -1,7 +1,6 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.os.Bundle
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,7 +59,7 @@ fun PrivacyPageView(onBack: () -> Unit) {
                 )
             )
         },
-        containerColor = Color(0xFFF7F7F7) // leve fundo para diferenciar (opcional)
+        containerColor = Color(0xFFF7F7F7) // leve fundo para diferenciar
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -124,7 +122,6 @@ fun PrivacyPageView(onBack: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Adicione mais parágrafos conforme necessário
                     Text(
                         text = "Dados de localização são usados apenas quando você permite e para fornecer funcionalidades relacionadas ao treino e rotas.",
                         fontSize = 14.sp

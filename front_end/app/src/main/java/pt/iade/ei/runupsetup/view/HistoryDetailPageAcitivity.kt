@@ -1,4 +1,4 @@
-package pt.iade.ei.runupsetup
+package pt.iade.ei.runupsetup.view
 
 import android.app.Activity
 import android.os.Bundle
@@ -41,7 +41,6 @@ import pt.iade.ei.runupsetup.models.CorridaDetalheDto
 import pt.iade.ei.runupsetup.models.RoutePointDto
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
-import java.time.LocalDate
 
 class HistoryDetailPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -323,7 +322,7 @@ fun DetalheConteudo(
 
             Spacer(Modifier.height(20.dp))
 
-            // Estatísticas detalhadas (sem card de medalha)
+            // Estatísticas detalhadas
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -369,7 +368,7 @@ fun DetalheConteudo(
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = { /* TODO: partilhar mais tarde */ },
+                onClick = { },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
@@ -432,7 +431,6 @@ private fun formatDetailDuration(totalSeconds: Long): String {
     return String.format("%02d:%02d", m, s)
 }
 
-/** Preview com dados fake */
 @Preview(showBackground = true)
 @Composable
 fun HistoryDetailPreview() {

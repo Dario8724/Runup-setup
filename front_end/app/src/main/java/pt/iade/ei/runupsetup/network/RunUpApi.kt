@@ -43,7 +43,6 @@ interface RunUpApi {
         @Body body: FinalizarCorridaRequestDto
     ): Response<Void>
 
-    // ---------- GOALS ----------
     @GET("/api/goals/{userId}")
     suspend fun getGoals(
         @Path("userId") userId: Long
@@ -55,8 +54,6 @@ interface RunUpApi {
         @Body body: UpdateGoalsRequestDto
     ): Response<Void>
 
-    // ---------- STATS / RECORDS ----------
-    // aqui faltava uma "/" no teu código original
     @GET("/api/usuario/{id}/stats")
     suspend fun getUserStats(
         @Path("id") id: Long
@@ -72,7 +69,6 @@ interface RunUpApi {
         @Path("id") id: Long
     ): Response<PersonalRecordDto>
 
-    // ---------- PERFIL DO UTILIZADOR ----------
     @GET("/api/usuario/{id}/profile")
     suspend fun getUserProfile(
         @Path("id") id: Long
