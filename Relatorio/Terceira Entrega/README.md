@@ -221,6 +221,8 @@ Telas desenvolvidas:
 ---
 ## Manual do Utilizador
 
+[Manual do Utilizador](../../Imagens/Manual_do_Utilizador.pdf)
+
 ---
 ## Planeamento e Gráfico de Gantt
 
