@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.iade.ei.runupsetup.network.GoalDto
@@ -785,3 +786,22 @@ fun AccountSettingsCard(onClick: () -> Unit = {}) {
 }
 
 // ---------- Previews ----------
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ProfilePageViewPreview() {
+    RunupSetupTheme {
+        ProfilePageView(
+            userName = "Gabriel Rezende",
+            userEmail = "gabriel@example.com",
+            // Deixa tudo null pra não depender dos DTOs no preview
+            weeklyGoal = null,
+            monthlyGoal = null,
+            isLoading = false,
+            errorMessage = null,
+            stats = null,
+            weeklyStats = null,
+            personalRecord = null
+        )
+    }
+}
