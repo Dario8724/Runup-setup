@@ -27,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pt.iade.ei.runupsetup.UserRegistrationState
 import pt.iade.ei.runupsetup.network.RetrofitClient
 import pt.iade.ei.runupsetup.network.UserRegisterDto
 

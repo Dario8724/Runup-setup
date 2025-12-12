@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import pt.iade.ei.runupsetup.UserRegistrationState
 
 
 class RegisterPageActivity : ComponentActivity() {

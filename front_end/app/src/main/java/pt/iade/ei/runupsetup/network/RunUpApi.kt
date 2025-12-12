@@ -9,7 +9,7 @@ import pt.iade.ei.runupsetup.models.PredefinedRouteDto
 import retrofit2.Response
 import retrofit2.http.*
 
-interface RunUpApi {
+interface RunUpApi{
 
     @Headers("Content-Type: application/json")
     @POST("api/auth/register")

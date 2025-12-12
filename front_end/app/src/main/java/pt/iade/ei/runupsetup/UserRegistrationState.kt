@@ -1,6 +1,6 @@
 package pt.iade.ei.runupsetup
 
-object UserRegistrationState {
+object UserRegistrationState{
 
     // Tela 1 – RegisterPageActivity
     var nome: String = ""

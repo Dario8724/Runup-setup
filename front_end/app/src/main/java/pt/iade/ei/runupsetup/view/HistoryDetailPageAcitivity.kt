@@ -431,7 +431,7 @@ private fun formatDetailDuration(totalSeconds: Long): String {
     return String.format("%02d:%02d", m, s)
 }
 
-@Preview(showBackground = true)
+ @Preview(showBackground = true)
 @Composable
 fun HistoryDetailPreview() {
     val fakePontos = listOf(
