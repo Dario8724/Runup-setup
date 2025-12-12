@@ -38,7 +38,7 @@
         </activity>
 
         <activity
-            android:name=".UserLoginActivity"
+            android:name=".view.UserLoginActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
@@ -114,7 +114,7 @@
 
         <!-- Mudar metas -->
         <activity
-            android:name=".TrainingPreferencesActivity"
+            android:name=".view.TrainingPreferencesActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 

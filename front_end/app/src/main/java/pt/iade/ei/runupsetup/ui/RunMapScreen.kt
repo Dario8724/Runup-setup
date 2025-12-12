@@ -413,6 +413,7 @@ fun SummaryScreen(duration: Int, distanceKm: Double, calories: Int, onFinish: ()
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
+                .navigationBarsPadding()
         ) {
             Text("Voltar ao Início", color = Color.White, fontSize = 16.sp)
         }
