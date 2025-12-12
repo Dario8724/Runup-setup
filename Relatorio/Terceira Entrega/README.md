@@ -46,7 +46,7 @@ Com estas funcionalidades, o projeto pretende proporcionar uma plataforma intuit
 
 **Tabela de Tarefas**
 
-| Atividades | Gabriel Rezende | Dário Bandanhe | Francisco Zolana | Edimisilson Tudo |
+| Atividades | Gabriel Rezende | Dário Bandanhe | Francisco Zolana | Edmilson Tudo |
 | ------------- | ------------- | ------------- | ------------- |  ------------- |
 | Base de Dados | 70% | 10% | 10% | 10% |
 | Back End      | 45% | 5% | 35% | 5% |
