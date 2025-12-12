@@ -26,7 +26,7 @@
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
         <activity
-            android:name=".view.LoginPageActivity"
+            android:name=".ui.activity.LoginPageActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
@@ -38,95 +38,95 @@
         </activity>
 
         <activity
-            android:name=".view.UserLoginActivity"
+            android:name=".ui.activity.UserLoginActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Histórico -->
         <activity
-            android:name=".view.HistoryPageActivity"
+            android:name=".ui.activity.HistoryPageActivity"
             android:exported="false"
             android:theme="@style/Theme.RunupSetup" />
 
         <!-- Detalhe histórico -->
         <activity
-            android:name=".view.HistoryDetailPageActivity"
+            android:name=".ui.activity.HistoryDetailPageActivity"
             android:exported="false"
             android:theme="@style/Theme.RunupSetup" />
 
         <!-- Tela inicial pós-login -->
         <activity
-            android:name=".view.InitialPageActivity"
+            android:name=".ui.activity.InitialPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Corrida em tempo real -->
         <activity
-            android:name=".ui.RunMapActivity"
+            android:name=".ui.activity.RunMapActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Perfil -->
         <activity
-            android:name=".view.ProfilePageActivity"
+            android:name=".ui.activity.ProfilePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Comunidade -->
         <activity
-            android:name=".view.ComunityPageActivity"
+            android:name=".ui.activity.ComunityPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Registro – 3 telas -->
         <activity
-            android:name=".view.RegisterPageActivity"
+            android:name=".ui.activity.RegisterPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name=".view.QuestionnaireGenderActivity"
+            android:name=".ui.activity.QuestionnaireGenderActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name=".view.QuestionnairePageActivity"
+            android:name=".ui.activity.QuestionnairePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Sucesso -->
         <activity
-            android:name=".view.RegistrationSuccessActivity"
+            android:name=".ui.activity.RegistrationSuccessActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Privacidade -->
         <activity
-            android:name=".view.PrivacyPageActivity"
+            android:name=".ui.activity.PrivacyPageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Gerar Rotas -->
         <activity
-            android:name=".view.RouteFiltersActivity"
+            android:name=".ui.activity.RouteFiltersActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Mudar metas -->
         <activity
-            android:name=".view.TrainingPreferencesActivity"
+            android:name=".ui.activity.TrainingPreferencesActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Tela Rotas Predefinidas -->
         <activity
-            android:name=".view.RoutePageActivity"
+            android:name=".ui.activity.RoutePageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Tela configuração conta -->
         <activity
-            android:name=".view.AccountSettingsActivity"
+            android:name=".ui.activity.AccountSettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
