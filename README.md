@@ -220,22 +220,22 @@ Além disso, a camada de serviços comunica com integrações externas para enri
 ---
 ## Documentação REST
 
-[Documentação REST](../../Imagens/Documentacao_REST.md)
+[Documentação REST](./Imagens/Documentacao_REST.md)
 
 ---
 ## Dicionário de Dados
 
-[Dicionário de Dados](../../Imagens/Dicionario_de_Dados_Final.pdf)
+[Dicionário de Dados](./Imagens/Dicionario_de_Dados_Final.pdf)
 
 ---
 ## Guia de Dados 
 
-[Guia de Dados](../../Imagens/Guia_de_dados.pdf)
+[Guia de Dados](./Imagens/Guia_de_dados.pdf)
 
 ---
 ## Manual do Utilizador
 
-[Manual do Utilizador](../../Imagens/Manual_do_Utilizador.pdf)
+[Manual do Utilizador](./Imagens/Manual_do_Utilizador.pdf)
 
 ---
 ## Planeamento e Gráfico de Gantt
