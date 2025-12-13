@@ -57,17 +57,12 @@ import pt.iade.ei.runupsetup.models.HistoryItemModel1
 import pt.iade.ei.runupsetup.ui.theme.RunupSetupTheme
 import java.util.Calendar
 import android.content.Intent
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.platform.LocalContext
 import pt.iade.ei.runupsetup.RouteFiltersActivity
 
-
-/*
-imports duvidosos
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Target
- */
 
 class InitialPageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -259,10 +254,12 @@ fun InitialPageView() {
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Box{
+                // add filter
                 Image(
                     painter = painterResource(R.drawable.corredor_ao_por_do_sol),
                     contentDescription = "Imagem de um corredor ao pôr do sol",
@@ -387,133 +384,177 @@ fun InitialPageView() {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black
             )
-            Card (
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            ){
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp )
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_map_24),
-                        contentDescription = "Icone do mapa"
-                    )
-                    Column {
-                        Text(
-                            text = "Explorar rotas"
-                        )
-                        Text(
-                            text = "Acompanhe seu progresso "
-                        )
-                    }
-                    // seta para proseguir
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    ) }
-            }
-            // card for goals
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            )
-            {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp )
-                ){
-                    Icon(
-                        painter = painterResource(R.drawable.outline_circle_circle_24),
-                        contentDescription = "Botão para a página de metas"
-                    )
-                    Column {
-                        Text(
-                            text = "Metas pessoais",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(
-                            text = "Acompanhe seu progresso"
-                        )
-                    }
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    )
-                }
-            }
-            Card (
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
-                    .fillMaxWidth(),
-                onClick = {},
-                shape = RoundedCornerShape(12.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    pressedElevation = 12.dp
-                )
-            )
-            {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_history_24),
-                        contentDescription = "Botão para a página de históricos"
-                    )
-                    Column {
-                        Text(
-                            text = "Histórico",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Black
-                        )
-                        Text(
-                            text = "Veja as suas atividades"
-                        )
-                    }
-                    // seta para proseguir
-                    Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "seta para proseguir",
-                        tint = Color.Black
-                    )
-                }
-            }
+            Column {
 
-            // probable card for conquests
-            /*
-            Card (
-                modifier
-            ){
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                ){
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_map_24),
+                            contentDescription = "Icone do mapa"
+                        )
+                        Column {
+                            Text(
+                                text = "Explorar rotas"
+                            )
+                            Text(
+                                text = "Acompanhe seu progresso "
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        ) }
+                }
+                // card for goals
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp )
+                    ){
+                        Icon(
+                            painter = painterResource(R.drawable.outline_circle_circle_24),
+                            contentDescription = "Botão para a página de metas"
+                        )
+                        Column {
+                            Text(
+                                text = "Metas pessoais",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Acompanhe seu progresso"
+                            )
+                        }
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_history_24),
+                            contentDescription = "Botão para a página de históricos"
+                        )
+                        Column {
+                            Text(
+                                text = "Histórico",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Veja as suas atividades"
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+                Card (
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp, vertical = 8.dp)
+                        .fillMaxWidth(),
+                    onClick = {},
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 12.dp
+                    )
+                )
+                {
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_history_24),
+                            contentDescription = "Botão para a página de históricos"
+                        )
+                        Column {
+                            Text(
+                                text = "Histórico",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Black
+                            )
+                            Text(
+                                text = "Veja as suas atividades"
+                            )
+                        }
+                        // seta para proseguir
+                        Icon(
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "seta para proseguir",
+                            tint = Color.Black
+                        )
+                    }
+                }
+
+                // probable card for conquests
+                /*
+                Card (
+                    modifier
+                ){
+                }
+                 */
             }
-             */
         }
 
     }
