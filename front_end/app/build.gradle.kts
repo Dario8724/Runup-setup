@@ -58,11 +58,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.compose.material:material-icons-extended")
+
 
     // --- Google Maps + Compose ---
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("com.google.maps.android:maps-compose:2.11.4")
+    implementation("com.google.maps.android:maps-compose:4.4.1")
     implementation("com.google.maps.android:android-maps-utils:3.8.0")
     implementation("com.google.maps.android:android-maps-utils:2.3.0")
 
@@ -73,6 +75,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.android.volley:volley:1.2.1")
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.compose.ui)
 
     // --- Testes ---
     testImplementation(libs.junit)

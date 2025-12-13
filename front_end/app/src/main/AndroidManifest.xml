@@ -20,64 +20,116 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- 🔹 Chave da API do Google Maps -->
+        <!-- Chave da API do Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDhni-9ZSCjmR3rZp0FB5RcSTOKQqqKmso" />
 
-        <!-- 🔹 Tela inicial (Login) -->
         <activity
-            android:name=".LoginPageActivity"
+            android:name=".ui.activity.LoginPageActivity"
             android:exported="true"
-            android:label="Login"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
-        <!-- 🔹 Tela principal após login -->
         <activity
-            android:name=".InitialPageActivity"
+            android:name=".ui.activity.UserLoginActivity"
             android:exported="false"
-            android:label="Página Inicial"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-        <!-- 🔹 Tela de filtros de rota -->
-        <activity
-            android:name=".RouteFiltersActivity"
-            android:exported="false"
-            android:label="Filtros de Rota"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de corrida -->
+        <!-- Histórico -->
         <activity
-            android:name=".ui.RunMapActivity"
+            android:name=".ui.activity.HistoryPageActivity"
             android:exported="false"
-            android:label="Corrida em Tempo Real"
+            android:theme="@style/Theme.RunupSetup" />
+
+        <!-- Detalhe histórico -->
+        <activity
+            android:name=".ui.activity.HistoryDetailPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RunupSetup" />
+
+        <!-- Tela inicial pós-login -->
+        <activity
+            android:name=".ui.activity.InitialPageActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de perfil -->
+        <!-- Corrida em tempo real -->
         <activity
-            android:name=".ProfilePageActivity"
+            android:name=".ui.activity.RunMapActivity"
             android:exported="false"
-            android:label="Perfil"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de histórico detalhado -->
+        <!-- Perfil -->
         <activity
-            android:name=".HistoryDetailPage"
+            android:name=".ui.activity.ProfilePageActivity"
             android:exported="false"
-            android:label="Histórico"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- 🔹 Tela de Comunidade -->
+        <!-- Comunidade -->
         <activity
-            android:name=".ComunityPageActivity"
+            android:name=".ui.activity.ComunityPageActivity"
             android:exported="false"
-            android:label="Comunidade"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Registro – 3 telas -->
+        <activity
+            android:name=".ui.activity.RegisterPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.activity.QuestionnaireGenderActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.activity.QuestionnairePageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Sucesso -->
+        <activity
+            android:name=".ui.activity.RegistrationSuccessActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Privacidade -->
+        <activity
+            android:name=".ui.activity.PrivacyPageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Gerar Rotas -->
+        <activity
+            android:name=".ui.activity.RouteFiltersActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Mudar metas -->
+        <activity
+            android:name=".ui.activity.TrainingPreferencesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Tela Rotas Predefinidas -->
+        <activity
+            android:name=".ui.activity.RoutePageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Tela configuração conta -->
+        <activity
+            android:name=".ui.activity.AccountSettingsActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     </application>
+
 </manifest>
