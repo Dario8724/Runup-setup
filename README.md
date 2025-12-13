@@ -203,7 +203,7 @@ Telas desenvolvidas:
 ---
 ## Arquitetura da Solução
 
-![Arquitetura da solução](../../Imagens/arquitetura_solução.png)
+![Arquitetura da solução](./Imagens/arquitetura_solução.png)
 
 Arquitetura da Solução (RunUp)
 
@@ -215,7 +215,7 @@ Além disso, a camada de serviços comunica com integrações externas para enri
 ---
 ## Diagrama de classes
 
-![Diagrama de Classes](../../Imagens/Diagrama_de_classes_final.png)
+![Diagrama de Classes](./Imagens/Diagrama_de_classes_final.png)
 
 ---
 ## Documentação REST
@@ -297,7 +297,7 @@ O Runup manteve como objetivo central a primeira proposta do projeto, só deixam
 
 ## Poster 
 
-![Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
+![Poster do aplicativo](./Imagens/Poster_RunUp_Final.jpg)
 
 ---
 ## Bibliografia
