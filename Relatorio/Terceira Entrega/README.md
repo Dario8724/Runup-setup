@@ -19,21 +19,22 @@ Corrida, Caminhada, RunUp, Saúde, Fitness
 
 ## Índice
 - [Descrição da App](#descrição-da-app)
-- [Requisitos Funcionais e Não Funcionais](#requisitos-funcionais-e-não-funcionais)
-- [Objetivos e Motivação](#descrição-dos-objetivos-e-da-motivação-do-trabalho)
-- [Público-Alvo](#identificação-de-público-alvo)
+- [Descrição dos Objetivos e da Motivação do Trabalho](#descrição-dos-objetivos-e-da-motivação-do-trabalho)
+- [Identificação de Público-Alvo](#identificação-de-público-alvo)
 - [Pesquisa de Mercado](#pesquisa-de-mercado)
-- [Guiões Preliminares](#uma-versão-preliminar-de-três-guiões)
-- [Diagrama de classes](#diagrama-de-classes)
+- [Versão Casos de Utilização](#versão-casos-de-utilização)
+- [Descrição da Solução Implementada](#descrição-da-solução-implementada)
+- [Arquitetura da Solução](#arquitetura-da-solução)
+- [Diagrama de Classes](#diagrama-de-classes)
 - [Documentação REST](#documentação-rest)
-- [Dicionario de dados](#dicionário-de-dados)
-- [Estutura de dados](#estrutura-dos-dados)
-- [Solução a Implementar](#descrição-da-solução-a-implementar)
-- [Planeamento e Calendarização](#planeamento-e-calendarização)
-- [Mockup da Aplicação](#mockup-da-aplicação)
+- [Dicionário de Dados](#dicionário-de-dados)
+- [Guia de Dados](#guia-de-dados)
+- [Manual do Utilizador](#manual-do-utilizador)
+- [Planeamento e Gráfico de Gantt](#planeamento-e-gráfico-de-gantt)
 - [Conclusão](#conclusão)
-- [Poster do Aplicativo](#poster)
+- [Poster](#poster)
 - [Bibliografia](#bibliografia)
+
 
 ---
 
@@ -213,6 +214,8 @@ Além disso, a camada de serviços comunica com integrações externas para enri
 
 ---
 ## Diagrama de classes
+
+![Diagrama de Classes](../../Imagens/Diagrama_de_classes_final.png)
 
 ---
 ## Documentação REST
