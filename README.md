@@ -2,10 +2,8 @@
 
 **Licenciatura em Engenharia Informática | LEIF02 | 24-25**  
 **UC:** Projeto de Desenvolvimento Móvel  
-**Docente:** Pedro Miguel Gomes Silva Rosa 
-
-**Link Repósitorio:** [https://github.com/Dario8724/RunUp](https://github.com/Dario8724/RunUp)
-
+**Docente:** Pedro Miguel Gomes Silva Rosa  
+**Link Repósitorio** https://github.com/Dario8724/RunUp  
 **Grupo 2** **Turma D02**
 
 **Autores:**
@@ -14,69 +12,56 @@
 - Edmilson Alberto Marcos Tudo – 20241542  
 - Francisco Rocha Zolana – 20240801  
 
-**Palavras Chave**
+**Palavras Chave:**  
 Corrida, Caminhada, RunUp, Saúde, Fitness
 
 ---
 
 ## Índice
 - [Descrição da App](#descrição-da-app)
-- [Requisitos Funcionais e Não Funcionais](#requisitos-funcionais-e-não-funcionais)
-- [Objetivos e Motivação](#descrição-dos-objetivos-e-da-motivação-do-trabalho)
-- [Público-Alvo](#identificação-de-público-alvo)
+- [Descrição dos Objetivos e da Motivação do Trabalho](#descrição-dos-objetivos-e-da-motivação-do-trabalho)
+- [Identificação de Público-Alvo](#identificação-de-público-alvo)
 - [Pesquisa de Mercado](#pesquisa-de-mercado)
-- [Guiões Preliminares](#uma-versão-preliminar-de-três-guiões)
-- [Diagrama de classes](#diagrama-de-classes)
+- [Versão Casos de Utilização](#versão-casos-de-utilização)
+- [Descrição da Solução Implementada](#descrição-da-solução-implementada)
+- [Arquitetura da Solução](#arquitetura-da-solução)
+- [Diagrama de Classes](#diagrama-de-classes)
 - [Documentação REST](#documentação-rest)
-- [Dicionario de dados](#dicionário-de-dados)
-- [Estutura de dados](#estrutura-dos-dados)
-- [Solução a Implementar](#descrição-da-solução-a-implementar)
-- [Planeamento e Calendarização](#planeamento-e-calendarização)
-- [Mockup da Aplicação](#mockup-da-aplicação)
+- [Dicionário de Dados](#dicionário-de-dados)
+- [Guia de Dados](#guia-de-dados)
+- [Manual do Utilizador](#manual-do-utilizador)
+- [Planeamento e Gráfico de Gantt](#planeamento-e-gráfico-de-gantt)
 - [Conclusão](#conclusão)
-- [Poster do Aplicativo](#poster)
+- [Poster](#poster)
 - [Bibliografia](#bibliografia)
+
 
 ---
 
 ## Descrição da App
 
-O nosso grupo pretende desenvolver uma aplicação de corridas com o foco na comunidade de corredores e praticantes de desporto para o controle e gestão dos seus treinos, com o foco principal em corredores e caminhantes iniciantes na criação de rotas e armazenamentos de treinos anteriores.
+O grupo desenvolveu uma aplicação direcionada à comunidade de corredores e caminhantes, com foco especial em utilizadores iniciantes que procuram apoio no planeamento e acompanhamento dos seus treinos. O principal objetivo do app é oferecer uma experiência personalizada, prática e motivadora.
+A aplicação permite gerar rotas dinâmicas com base em filtros definidos pelo utilizador, como distância, tempo, dificuldade ou localização, tornando o planeamento dos treinos mais flexível e adaptado às necessidades individuais. Adicionalmente, o sistema disponibiliza metas personalizadas, ajustadas ao perfil e ao ritmo de evolução de cada utilizador, reforçando o acompanhamento da sua progressão.
+O app também conta com um histórico completo de atividades, permitindo ao utilizador consultar treinos anteriores, comparar desempenhos e acompanhar a sua evolução ao longo do tempo. Para além disso, integra uma funcionalidade que apresenta rotas populares pela cidade de Lisboa, ajudando os corredores a descobrir percursos conhecidos e adequados à prática desportiva.
+Com estas funcionalidades, o projeto pretende proporcionar uma plataforma intuitiva, acessível e motivadora, capaz de apoiar o utilizador em cada etapa da sua jornada desportiva.
 
-**Funcionalidades previstas:**
-- Criar rotas personalizadas (filtros: km, elevação, parques, praia, sol, etc.)
-- Histórico de corridas
-- Sugestão de metas para iniciantes
-- Corrida ou caminhada
-- Gravação de treinos (pace, tempo, recordes, etc.)
-- Comunidade para partilha de corridas
-- Registo de utilizadores
-- Histórico de elevação
-- Definir metas pessoais
+**Tabela de Tarefas**
 
-Pretende-se com isso diminuir a falta de variedade e dificuldades no planejamento de distâncias e percursos nos treinos, sugerindo rotas/ percursos novas personalizadas para os utilizadores e calculando a quilometragem desejada. Também pretendemos aumentar o engajamento social entre os utilizadores através da aba da comunidade.
+| Atividades | Gabriel Rezende | Dário Bandanhe | Francisco Zolana | Edmilson Tudo |
+| ------------- | ------------- | ------------- | ------------- |  ------------- |
+| Base de Dados | 70% | 10% | 10% | 10% |
+| Back End      | 45% | 5% | 35% | 5% |
+| Front End     | 20% | 65% | 5% | 10% |
+| Relatorios/Apresentações/Video| 25% | 25% | 25% | 25% |
 
----
-
-## Requisitos Funcionais e Não Funcionais
-
-**Funcionais:**
-- Criar rotas personalizadas  
-- Registrar histórico de corridas  
-- Sugerir metas  
-- Selecionar tipo de atividade  
-- Gravar estatísticas  
-- Aba da comunidade  
-- Definir metas pessoais  
-
-**Não Funcionais:**
-- Interface responsiva  
-- Baixo consumo de bateria  
-- Segurança de dados  
-- Permissões de sistema  
-- Escalabilidade  
-- Privacidade  
-
+**Funcionalidades:**
+- Criação de rotas personalizadas (filtros: km, elevação, parques, praia, sol, etc.)
+- Histórico de corridas/caminhadas
+- Metas personalizidas para usuários 
+- Monitoriamento de estatísticas pessoais
+- Configuração de conta e metas
+- Rotas populares e predefinidas para Lisboa
+ 
 ---
 
 ## Descrição dos Objetivos e da Motivação do Trabalho
@@ -96,7 +81,7 @@ Acompanhamento de desempenho e progresso, a falta de progresso é um dos fatores
 
 ## Pesquisa de Mercado
 
-Strava  Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas.
+Strava = Registra Rotas, Quilômetros, Pagina de Comunidade porém maioria das opções são pagas.
 
 Adidas Running = Registra Quilômetros, Elevação, Kcal.
 
@@ -108,7 +93,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
 
 ---
 
-## Uma Versão Preliminar de Três Guiões
+## Versão Casos de Utilização
 
 1. **Novo usuário (23 anos, sedentário,estudante universitário, nunca correu antes, quer melhorar saúde):**
    
@@ -131,7 +116,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
         o	Usa o filtro avançado para criar rotas longas (10–15 km) com paisagens variadas. 
         o	Testa a funcionalidade “criar sua própria rota” para um treino específico.
         o	Define metas de performance (tempo/km). 
-        o	Interage na comunidade postando resultados e vendo desafios semanais.
+        o	Utiliza as rotas populares da comunidade.
    
     •	Objetivo: Avaliar se a app oferece mais personalização e motivação que os concorrentes.
    
@@ -149,209 +134,7 @@ Nenhuma das aplicações são totalmente gratuitas, para conseguir acessar todas
     •	Objetivo: Tornar a app atraente para o amigo e motivá-lo a começar com metas realistas.
 
 ---
-![Persona1](./Imagens/Persona1.png)
-
----
-![Persona2](./Imagens/Persona2.png)
-
----
-## Diagrama de classes
-
-classDiagram
-
-    %% =======================
-    %% ENTIDADES
-    %% =======================
-    class Usuario {
-        +Long id
-        +String nome
-        +String email
-        +String senha
-        +LocalDateTime dataCriacao
-    }
-    class Meta {
-        +Long id
-        +String descricao
-        +LocalDate dataInicio
-        +LocalDate dataFim
-        +Usuario usuario
-    }
-    class Corrida {
-        +Long id
-        +String nome
-        +Double originLat
-        +Double originLng
-        +Double destLat
-        +Double destLng
-        +Double desiredDistanceKm
-        +Boolean preferTrees
-        +Boolean nearBeach
-        +Boolean nearPark
-        +Boolean sunnyRoute
-        +Boolean avoidHills
-        +String tipo
-        +Usuario usuario
-    }
-    class Postagem {
-        +Long id
-        +String titulo
-        +String conteudo
-        +LocalDateTime dataPostagem
-        +Usuario usuario
-    }
-    %% =======================
-    %% SERVIÇOS E CONTROLADORES
-    %% =======================
-    class RouteService {
-        +Route generateRoute(RouteRequest request)
-        +List<Route> getSavedRoutes(Usuario usuario)
-    }
-    class RouteController {
-        +ResponseEntity<Route> generateRoute(RouteRequest request)
-    }
-    %% =======================
-    %% RELAÇÕES
-    %% =======================
-    Usuario "1" --> "*" Meta : possui >
-    Usuario "1" --> "*" Corrida : realiza >
-    Usuario "1" --> "*" Postagem : cria >
-    RouteController --> RouteService : usa >
-    RouteService --> Corrida : gera >
----
-## Documentação REST
-A seguir é apresentada a documentação da principal rota disponível na API RunUp.
-
-Requisição
-URL base:
-http://localhost:8080/api/routes/generate
-
-Método HTTP:
-POST
-
-Cabeçalhos (Headers):
-Content-Type: application/json
-Accept: application/json
-
-Corpo (Body JSON):
-{
-  "nome": "Corrida na Foz",
-  "originLat": 41.1540,
-  "originLng": -8.6535,
-  "destLat": 41.1501,
-  "destLng": -8.6800,
-  "desiredDistanceKm": 5,
-  "preferTrees": true,
-  "nearBeach": true,
-  "nearPark": true,
-  "sunnyRoute": true,
-  "avoidHills": false,
-  "tipo": "corrida"
-}
-
-Resposta de sucesso (200 OK)
-
-Descrição:
-Retorna uma rota gerada com base nas preferências enviadas.
-
-Exemplo de resposta:
-
-{
-  "routeName": "Corrida na Foz",
-  "totalDistanceKm": 5.1,
-  "estimatedTimeMin": 32,
-  "startPoint": {
-    "lat": 41.1540,
-    "lng": -8.6535
-  },
-  "endPoint": {
-    "lat": 41.1501,
-    "lng": -8.6800
-  },
-  "path": [
-    { "lat": 41.1535, "lng": -8.6550 },
-    { "lat": 41.1520, "lng": -8.6620 },
-    { "lat": 41.1510, "lng": -8.6700 }
-  ],
-  "preferences": {
-    "preferTrees": true,
-    "nearBeach": true,
-    "nearPark": true,
-    "sunnyRoute": true,
-    "avoidHills": false
-  }
-}
-
-Respostas de erro: 
-
-| Código                      | Tipo              | Descrição                                             |
-| --------------------------- | ----------------- | ----------------------------------------------------- |
-| 400 Bad Request           | Erro de validação | Dados incompletos ou inválidos no corpo da requisição |
-| 500 Internal Server Error | Erro no servidor  | Falha ao gerar a rota ou erro inesperado              |
-
-Notas adicionais:
-
-• Este endpoint utiliza um serviço interno (RouteService) para calcular o percurso e retornar um conjunto de coordenadas e informações resumidas.
-
-• Futuramente, pretende-se adicionar:
-
-   • POST /api/routes/save → para guardar rotas no histórico do utilizador
-
-   • GET /api/routes → para listar rotas já geradas
-
-   • DELETE /api/routes/{id} → para remover rotas salvas
-
----
-## Dicionário de Dados
-
-**Entidade: Usuario**
-| Atributo     | Tipo de Dado | Descrição                   | Restrições                |
-| ------------ | ------------ | --------------------------- | ------------------------- |
-| id_usuario   | INT          | Identificador único         | PK, Auto Increment        |
-| nome         | VARCHAR(100) | Nome completo               | NOT NULL                  |
-| email        | VARCHAR(100) | Email do usuário (único)    | NOT NULL, UNIQUE          |
-| senha        | VARCHAR(255) | Senha criptografada         | NOT NULL                  |
-| data_criacao | DATETIME     | Data de criação do registro | DEFAULT CURRENT_TIMESTAMP |
-
-**Entidade: Meta**
-| Atributo    | Tipo de Dado | Descrição                   | Restrições               |
-| ----------- | ------------ | --------------------------- | ------------------------ |
-| id_meta     | INT          | Identificador único da meta | PK, Auto Increment       |
-| descricao   | VARCHAR(255) | Descrição da meta           | NOT NULL                 |
-| data_inicio | DATE         | Data de início da meta      | —                        |
-| data_fim    | DATE         | Data limite da meta         | —                        |
-| id_usuario  | INT          | Usuário responsável         | FK → Usuário(id_usuario) |
-
-**Entidade: Corrida**
-| Atributo     | Tipo de Dado | Descrição                      | Restrições               |
-| ------------ | ------------ | ------------------------------ | ------------------------ |
-| id_corrida   | INT          | Identificador único da corrida | PK, Auto Increment       |
-| data_corrida | DATE         | Data da corrida                | NOT NULL                 |
-| distancia    | FLOAT        | Distância percorrida (km)      | NOT NULL                 |
-| tempo        | TIME         | Duração da corrida             | —                        |
-| id_usuario   | INT          | Usuário que realizou a corrida | FK → Usuário(id_usuario) |
-
-
-**Endidade: Postagem**
-| Atributo      | Tipo de Dado | Descrição                 | Restrições                |
-| ------------- | ------------ | ------------------------- | ------------------------- |
-| id_postagem   | INT          | Identificador da postagem | PK, Auto Increment        |
-| titulo        | VARCHAR(100) | Título da postagem        | NOT NULL                  |
-| conteudo      | TEXT         | Conteúdo da postagem      | NOT NULL                  |
-| data_postagem | DATETIME     | Data/hora da publicação   | DEFAULT CURRENT_TIMESTAMP |
-| id_usuario    | INT          | Autor da postagem         | FK → Usuário(id_usuario)  |
-
-**Entidade: UC(Relaçao Usuario-Corrida)**
-| Atributo   | Tipo de Dado | Descrição                | Restrições               |
-| ---------- | ------------ | ------------------------ | ------------------------ |
-| id_usuario | INT          | Identificador do usuário | FK → Usuário(id_usuario) |
-| id_corrida | INT          | Identificador da corrida | FK → Corrida(id_corrida) |
-
----
-## Estrutura dos Dados 
-![Estrutura de Dados](./Imagens/Estruturadedados.png)
-
----
-## Descrição da Solução a Implementar
+## Descrição da Solução Implementada
 
 - Aplicação mobile gratuita com **geolocalização e registo em tempo real**  
 - Criação de rotas personalizadas (distância, áreas verdes, praias, sol, etc.)  
@@ -360,56 +143,47 @@ Notas adicionais:
 - Base de dados (SQLite/MySQL) para registo de atividades
 
 **Desenvolvimento da Base de Dados**
-A modelagem da base de dados foi projetada para suportar as principais funcionalidades descritas no primeiro relatório: registo de utilizadores, armazenamento de atividades (corridas e caminhadas), definição de metas e interações na comunidade.
+A modelagem da base de dados foi projetada para suportar as principais funcionalidades: registo de utilizadores, armazenamento de atividades (corridas e caminhadas), definição de metas, postagem em comunidades e rotas predefinidas populares.
 A base foi estruturada seguindo o modelo relacional, utilizando MySQL (em ambiente de desenvolvimento via SQL Workbench).
 
 **Tabelas Principais**
+- Meta
+- MU (Meta - Usuário)
 - Usuário
 - Corrida
+- Tipo
+- Postagem
 - Rota
-- Meta
-- UC (UsuárioCorrida)
+- CR (Características - Rota)
+- LR (Local - Rota)
+- Local
 
 O relacionamento entre as tabelas foi definido da seguinte forma:
- Um utilizador pode ter várias atividades, metas e publicações.
- Cada atividade pode estar associada a uma rota.
+Um usuário pode ter varias metas (semanais e mensasis), o mesmo pode ter varias corridas. Uma corrida tem varias postagens, mas um tipo tem de exércicio tem varias corridas. Já uma rota tem varias corridas e nessa rota tem varias características.
+A mesma rota passa por varios locais.
 
 Implementação:
 A base foi criada e testada com comandos SQL para inserção, atualização e consulta dos dados.
 
 **Modelagem do Sistema**
-A estrutura do sistema foi baseada nos princípios da Programação Orientada a Objetos (POO).
-As principais classes identificadas foram:
-•	Classe Utilizador – armazena informações do perfil e preferências.
-•	Classe Atividade – contém dados de cada corrida/caminhada.
-•	Classe Rota – representa os trajetos personalizados criados ou sugeridos.
-•	Classe Meta – controla objetivos definidos pelos utilizadores.
-•	Classe Comunidade – gerencia as interações e postagens.
-O diagrama de classes (em formato UML) representa essas entidades e seus relacionamentos, garantindo coerência entre o modelo lógico e o físico da base de dados.
 
-**Desenvolvimento no Android studio**
-O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.
-A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.
-Telas desenvolvidas:
-• Tela de login.
-• Tela de Registro.
-• Tela Inicial.
-• Tela de Gerar Rotas.
-• Tela de Corrida.
-• Tela de Histórico de Corrida.
-• Tela de Comunidade.
-• Tela de Perfil.
 
-**Testes e Validações**
-Foram realizados testes iniciais de: 
-• Navegações entre telas.
-• Inserção e leitura de dados.
-• Simulação de rotas no mapa.
-
-**Próximas Etapas**
-• Implementação de feed de comunidade.
-• Melhorias no layout.
-• Implementação de notificações e sistemas de metas.
+**Desenvolvimento no Android studio:**
+O projeto foi criado no Android Studio utilizando Kotlin como linguagem principal.  
+A arquitetura adotada segue o padrão MVC (Model-View-Controller) para facilitar a separação entre interface, lógica e dados.  
+Telas desenvolvidas:  
+- Tela de Login.
+- Tela de Registro.
+- Tela Inicial.
+- Tela de Gerar Rotas.
+- Tela de Corrida.
+- Tela de Histórico de Corrida.
+- Tela de Comunidade.
+- Tela de Perfil.
+- Tela de Rotas Predefinidas.
+- Tela de Política de Privacidade.
+- Tela de Configuração de Metas.
+- Tela de Configuração de Conta.
 
 **Áreas curriculares envolvidas:**
 - **Base de Dados**: SQLite/MySQL  
@@ -427,40 +201,103 @@ Foram realizados testes iniciais de:
 - Versionamento: GitHub / ClickUp  
 
 ---
+## Arquitetura da Solução
 
-## Planeamento e Calendarização
+![Arquitetura da solução](../../Imagens/arquitetura_solução.png)
 
-- Mockups e interface (Figma)  
-- Desenvolvimento da base de dados (SQL Workbench)  
-- Desenvolvimento front-end (Android Studio)  
-- Integração com APIs (Google Maps SDK)  
-- Testes e validação  
-- Criação de poster e vídeo promocional  
+Arquitetura da Solução (RunUp)
+
+O sistema RunUp segue uma arquitetura em camadas baseada no padrão MVC, implementada em Spring Boot. A comunicação entre cliente e servidor é feita através de API REST, usando HTTP e JSON.
+A camada Controller é responsável por expor os endpoints REST e receber pedidos do cliente (ex.: autenticação, criação de corrida, consulta de histórico). Em seguida, os controllers delegam o processamento para a camada Service, onde estão concentradas as regras de negócio (ex.: geração de rota, cálculo de métricas, atualização de metas e estatísticas).
+A camada Repository implementa o acesso à base de dados através do Spring Data JPA, isolando a persistência e permitindo que a lógica de negócio não dependa diretamente do banco. A base de dados utilizada é MySQL, responsável por armazenar utilizadores, corridas, metas e rotas.
+Além disso, a camada de serviços comunica com integrações externas para enriquecer a funcionalidade do sistema, como APIs de mapas (Google Directions/Elevation/Places) para geração de rotas e uma API meteorológica para obter condições de tempo associadas à corrida. Dessa forma, o RunUp mantém separação clara de responsabilidades, facilita manutenção e segue boas práticas de arquitetura de software.
 
 ---
+## Diagrama de classes
 
-## Mockup da Aplicação
+![Diagrama de Classes](../../Imagens/Diagrama_de_classes_final.png)
 
+---
+## Documentação REST
 
-![Mockup do aplicativo](./Imagens/Mockup_RunUp.png)
+[Documentação REST](../../Imagens/Documentacao_REST.md)
 
+---
+## Dicionário de Dados
 
-# Mockup Interativo
+[Dicionário de Dados](../../Imagens/Dicionario_de_Dados_Final.pdf)
 
-[Ver mockup completo no Figma](https://www.figma.com/make/trREFBKUoFakKsm9PVs8au/RunUp-Mobile-App-Mockups?node-id=0-1&t=bzRYL2e4k7qEW83n-1)
+---
+## Guia de Dados 
+
+[Guia de Dados](../../Imagens/Guia_de_dados.pdf)
+
+---
+## Manual do Utilizador
+
+[Manual do Utilizador](../../Imagens/Manual_do_Utilizador.pdf)
+
+---
+## Planeamento e Gráfico de Gantt
+
+**Planeamento da Primeira Entrega:**  
+
+**Relatório:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516154823-1/55fb7423f59fccd
+
+**Apresentação:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516845483-1/0371406d01dd78d
+
+**Mockup do App:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516846221-1/4175765f3ea36a3
+
+**Planeamento da Segunda Entrega:** 
+
+**Relatório:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516849086-1/8e6cda7d33cf1e9
+
+**Apresentação:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516849098-1/93044a1a73ebd3d
+
+**Base de Dados:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516849110-1/a8afde9611b2ab9
+
+**Front End:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516849113-1/f871e9413fe18ee
+
+**Back End:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516849116-1/1b56a8c8c3f830f
+
+**Planeamento da Terceira Entrega:** 
+
+**Relatorio:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516850923-1/c946c754369f23e
+
+**Apresentação:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516850928-1/c54a09d56a62cbe
+
+**FrontEnd:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516850938-1/36332eeb3613f30
+
+**BackEnd:** 
+https://sharing.clickup.com/90151732973/l/h/6-901516850944-1/e86ca774d0d424a
+
+**Base de Dados:** 
+https://sharing.clickup.com/90151732973/l/h/6-901517767055-1/e2b904408bf59e5
 
 ---
 
 ## Conclusão
 
-Nesta segunda fase, o grupo consolidou a estrutura técnica do projeto RunUp, criando a base de dados, modelando as entidades e iniciando o desenvolvimento da aplicação no Android Studio.
-Com a junção do backend e das telas principais, o projeto começa a ganhar forma prática e aproxima-se da sua proposta inicial: uma aplicação acessível, funcional e motivadora para corredores e caminhantes.
+Nesta última fase de desenvolvimento do RunUp, o projeto teve um grande imprevisto onde tivemos de fazer a alteração total da base de dados e com isso causou grandes problemas com as ligações com o backend e com frontend gerando mudanças em todo o projeto. Porém essa mudança demonstrou avanços significativos na estrutura técnica quanto à consolidação do conceito inicial. A implementação da nova base de dados, a mudança do backend devido a nova base de dados e os ajustes no frontend permitiram transformar o projeto mais robusto e mais profissional. A integração entre a nova base de dados e frontend marcou um ponto importante, pois estabeleceu o fluxo real de dados e aprimorou a coleta e armazenamento de dados da aplicação.
+Durante essa última etapa, o grupo enfrentou desafios relacionados a colaboração do desenvolvimento do projeto de outros participantes, os mesmos não solicitaram auxílio às dificuldades enfrentadas nas tarefas a si e também não informaram sobre os estados das tarefas, causando assim muitos atrasos no cronograma e sobrecarregando outros integrantes que tiveram de fazer as tarefas que não foi designada a eles. Devido a esse imprevisto não conseguimos trazer uma parte de comunidade para nosso projeto, onde a ideia inicial era criar apenas um feed onde os usuário iriam compartilhar suas rotas, mas após a segunda entrega decidimos mudar para uma ideia mais robusta onde as postagens iriam ter uma parte de interação com outros usuário e também criamos um feed de desafios da comunidade ou opções de desafios criados por outros usuários.
+O Runup manteve como objetivo central a primeira proposta do projeto, só deixamos mais robustos as funcionalidades como: as metas pessoais de cada usuário, rotas populares predefinidas e histórico de corridas.
 
 ---
 
 ## Poster 
 
-[Poster do aplicativo](./Imagens/Poster_RunUp.pdf)
+![Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
 
 ---
 ## Bibliografia

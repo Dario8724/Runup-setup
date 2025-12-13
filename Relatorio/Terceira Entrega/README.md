@@ -203,7 +203,7 @@ Telas desenvolvidas:
 ---
 ## Arquitetura da Solução
 
-![Arquitetura da solução](../../Imagens/arquitetura_solução.png)
+![Arquitetura da solução](./Imagens/arquitetura_solução.png)
 
 Arquitetura da Solução (RunUp)
 
