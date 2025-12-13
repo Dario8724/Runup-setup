@@ -202,11 +202,22 @@ Telas desenvolvidas:
 ---
 ## Arquitetura da Solução
 
+![Arquitetura da solução](../../Imagens/arquitetura_solução.jpg)
+
+Arquitetura da Solução (RunUp)
+
+O sistema RunUp segue uma arquitetura em camadas baseada no padrão MVC, implementada em Spring Boot. A comunicação entre cliente e servidor é feita através de API REST, usando HTTP e JSON.
+A camada Controller é responsável por expor os endpoints REST e receber pedidos do cliente (ex.: autenticação, criação de corrida, consulta de histórico). Em seguida, os controllers delegam o processamento para a camada Service, onde estão concentradas as regras de negócio (ex.: geração de rota, cálculo de métricas, atualização de metas e estatísticas).
+A camada Repository implementa o acesso à base de dados através do Spring Data JPA, isolando a persistência e permitindo que a lógica de negócio não dependa diretamente do banco. A base de dados utilizada é MySQL, responsável por armazenar utilizadores, corridas, metas e rotas.
+Além disso, a camada de serviços comunica com integrações externas para enriquecer a funcionalidade do sistema, como APIs de mapas (Google Directions/Elevation/Places) para geração de rotas e uma API meteorológica para obter condições de tempo associadas à corrida. Dessa forma, o RunUp mantém separação clara de responsabilidades, facilita manutenção e segue boas práticas de arquitetura de software.
+
 ---
 ## Diagrama de classes
 
 ---
 ## Documentação REST
+
+[Documentação REST](../../Imagens/Documentacao_REST.md)
 
 ---
 ## Dicionário de Dados
