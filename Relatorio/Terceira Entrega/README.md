@@ -230,7 +230,7 @@ Além disso, a camada de serviços comunica com integrações externas para enri
 ---
 ## Guia de Dados 
 
-[Guia de Dados](../../Imagens/Guia_de_dados.pdf)
+[Guia de Dados](../Imagens/Guia_de_dados.pdf)
 
 ---
 ## Manual do Utilizador
@@ -297,7 +297,7 @@ O Runup manteve como objetivo central a primeira proposta do projeto, só deixam
 
 ## Poster 
 
-![Poster do aplicativo](../../Imagens/Poster_RunUp_Final.jpg)
+![Poster do aplicativo](../Imagens/Poster_RunUp_Final.jpg)
 
 ---
 ## Bibliografia
